@@ -1,27 +1,52 @@
 import Fight from "./Fight.js";
 
 let totalCount = 4;
-let myCount = 2;
-let oppCount = 2;
-let myChoice = null;
-let oppChoice = null;
-const numBtns = document.querySelectorAll('.num-btn')
+let userLife = 2;
+let oppLife = 2;
+let userThumbUp = null;
+let oppThumbUp = null;
+const callBtns = document.querySelectorAll('.call-btn')
+const fingerBtns = document.querySelectorAll('.finger-btn')
 const fightBtn = document.getElementById('js-fight-btn')
 
-console.log(Math.random() * (4 - 3));
+
+const fight = new Fight(userLife, oppLife)
+
+console.group('user-choice')
+fight.setUserThumbUp(1);
+console.log(fight.getUserThumbUp())
+console.groupEnd();
+
+console.group('opp-choice')
+fight.setOppThumbUp();
+console.log(fight.getOppThumbUp())
+console.groupEnd();
+
+fight.judge()
+
+console.group('user-life')
+console.log(fight.getUserLife())
+console.groupEnd();
+
+console.group('opp-life')
+console.log(fight.getOppLife())
+console.groupEnd();
 
 
 
-const fightModel = new Fight(myCount, oppCount)
-
-
-numBtns.forEach(numBtn => {
-  numBtn.addEventListener('click', e => {
+callBtns.forEach(callBtn => {
+  callBtn.addEventListener('click', e => {
     const num = e.target.dataset.num;
     toggleActive(e)
-    setMyChoice(num)
+    setUserThumbUp(num)
 
-    console.log(myChoice);
+  }, false)
+})
+fingerBtns.forEach(fingerBtn => {
+  fingerBtn.addEventListener('click', e => {
+    const num = e.target.dataset.num;
+    toggleActive(e)
+
   }, false)
 })
 
@@ -31,16 +56,14 @@ const toggleActive = (e) => {
   }
   e.target.classList.add('active')
 }
-const setMyChoice = (num = null) => {
-  myChoice = num;
+const setUserThumbUp = (num = null) => {
+  userThumbUp = num;
 }
 
-const fight = () => {
-  // oppChoice = Math.random()
-}
 
-const setOppChoice = (totalCount, myCount, oppCount) => {
-  const max = myCount + oppCount;
+
+const setOppThumbUp = (totalCount, userCount, oppCount) => {
+  const max = userCount + oppCount;
 }
 const disableNumBtn = (totalCount) => {
 
