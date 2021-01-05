@@ -17,7 +17,6 @@ mix
     ],
 
   })
-  .js('src/js/app.js', 'dist/js')
   .js('src/js/fight/index.js', 'dist/js/fight/index.js')
   // .sourceMaps()
   .sourceMaps(true, 'source-map')
