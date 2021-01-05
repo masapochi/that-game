@@ -18,37 +18,33 @@
   <!-- Place favicon.ico in the root directory -->
 
   <link rel="stylesheet" href="dist/css/home.min.css">
+  <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.2/css/all.css">
 
   <meta name="theme-color" content="#fafafa">
 </head>
 
 <body>
-  <div class="container">
+  <?php require_once __DIR__ . '/./templates/navbar.php'; ?>
+  <main>
+    <div class="container">
 
-  </div>
-  <h1>That Game</h1>
-  <p>Hello world! This is HTML5 Boilerplate.</p>
+      <div class="content">
+        <h1>That Game</h1>
+        <p>Everyone knows it,<br>but no one knows it's name...</p>
+        <div>
+          <a href="./fight.php" class="btn" id="start-game">Start</a>
+          <a href="./fight.php" class="btn" id="show-history">Show History</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <?php require_once __DIR__ . '/./templates/footer.php'; ?>
 
 
-
-
-
-
-
-
-
-
-  <script src="js/vendor/modernizr-3.11.2.min.js"></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/main.js"></script>
   <script src="dist/js/app.js"></script>
+  <?php require_once __DIR__ . '/./templates/scripts.php'; ?>
 
-  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-  <script>
-    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
-    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
-  </script>
-  <script src="https://www.google-analytics.com/analytics.js" async></script>
 </body>
 
 </html>

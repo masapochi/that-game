@@ -2,7 +2,7 @@ const mix = require('laravel-mix');
 
 const sassOptions = {
   sassOptions: {
-    outputStyle: "compressed",
+    // outputStyle: "compressed",
   }
 };
 mix
@@ -26,7 +26,8 @@ mix
       target: "http://127.0.0.1:8000" // 最後に/は不要
     },
     files: [ // チェックするファイルは下記で十分ではないかな。
-      'index.html',
+      './**.php',
+      'templates/**/*.php',
       'src/**/*',
       'dist/**/*',
     ],
