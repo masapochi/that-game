@@ -7,6 +7,7 @@ const sassOptions = {
 };
 mix
   .sass('src/scss/home.scss', 'dist/css/home.min.css', sassOptions)
+  .sass('src/scss/fight.scss', 'dist/css/fight.min.css', sassOptions)
   .sass('src/scss/history.scss', 'dist/css/history.min.css', sassOptions)
   .options({
     processCssUrls: false,
