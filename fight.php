@@ -38,12 +38,19 @@
         </div>
 
         <div class="control">
+          <p>Call Count</p>
           <div>
-            <button type="button" class="btn num-btn" data-num="0">0</button>
-            <button type="button" class="btn num-btn" data-num="1">1</button>
-            <button type="button" class="btn num-btn" data-num="2">2</button>
-            <button type="button" class="btn num-btn" data-num="3">3</button>
-            <button type="button" class="btn num-btn" data-num="4">4</button>
+            <button type="button" class="btn call-btn" data-call-num="0">0</button>
+            <button type="button" class="btn call-btn" data-call-num="1">1</button>
+            <button type="button" class="btn call-btn" data-call-num="2">2</button>
+            <button type="button" class="btn call-btn" data-call-num="3">3</button>
+            <button type="button" class="btn call-btn" data-call-num="4">4</button>
+          </div>
+          <p>Your Finger Count</p>
+          <div>
+            <button type="button" class="btn finger-btn" data-finger-num="0">0</button>
+            <button type="button" class="btn finger-btn" data-finger-num="1">1</button>
+            <button type="button" class="btn finger-btn" data-finger-num="2">2</button>
           </div>
           <button type="button" class="btn" id="js-fight-btn">Fight</button>
         </div>
