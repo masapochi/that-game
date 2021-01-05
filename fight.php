@@ -55,82 +55,8 @@
 
   <script src="dist/js/app.js"></script>
   <?php require_once __DIR__ . '/./templates/scripts.php'; ?>
-  <script>
-    let totalCount = 4;
-    let myCount = 2;
-    let oppCount = 2;
-    let myChoice = null;
-    let oppChoice = null;
-    const numBtns = document.querySelectorAll('.num-btn')
-    const fightBtn = document.getElementById('js-fight-btn')
-    numBtns.forEach(numBtn => {
-      numBtn.addEventListener('click', e => {
-        const num = e.target.dataset.num;
-        toggleActive(e)
-        setMyChoice(num)
+  <script src="dist/js/fight/index.js">
 
-        console.log(myChoice);
-      }, false)
-    })
-
-    const toggleActive = (e) => {
-      for (const sibling of e.target.parentNode.children) {
-        if (sibling !== e.target) sibling.classList.remove('active')
-      }
-      e.target.classList.add('active')
-    }
-    const setMyChoice = (num = null) => {
-      myChoice = num;
-    }
-
-    const fight = () => {
-      // oppChoice = Math.random()
-    }
-
-    const setOppChoice = (totalCount, myCount, oppCount) => {
-      const max = myCount + oppCount;
-    }
-    const disableNumBtn = (totalCount) => {
-
-    }
-
-    console.log(Math.random() * (4 - ));
-    class Game {
-      constructor(myCount, oppCount) {
-        this._myChoice = null;
-        this._oppChoice = null;
-        this._myCount = myCount;
-        this._oppCount = oppCount;
-        this._remainCount = myCount + oppCount;
-        console.group('this._myCount');
-        console.log(this._myCount);
-        console.groupEnd();
-        console.group('this._oppCount')
-        console.log(this._oppCount)
-        console.groupEnd();
-        console.group('this._remainCount')
-        console.log(this._remainCount)
-        console.groupEnd();
-      }
-
-      getMyChoice() {
-        return this._myChoice;
-      }
-      setMyChoice(num = null) {
-        this._myChoice = num;
-      }
-
-      getOppChoice() {
-        return this._oppChoice;
-      }
-      setOppChoice() {
-        const min = 0;
-        const max = 0
-        this._oppChoice = Math.random()
-      }
-
-    }
-    const game = new Game(myCount, oppCount)
   </script>
 </body>
 
