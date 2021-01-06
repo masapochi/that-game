@@ -14,8 +14,8 @@
 }
 
 .overlay {
-  // display: grid;
-  // place-content: center;
+  clip-path: circle(0%);
+  // display: none;
   z-index: 2;
   position: fixed;
   background-color: $primary-color;
@@ -26,7 +26,9 @@
 
 .menu-box {
   height: 100%;
-  padding: 50% 0;
+  padding: 50% 0 15% 0;
+  opacity: 0;
+  transform: translateY(-50px);
 }
 
 .menu-list {
@@ -57,6 +59,7 @@
     background: #fff;
     border-radius: 50%;
     vertical-align: baseline;
+    margin-top: 15%;
 
     &:hover {
       background: $secondary-color;
