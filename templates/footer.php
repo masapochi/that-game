@@ -1,1 +1,3 @@
-  <footer><small>Created By Maszapocsi<br>&copy;2020</small></footer>
+<footer>
+  <small>&copy;2020 Created By Maszapocsi</small>
+</footer>
