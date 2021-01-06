@@ -32,11 +32,11 @@ export default class Fight {
     return this._callNum;
   }
   setCallNum(num = null) {
-    console.group('setCallNum', num)
-    console.log(this._callNum)
+    // console.group('setCallNum', num)
+    // console.log(this._callNum)
     this._callNum = num;
-    console.log(this._callNum)
-    console.groupEnd();
+    // console.log(this._callNum)
+    // console.groupEnd();
   }
 
   /**
