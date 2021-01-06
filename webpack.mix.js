@@ -37,7 +37,7 @@ mix
     },
     files: [ // チェックするファイルは下記で十分ではないかな。
       './**.php',
-      'templates/**/*.php',
+      'partials/**/*.php',
       'src/**/*',
       'dist/**/*',
     ],
