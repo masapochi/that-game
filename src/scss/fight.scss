@@ -23,4 +23,17 @@
     background-color: green;
   }
 
+  .fight-btn:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+  }
+
+  .message {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  .control {
+    width: 100%;
+  }
 }

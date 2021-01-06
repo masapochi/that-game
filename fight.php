@@ -27,42 +27,62 @@
   <?php require_once __DIR__ . '/./templates/navbar.php'; ?>
   <main>
     <div class="container">
+      <div id="fight" class="content" v-cloak>
+        <div>
+          <div class="opponent-box">
+            <p>
+              {{ oppRemainFingers}} fingers remain.<br>
+              {{ oppRaiseNum}} fingers raised.
+            </p>
+            <img src="./src/images/opponent_default.svg" alt="Opponent" style="width: 80px; height: auto;">
 
-      <div class="content">
-        <div class="opponent-box">
-          <img src="./src/images/opponent_default.svg" alt="Opponent">
-        </div>
-        <p>Choose a number from below...</p>
-        <div class="myself-box">
-          <img src="./src/images/myself_default.svg" alt="Myself">
+          </div>
+
+          <!-- <template v-if="!isReady">
+            <p>Choose a number from below...</p>
+          </template>
+          <template v-else>
+            <p>Here we go!</p>
+          </template> -->
+
+          <p class="message">{{message }}</p>
+
+
+          <div class="myself-box">
+            <img src="./src/images/myself_default.svg" alt="Myself" style="width: 80px; height: auto;">
+          </div>
         </div>
 
         <div class="control">
-          <p>Number of fingers to call.</p>
+          <p>
+            Number of fingers to call.
+            <span v-if="callNum !== null">{{ callNum }}</span>
+          </p>
+
           <div class="btn-box">
-            <button type="button" class="btn call-btn" data-num="0">0</button>
-            <button type="button" class="btn call-btn" data-num="1">1</button>
-            <button type="button" class="btn call-btn" data-num="2">2</button>
-            <button type="button" class="btn call-btn" data-num="3">3</button>
-            <button type="button" class="btn call-btn" data-num="4">4</button>
+            <template v-for="i in callableNums">
+              <button type="button" class="btn call-btn" :class="{active: callNum === i}" :data-num="i" @click="call($event)">{{ i }}</button>
+            </template>
           </div>
-          <p>Number of fingers to raise.</p>
+          <p>
+            Number of fingers to raise.<span v-if="userRaiseNum !== null">{{ userRaiseNum }}</span>
+          </p>
+
           <div class="btn-box">
-            <button type="button" class="btn finger-btn" data-num="0">0</button>
-            <button type="button" class="btn finger-btn" data-num="1">1</button>
-            <button type="button" class="btn finger-btn" data-num="2">2</button>
+            <template v-for="i in userRaisableNums">
+              <button type="button" class="btn finger-btn" :class="{active: userRaiseNum === i}" :data-num="i" @click="raiseFinger($event)">{{ i }}</button>
+            </template>
           </div>
-          <button type="button" class="btn" id="js-fight-btn">Fight</button>
+          <button type="button" class="btn fight-btn" id="js-fight-btn" @click="judge" :disabled="!isReady">Fight</button>
         </div>
       </div>
     </div>
-
   </main>
 
 
-  <script src="dist/js/app.js"></script>
   <?php require_once __DIR__ . '/./templates/scripts.php'; ?>
-  <script src="dist/js/fight/index.js">
+  <script src="dist/js/fight/index.js"></script>
+  <script src="dist/js/fight/app.js"></script>
 
   </script>
 </body>

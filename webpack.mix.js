@@ -5,6 +5,11 @@ const sassOptions = {
     // outputStyle: "compressed",
   }
 };
+mix.webpackConfig({
+  resolve: {
+    alias: { 'vue$': 'vue/dist/vue.esm.js' }
+  }
+})
 mix
   .sass('src/scss/home.scss', 'dist/css/home.min.css', sassOptions)
   .sass('src/scss/fight.scss', 'dist/css/fight.min.css', sassOptions)
@@ -19,6 +24,10 @@ mix
 
   })
   .js('src/js/fight/index.js', 'dist/js/fight/index.js')
+  .js('src/js/fight/app.js', 'dist/js/fight/app.js')
+  .autoload({
+    "vue": ['Vue', 'window.Vue']
+  })
   // .sourceMaps()
   .sourceMaps(true, 'source-map')
 
