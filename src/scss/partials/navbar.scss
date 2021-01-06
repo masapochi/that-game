@@ -3,8 +3,8 @@
   z-index: 1;
 
   .menu {
-    // display: inline-block;
-    padding: 16px;
+    padding: $edge-padding;
+    color: $primary-color;
   }
 
   .menu-close {
@@ -19,6 +19,6 @@
     z-index: 2;
     width: 100%;
     height: 100%;
-    background-color: green;
+    background-color: $primary-color;
   }
 }
