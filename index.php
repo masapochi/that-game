@@ -33,9 +33,9 @@
           <h1>That Game</h1>
           <p>Everyone knows it,<br>but no one knows it's name...</p>
         </header>
-        <div>
-          <a href="fight.php" class="btn">Play</a>
-          <a href="history.php" class="btn">History</a>
+        <div class="btn-box">
+          <a class="btn" href="fight.php">Play</a>
+          <a class="btn" href="history.php">History</a>
         </div>
       </section>
     </div>
@@ -44,8 +44,8 @@
   <?php require_once __DIR__ . '/./partials/footer.php'; ?>
 
 
-  <script src="dist/js/app.js"></script>
   <?php require_once __DIR__ . '/./partials/scripts.php'; ?>
+  <?php require_once __DIR__ . '/./partials/tag_manager.php'; ?>
 
 </body>
 
