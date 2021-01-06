@@ -1,0 +1,26 @@
+@import "./normalize";
+@import "./main";
+@import "./variables";
+@import "./base";
+@import "./partials/navbar";
+
+.fight {
+  .btn-box {
+    margin-bottom: 1rem;
+  }
+
+  .btn.call-btn,
+  .btn.finger-btn {
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
+    padding: 0;
+    background-color: #aaa;
+  }
+
+  .call-btn.active,
+  .btn.finger-btn.active {
+    background-color: green;
+  }
+
+}
