@@ -1,139 +1,126 @@
 import Vue from "vue";
 Vue.config.productionTip = false;
+const randomNum = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 new Vue({
   el: '#fight',
   data() {
     return {
+      oppImgDir: './src/images/opp',
+      userImgDir: './src/images/user',
       isUserTurn: true,
-      isStarting: false,
       isFinished: false,
       isDraw: false,
-      isWon: false,
       callNum: null,
-      userRaiseNum: null,
-      userRemainFingers: 2,
-      // oppRaiseNum: null,
-      oppRemainFingers: 2,
-      message: 'Choose a number from below...',
+      userRaise: null,
+      userRemain: 2,
+      oppRemain: 2,
+      message: 'Your Turn!',
     }
   },
-  mounted() {
-    this.$data['init'] = Object.assign({}, this.$data);
-  },
   computed: {
-
-    oppRaiseNum() {
-      const min = 0;
-      const max = this.oppRemainFingers;
-      return Math.floor(Math.random() * (max - min + 1)) + min
-      // this.oppRaiseNum = Math.floor(Math.random() * (max - min + 1)) + min
+    oppRaise() {
+      return randomNum(0, this.oppRemain)
     },
-    callableNums() {
-      const remainFingers = this.userRemainFingers + this.oppRemainFingers
-      return Array.from({ length: remainFingers + 1 }, (v, i) => i)
+    callables() {
+      return this.userRemain + this.oppRemain + 1;
     },
-    userRaisableNums() {
-      return Array.from({ length: this.userRemainFingers + 1 }, (v, i) => i)
+    raisables() {
+      return this.userRemain + 1;
     },
     isReady() {
-      return this.callNum !== null && this.userRaiseNum !== null ? true : false;
+      return this.callNum !== null && this.userRaise !== null ? true : false;
     }
   },
   methods: {
+    setOppCallNum() {
+      return randomNum(0, this.callables)
+    },
     call(e) {
-      const num = parseInt(e.target.dataset.num);
-      this.callNum = num;
-      console.log(this.callNum);
+      this.callNum = parseInt(e.target.dataset.num);
     },
-    raiseFinger(e) {
-      const num = parseInt(e.target.dataset.num);
-      this.userRaiseNum = num;
-      console.log(this.userRaiseNum);
+    raise(e) {
+      this.userRaise = parseInt(e.target.dataset.num);
     },
-    setOppRaiseNum() {
-      const min = 0;
-      const max = this.oppRemainFingers;
-      this.oppRaiseNum = Math.floor(Math.random() * (max - min + 1)) + min
+    setCallNumMessage() {
+      this.message = `${this.callNum}!!`;
+    },
+    setResultMessage() {
+      if (this.isDraw) {
+        this.message = `Draw!`
+      } else {
+        this.message = 'HIT!!!'
+      }
     },
 
     start() {
-      this.isStarting = true;
       this.message = 'いっせーので…'
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         setTimeout(() => {
-          this.message = `${this.callNum}!!`;
-          resolve();
-        }, 3000);
-      })
-    },
-    finish() {
-      this.isStarting = false;
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          if (this.isDraw) {
-            this.message = `Draw!`
-          } else {
-            this.message = this.isWon ? `You win!` : 'You lose!'
-          }
-          resolve();
-        }, 3000);
-      })
-    },
-    initialize() {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.callNum = null;
-          this.isDraw = false;
-          this.isFinished = false;
-          this.isStarting = false;
-          this.isWon = false;
-          this.message = "Choose a number from below...";
-          // this.oppRaiseNum = null;
-          this.userRaiseNum = null;
-          resolve();
-        }, 3000);
+          resolve(this.setCallNumMessage());
+        }, 2000);
       })
     },
     changeTurns() {
-      console.log(this.isUserTurn);
-      this.isUserTurn = !this.isUserTurn;
-      console.log(this.isUserTurn);
+      return new Promise(resolve => {
+        setTimeout(() => {
+          this.isUserTurn = !this.isUserTurn;
+          resolve();
+        }, 2000);
+      })
     },
-    async judge() {
-      // this.setOppRaiseNum();
+    initialize() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          this.isUserTurn = !this.isUserTurn;
+          this.callNum = this.isUserTurn ? null : this.setOppCallNum();
+          this.isDraw = false;
+          this.isFinished = false;
+          this.message = this.isUserTurn ? 'Your Turn!' : 'Opponent\'s Turn!';
+          this.userRaise = null;
+          resolve();
+        }, 3000);
+      })
+    },
+    async fight() {
       await this.start();
-      console.group('judge')
-      console.group('this.callNum')
-      console.log(this.callNum)
-      console.groupEnd();
-      console.group('this.userRaiseNum ')
-      console.log(this.userRaiseNum)
-      console.groupEnd();
-      console.group('this.oppRaiseNum')
-      console.log(this.oppRaiseNum)
-      console.groupEnd();
-      console.group('this.userRaiseNum + this.oppRaiseNum')
-      console.log(this.userRaiseNum + this.oppRaiseNum)
-      console.groupEnd();
-      console.groupEnd();
-
-      if (this.callNum === this.userRaiseNum + this.oppRaiseNum) {
-        if (this.isUserTurn) {
-          this.oppRemainFingers -= 1;
-          this.isWon = true;
-
-        } else {
-          this.userRemainFingers -= 1;
-          this.isWon = false;
-        }
-      } else {
-        this.isWon = false;
-        this.isDraw = true;
-      }
-      await this.finish();
+      await this.judge();
+      // await this.changeTurns();
       await this.initialize();
-      this.changeTurns();
+    },
+    judge() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          if (this.callNum === this.userRaise + this.oppRaise) {
+            if (this.isUserTurn) {
+              this.oppRemain -= 1;
+            } else {
+              this.userRemain -= 1;
+            }
+          } else {
+            this.isDraw = true;
+          }
+
+          resolve(this.setResultMessage());
+        }, 2000);
+      })
+
     }
-  }
+  },
+
+
 })
+      // console.group('judge')
+      // console.group('this.callNum')
+      // console.log(this.callNum)
+      // console.groupEnd();
+      // console.group('this.userRaise ')
+      // console.log(this.userRaise)
+      // console.groupEnd();
+      // console.group('this.oppRaise')
+      // console.log(this.oppRaise)
+      // console.groupEnd();
+      // console.group('this.userRaise + this.oppRaise')
+      // console.log(this.userRaise + this.oppRaise)
+      // console.groupEnd();
+      // console.groupEnd();
