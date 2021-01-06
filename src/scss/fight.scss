@@ -18,23 +18,23 @@
     height: 44px;
     line-height: 44px;
     padding: 0;
-    background-color: #aaa;
+    background-color: $disabled-btn-color;
   }
 
   .call-btn.active,
   .btn.finger-btn.active {
-    background-color: green;
+    background-color: $primary-color;
   }
 
   .fight-btn:disabled {
-    background-color: #aaa;
+    background-color: $disabled-btn-color;
     cursor: not-allowed;
   }
 
   .message {
     font-size: 1.125rem;
     font-weight: 600;
-    color: green;
+    color: $primary-color;
   }
 
   .control {

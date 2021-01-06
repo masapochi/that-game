@@ -3,3 +3,9 @@
 @import "./variables";
 @import "./base";
 @import "./partials/navbar";
+
+.home {
+  .btn-box .btn:first-child {
+    margin-bottom: 1.5rem;
+  }
+}

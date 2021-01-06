@@ -1,13 +1,23 @@
+import { sprintf } from "sprintf-js";
 import Vue from "vue";
 Vue.config.productionTip = false;
 const randomNum = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
+const isNull = (value) => value === null ? true : false;
 new Vue({
   el: '#fight',
   data() {
     return {
-      oppImgDir: './src/images/opp',
-      userImgDir: './src/images/user',
+      img: {
+        user: {
+          left: './src/images/user/left/%s.svg',
+          right: './src/images/user/right/%s.svg',
+        },
+        opp: {
+          left: './src/images/opp/left/%s.svg',
+          right: './src/images/opp/right/%s.svg',
+        }
+      },
       isUserTurn: true,
       isFinished: false,
       isDraw: false,
@@ -19,38 +29,36 @@ new Vue({
     }
   },
   computed: {
-    oppRaise() {
-      return randomNum(0, this.oppRemain)
+    userImg() {
+      const left = this.userRemain > 0 ? 'down' : 'down_lost'
+      const right = this.userRemain === 2 ? 'down' : 'down_lost'
+      return {
+        left: sprintf(this.img.user.left, 'down'),
+        right: sprintf(this.img.user.right, 'down'),
+      }
     },
-    callables() {
-      return this.userRemain + this.oppRemain + 1;
+    oppImg() {
+      const left = this.oppRemain > 0 ? 'down' : 'down_lost'
+      const right = this.oppRemain === 2 ? 'down' : 'down_lost'
+      return {
+        left: sprintf(this.img.opp.left, left),
+        right: sprintf(this.img.opp.right, right),
+      }
     },
-    raisables() {
-      return this.userRemain + 1;
-    },
-    isReady() {
-      return this.callNum !== null && this.userRaise !== null ? true : false;
-    }
+    oppRaise() { return randomNum(0, this.oppRemain) },
+    callables() { return this.userRemain + this.oppRemain + 1 },
+    raisables() { return this.userRemain + 1 },
+    isReady() { return !isNull(this.callNum) && !isNull(this.userRaise) ? true : false }
   },
   methods: {
-    setOppCallNum() {
-      return randomNum(0, this.callables)
-    },
-    call(e) {
-      this.callNum = parseInt(e.target.dataset.num);
-    },
-    raise(e) {
-      this.userRaise = parseInt(e.target.dataset.num);
-    },
+    setOppCallNum() { return randomNum(0, this.callables) },
+    call({ target }) { this.callNum = parseInt(target.dataset.num) },
+    raise({ target }) { this.userRaise = parseInt(target.dataset.num) },
     setCallNumMessage() {
       this.message = `${this.callNum}!!`;
     },
     setResultMessage() {
-      if (this.isDraw) {
-        this.message = `Draw!`
-      } else {
-        this.message = 'HIT!!!'
-      }
+      this.message = this.isDraw ? `Draw!` : 'HIT!!!'
     },
 
     start() {
@@ -78,6 +86,7 @@ new Vue({
           this.isFinished = false;
           this.message = this.isUserTurn ? 'Your Turn!' : 'Opponent\'s Turn!';
           this.userRaise = null;
+
           resolve();
         }, 3000);
       })
