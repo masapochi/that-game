@@ -13,7 +13,7 @@ new Vue({
       callNum: null,
       userRaiseNum: null,
       userRemainFingers: 2,
-      oppRaiseNum: null,
+      // oppRaiseNum: null,
       oppRemainFingers: 2,
       message: 'Choose a number from below...',
     }
@@ -22,6 +22,13 @@ new Vue({
     this.$data['init'] = Object.assign({}, this.$data);
   },
   computed: {
+
+    oppRaiseNum() {
+      const min = 0;
+      const max = this.oppRemainFingers;
+      return Math.floor(Math.random() * (max - min + 1)) + min
+      // this.oppRaiseNum = Math.floor(Math.random() * (max - min + 1)) + min
+    },
     callableNums() {
       const remainFingers = this.userRemainFingers + this.oppRemainFingers
       return Array.from({ length: remainFingers + 1 }, (v, i) => i)
@@ -57,7 +64,7 @@ new Vue({
         setTimeout(() => {
           this.message = `${this.callNum}!!`;
           resolve();
-        }, 2500);
+        }, 3000);
       })
     },
     finish() {
@@ -66,13 +73,11 @@ new Vue({
         setTimeout(() => {
           if (this.isDraw) {
             this.message = `Draw!`
-          } else if (this.isWon) {
-            this.message = `You win!`
           } else {
-            this.message = 'You lose!'
+            this.message = this.isWon ? `You win!` : 'You lose!'
           }
           resolve();
-        }, 2500);
+        }, 3000);
       })
     },
     initialize() {
@@ -82,17 +87,21 @@ new Vue({
           this.isDraw = false;
           this.isFinished = false;
           this.isStarting = false;
-          this.isUserTurn = true;
           this.isWon = false;
           this.message = "Choose a number from below...";
-          this.oppRaiseNum = null;
+          // this.oppRaiseNum = null;
           this.userRaiseNum = null;
           resolve();
-        }, 2500);
+        }, 3000);
       })
     },
+    changeTurns() {
+      console.log(this.isUserTurn);
+      this.isUserTurn = !this.isUserTurn;
+      console.log(this.isUserTurn);
+    },
     async judge() {
-      this.setOppRaiseNum();
+      // this.setOppRaiseNum();
       await this.start();
       console.group('judge')
       console.group('this.callNum')
@@ -110,19 +119,21 @@ new Vue({
       console.groupEnd();
 
       if (this.callNum === this.userRaiseNum + this.oppRaiseNum) {
-        console.log('same');
         if (this.isUserTurn) {
-          this.userRemainFingers -= 1;
-          this.isWon = false;
-        } else {
           this.oppRemainFingers -= 1;
           this.isWon = true;
+
+        } else {
+          this.userRemainFingers -= 1;
+          this.isWon = false;
         }
       } else {
+        this.isWon = false;
         this.isDraw = true;
       }
       await this.finish();
       await this.initialize();
+      this.changeTurns();
     }
   }
 })
