@@ -1,66 +1,158 @@
 export default class Fight {
-  constructor(userLife, oppLife) {
+  constructor(userFingers, oppFingers) {
     this._round = 1;
-    this._totalLife = userLife + oppLife;
+    this._totalLife = userFingers + oppFingers;
     this._isUserTurn = true;
 
-    this._userLife = userLife;
+    this._callNum = null;
+
+    this._userFingers = userFingers;
     this._userCall = null;
-    this._userThumbUp = null;
+    this._userRaise = null;
 
-    this._oppLife = oppLife;
+    this._oppFingers = oppFingers;
     this._oppCall = null;
-    this._oppThumbUp = null;
+    this._oppRaise = null;
 
-    console.group('this._userLife');
-    console.log(this._userLife);
+    console.group('this._userFingers');
+    console.log(this._userFingers);
     console.groupEnd();
-    console.group('this._oppLife')
-    console.log(this._oppLife)
+    console.group('this._oppFingers')
+    console.log(this._oppFingers)
     console.groupEnd();
     console.group('this._totalLife')
     console.log(this._totalLife)
     console.groupEnd();
   }
 
-  getUserThumbUp() {
-    return this._userThumbUp;
+  getCallNum() {
+    console.group('getCallNum()')
+    console.log(this._callNum)
+    console.groupEnd();
+    return this._callNum;
   }
-  setUserThumbUp(num = null) {
-    this._userThumbUp = num;
+  setCallNum(num = null) {
+    console.group('setCallNum', num)
+    console.log(this._callNum)
+    this._callNum = num;
+    console.log(this._callNum)
+    console.groupEnd();
   }
 
-  getOppThumbUp() {
-    return this._oppThumbUp;
+  /**
+   * User
+   */
+  getUserFingers() {
+    console.group('getUserFingers()')
+    console.log(this._userFingers)
+    console.groupEnd();
+    return this._userFingers;
   }
-  setOppThumbUp() {
+
+  setUserFingers(num = null) {
+    console.group('setUserFingers', num)
+    console.log(this._userFingers)
+    this._userFingers = num;
+    console.log(this._userFingers)
+    console.groupEnd();
+  }
+
+  getUserCall() {
+    console.group('getUserCall()')
+    console.log(this._userCall)
+    console.groupEnd();
+    return this._userCall;
+  }
+  setUserCall(num = null) {
+    console.group('setUserCall', num)
+    console.log(this._userCall)
+    this._userCall = num;
+    console.log(this._userCall)
+    console.groupEnd();
+  }
+
+  getUserRaise() {
+    console.group('getUserRaise()')
+    console.log(this._userRaise)
+    console.groupEnd();
+    return this._userRaise;
+  }
+  setUserRaise(num = null) {
+    console.group('setUserRaise', num)
+    console.log(this._userRaise)
+    this._userRaise = num;
+    console.log(this._userRaise)
+    console.groupEnd();
+  }
+
+  /**
+   * Opponent
+   */
+  getOppFingers() {
+    console.group('getOppFingers()')
+    console.log(this._oppFingers)
+    console.groupEnd();
+    return this._oppFingers;
+  }
+  setOppFingers(num = null) {
+    console.group('setOppFingers', num)
+    console.log(this._oppFingers)
+    this._oppFingers = num;
+    console.log(this._oppFingers)
+    console.groupEnd();
+  }
+
+  getOppCall() {
+    return this._oppCall;
+  }
+  setOppCall(num = null) {
+    console.group('setOppCall', num)
+    console.log(this._oppCall)
+    this._oppCall = num;
+    console.log(this._oppCall)
+    console.groupEnd();
+  }
+
+  getOppRaise() {
+    return this._oppRaise;
+  }
+  setOppRaise() {
+    console.group('setOppRaise')
+    console.log(this._oppRaise)
     const min = 0;
-    const max = this._totalLife;
-    this._oppThumbUp = Math.floor(Math.random() * (max - min + 1)) + min
+    const max = this._oppFingers;
+    this._oppRaise = Math.floor(Math.random() * (max - min + 1)) + min
+    console.log(this._oppRaise)
+    console.groupEnd();
+
   }
 
-  getUserLife() {
-    return this._userLife;
-  }
-  getOppLife() {
-    return this._oppLife;
-  }
 
   judge() {
-    if (this._userThumbUp > this._oppThumbUp) {
-      this._oppLife--;
-    } else if (this._userThumbUp < this._oppThumbUp) {
-      this._userLife--;
+    console.log(this._callNum);
+    console.log(this._userRaise);
+    console.log(this._oppRaise);
+    if (this._callNum === this._userRaise + this._oppRaise) {
+      console.log('same');
+      if (this._isUserTurn) {
+        this._userFingers = this._userFingers - 1;
+      } else {
+        this._oppFingers = this._oppFingers - 1;
+      }
     }
-    // console.log(this._userLife);
-    // console.log(this._oppLife);
+    console.group('userFingers, oppFingers')
+    console.log(this._userFingers, this._oppFingers)
+    console.groupEnd();
   }
   play() {
 
   }
 
-  takeTurns() {
+  changeTurns() {
     this._isUserTurn = !!this._isUserTurn;
+    this.setCallNum()
+    this.setUserRaise()
+    this.setOppRaise()
   }
 
   roundUp() {

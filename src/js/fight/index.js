@@ -1,36 +1,52 @@
 import Fight from "./Fight.js";
 
 let totalCount = 4;
-let userLife = 2;
-let oppLife = 2;
-let userThumbUp = null;
-let oppThumbUp = null;
+let userFingers = 2;
+let oppFingers = 2;
+let userRaise = null;
+let oppRaise = null;
 const callBtns = document.querySelectorAll('.call-btn')
 const fingerBtns = document.querySelectorAll('.finger-btn')
 const fightBtn = document.getElementById('js-fight-btn')
 
 
-const fight = new Fight(userLife, oppLife)
+const fight = new Fight(userFingers, oppFingers)
 
-console.group('user-choice')
-fight.setUserThumbUp(1);
-console.log(fight.getUserThumbUp())
-console.groupEnd();
+// select call number
+fight.setCallNum(4)
+// select user thumb up number
+fight.setUserRaise(2)
 
-console.group('opp-choice')
-fight.setOppThumbUp();
-console.log(fight.getOppThumbUp())
-console.groupEnd();
+// logic... select opp thumb up number
+fight.setOppRaise()
 
-fight.judge()
+// fight
+fight.judge();
+// judge
+fight.changeTurns()
 
-console.group('user-life')
-console.log(fight.getUserLife())
-console.groupEnd();
+// change turns
 
-console.group('opp-life')
-console.log(fight.getOppLife())
-console.groupEnd();
+
+// console.group('user-raise')
+// fight.setUserRaise(1);
+// console.log(fight.getUserRaise())
+// console.groupEnd();
+
+// console.group('opp-raise')
+// fight.setOppRaise();
+// console.log(fight.getOppRaise())
+// console.groupEnd();
+
+// fight.judge()
+
+// console.group('user-life')
+// console.log(fight.getUserFingers())
+// console.groupEnd();
+
+// console.group('opp-life')
+// console.log(fight.getOppFingers())
+// console.groupEnd();
 
 
 
@@ -38,7 +54,7 @@ callBtns.forEach(callBtn => {
   callBtn.addEventListener('click', e => {
     const num = e.target.dataset.num;
     toggleActive(e)
-    setUserThumbUp(num)
+    setUserRaise(num)
 
   }, false)
 })
@@ -56,13 +72,13 @@ const toggleActive = (e) => {
   }
   e.target.classList.add('active')
 }
-const setUserThumbUp = (num = null) => {
-  userThumbUp = num;
+const setUserRaise = (num = null) => {
+  userRaise = num;
 }
 
 
 
-const setOppThumbUp = (totalCount, userCount, oppCount) => {
+const setOppRaise = (totalCount, userCount, oppCount) => {
   const max = userCount + oppCount;
 }
 const disableNumBtn = (totalCount) => {
