@@ -7,8 +7,9 @@
       <i class="fas fa-times fa-lg"></i>
     </div>
     <ul>
-      <li><button>1</button></li>
-      <li><button>2</button></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/fight.php">Play</a></li>
+      <li><a href="/history.php">History</a></li>
     </ul>
   </nav>
 </header>

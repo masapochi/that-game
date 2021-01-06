@@ -23,27 +23,29 @@
   <meta name="theme-color" content="#fafafa">
 </head>
 
-<body>
-  <?php require_once __DIR__ . '/./templates/navbar.php'; ?>
+<body class="home">
+  <?php require_once __DIR__ . '/./partials/navbar.php'; ?>
   <main>
     <div class="container">
 
-      <div class="content">
-        <h1>That Game</h1>
-        <p>Everyone knows it,<br>but no one knows it's name...</p>
+      <section class="content">
+        <header>
+          <h1>That Game</h1>
+          <p>Everyone knows it,<br>but no one knows it's name...</p>
+        </header>
         <div>
-          <a href="./fight.php" class="btn" id="start-game">Start</a>
-          <a href="./fight.php" class="btn" id="show-history">Show History</a>
+          <a href="fight.php" class="btn">Play</a>
+          <a href="history.php" class="btn">History</a>
         </div>
-      </div>
+      </section>
     </div>
 
   </main>
-  <?php require_once __DIR__ . '/./templates/footer.php'; ?>
+  <?php require_once __DIR__ . '/./partials/footer.php'; ?>
 
 
   <script src="dist/js/app.js"></script>
-  <?php require_once __DIR__ . '/./templates/scripts.php'; ?>
+  <?php require_once __DIR__ . '/./partials/scripts.php'; ?>
 
 </body>
 
