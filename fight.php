@@ -27,42 +27,40 @@
   <?php require_once __DIR__ . '/./templates/navbar.php'; ?>
   <main>
     <div class="container">
-      <div id="fight" class="content" v-cloak>
-        <div>
-          <div class="opponent-box">
-            <p>
-              <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
-            </p>
-            <img class="fist" :src="`${oppImgDir}/down_right.svg`" v-if="oppRemain === 2">
-            <img class="fist" :src="`${oppImgDir}/down_right.svg`" v-else-if="oppRemain === 2">
+      <div id="fight" class="grid" v-cloak>
+        <div class="opponent">
+          <p>
+            <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
+          </p>
+          <img class="fist" :src="oppImg.right" v-if="oppRemain === 2">
+          <img class="fist" :src="oppImg.right" v-else-if="oppRemain === 2">
 
-            <img class="fist" :src="`${oppImgDir}/down_lost_right.svg`" v-else>
+          <img class="fist" :src="oppImg.right" v-else>
 
-            <img class="fist" :src="`${oppImgDir}/down_left.svg`" v-if="oppRemain === 2 || oppRemain === 1">
+          <img class="fist" :src="oppImg.left" v-if="oppRemain === 2 || oppRemain === 1">
 
-            <img class="fist" :src="`${oppImgDir}/down_lost_left.svg`" v-else>
-          </div>
-
-          <transition name="slide-fade" mode="out-in">
-            <p class="message" :key="message">{{ message }}</p>
-          </transition>
-
-          <div class="myself-box">
-            <img class="fist" :src="`${userImgDir}/down_left.svg`" v-if="userRemain === 2">
-
-            <img class="fist" :src="`${userImgDir}/down_lost_left.svg`" v-else>
-
-            <img class="fist" :src="`${userImgDir}/down_right.svg`" v-if="userRemain === 2 || userRemain === 1">
-
-            <img class="fist" :src="`${userImgDir}/down_lost_right.svg`" v-else>
-            <p>
-              <small>Call: {{ callNum }} / Remain: {{ userRemain}} / Raise: {{ userRaise}}</small>
-            </p>
-          </div>
+          <img class="fist" :src="oppImg.left" v-else>
         </div>
 
-        <div class="control">
-          <template v-if="isUserTurn">
+        <transition name="slide-fade" mode="out-in">
+          <p class="message" :key="message">{{ message }}</p>
+        </transition>
+
+        <div class="user">
+          <img class="fist" :src="userImg.left" v-if="userRemain === 2">
+
+          <img class="fist" :src="userImg.left" v-else>
+
+          <img class="fist" :src="userImg.right" v-if="userRemain === 2 || userRemain === 1">
+
+          <img class="fist" :src="userImg.right" v-else>
+          <p>
+            <small>Call: {{ callNum }} / Remain: {{ userRemain}} / Raise: {{ userRaise}}</small>
+          </p>
+        </div>
+
+        <template v-if="isUserTurn">
+          <div class="call">
             <p>
               <small>
                 Number of fingers to call.
@@ -75,8 +73,10 @@
                 <button type="button" class="btn call-btn" :class="{active: callNum === i}" :data-num="i" @click="call($event)" :key="'call-' + i">{{ i }}</button>
               </template>
             </div>
-          </template>
+          </div>
+        </template>
 
+        <div class="raise">
           <p><small>Number of fingers to raise.</small></p>
 
           <div class="btn-box">
@@ -84,7 +84,9 @@
               <button type="button" class="btn finger-btn" :class="{active: userRaise === i}" :data-num="i" @click="raise($event)" :key="'finger-' + i">{{ i }}</button>
             </template>
           </div>
+        </div>
 
+        <div class="btn-box">
           <button type="button" class="btn fight-btn" id="js-fight-btn" @click="fight" :disabled="!isReady && isUserTurn">Fight</button>
         </div>
       </div>

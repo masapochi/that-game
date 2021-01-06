@@ -5,8 +5,11 @@
 @import "./partials/navbar";
 
 .fight {
-  .btn-box {
-    margin-bottom: 1rem;
+  .grid {
+    display: grid;
+    grid-template-rows: repeat(auto-fit, 1fr);
+    grid-gap: 1rem;
+    text-align: center;
   }
 
   .btn.call-btn,
