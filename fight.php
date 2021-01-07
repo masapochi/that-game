@@ -23,7 +23,7 @@
 </head>
 
 <body class="fight">
-  <?php require_once __DIR__ . '/./partials/navbar.php'; ?>
+  <?php require_once __DIR__ . '/./templates/navbar.php'; ?>
   <main>
     <div class="container">
       <div id="fight" class="grid" v-cloak>
@@ -93,12 +93,12 @@
   </main>
 
 
-  <?php require_once __DIR__ . '/./partials/scripts.php'; ?>
+  <?php require_once __DIR__ . '/./templates/scripts.php'; ?>
   <script src="dist/js/fight/index.js"></script>
   <script src="dist/js/fight/app.js"></script>
 
   </script>
-  <?php require_once __DIR__ . '/./partials/tag_manager.php'; ?>
+  <?php require_once __DIR__ . '/./templates/tag_manager.php'; ?>
 </body>
 
 </html>

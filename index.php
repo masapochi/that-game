@@ -24,7 +24,7 @@
 </head>
 
 <body class="home">
-  <?php require_once __DIR__ . '/./partials/navbar.php'; ?>
+  <?php require_once __DIR__ . '/./templates/navbar.php'; ?>
   <main>
     <div class="container">
 
@@ -41,11 +41,11 @@
     </div>
 
   </main>
-  <?php require_once __DIR__ . '/./partials/footer.php'; ?>
+  <?php require_once __DIR__ . '/./templates/footer.php'; ?>
 
 
-  <?php require_once __DIR__ . '/./partials/scripts.php'; ?>
-  <?php require_once __DIR__ . '/./partials/tag_manager.php'; ?>
+  <?php require_once __DIR__ . '/./templates/scripts.php'; ?>
+  <?php require_once __DIR__ . '/./templates/tag_manager.php'; ?>
 
 </body>
 
