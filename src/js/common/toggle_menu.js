@@ -20,17 +20,3 @@ open.addEventListener('click', () => {
 close.addEventListener('click', () => {
   tl.reverse();
 })
-
-const menuAnime = gsap.timeline()
-menuAnime.to('#js-menu-list', {
-  duration: 0.5,
-  left: 0,
-  ease: 'power2.ease'
-});
-menuAnime.pause();
-open.addEventListener('click', () => {
-  menuAnime.play();
-})
-close.addEventListener('click', () => {
-  menuAnime.reverse();
-})
