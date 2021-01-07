@@ -3,7 +3,7 @@
 
 <head>
   <?php require_once __DIR__ . '/./templates/meta.php'; ?>
-  <link rel="stylesheet" href="dist/css/fight.min.css">
+  <link rel="stylesheet" href="./css/fight.min.css">
 
 </head>
 
@@ -79,7 +79,7 @@
 
 
   <?php require_once __DIR__ . '/./templates/scripts.php'; ?>
-  <script src="dist/js/fight/app.js"></script>
+  <script src="./js/fight/app.js"></script>
 
   </script>
   <?php require_once __DIR__ . '/./templates/tag_manager.php'; ?>

@@ -3,7 +3,7 @@
   "name": "That Game",
   "icons": [
     {
-      "src": "dist/images/common/icon.png",
+      "src": "./touch-icon.png",
       "type": "image/png",
       "sizes": "192x192"
     }

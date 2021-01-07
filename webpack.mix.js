@@ -6,7 +6,7 @@ const sassOptions = {
   }
 };
 
-mix.setPublicPath('dist');
+mix.setPublicPath('public');
 
 mix.webpackConfig({
   resolve: {
@@ -14,11 +14,11 @@ mix.webpackConfig({
   }
 })
 mix
-  .copy('src/js/common/modernizr.min.js', 'dist/js/common/modernizr.min.js')
-  .copyDirectory('src/images', 'dist/images')
-  .sass('src/scss/pages/home.scss', 'dist/css/home.min.css', sassOptions)
-  .sass('src/scss/pages/fight.scss', 'dist/css/fight.min.css', sassOptions)
-  .sass('src/scss/pages/history.scss', 'dist/css/history.min.css', sassOptions)
+  .copy('src/js/common/modernizr.min.js', 'public/js/common/modernizr.min.js')
+  .copyDirectory('src/images', 'public/images')
+  .sass('src/scss/pages/home.scss', 'public/css/home.min.css', sassOptions)
+  .sass('src/scss/pages/fight.scss', 'public/css/fight.min.css', sassOptions)
+  .sass('src/scss/pages/history.scss', 'public/css/history.min.css', sassOptions)
   .options({
     processCssUrls: false,
     postCss: [
@@ -28,8 +28,8 @@ mix
     ],
 
   })
-  .js('src/js/common/toggle_menu.js', 'dist/js/common/toggle_menu.js')
-  .js('src/js/fight/app.js', 'dist/js/fight/app.js')
+  .js('src/js/common/toggle_menu.js', 'public/js/common/toggle_menu.js')
+  .js('src/js/fight/app.js', 'public/js/fight/app.js')
   .autoload({
     "vue": ['Vue', 'window.Vue']
   })
@@ -45,10 +45,8 @@ mix.browserSync({
     target: "http://127.0.0.1:8000" // 最後に/は不要
   },
   files: [ // チェックするファイル
-    './**.php',
-    'partials/**/*.php',
     'src/**/*',
-    'dist/**/*',
+    'public/**/*',
   ],
   open: false, //BrowserSync起動時にブラウザを開かない
   reloadOnRestart: true //BrowserSync起動時にブラウザにリロード命令おくる

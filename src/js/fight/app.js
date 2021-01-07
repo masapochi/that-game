@@ -10,12 +10,12 @@ new Vue({
     return {
       img: {
         user: {
-          left: './src/images/user/left/%s.svg',
-          right: './src/images/user/right/%s.svg',
+          left: './images/user/left/%s.svg',
+          right: './images/user/right/%s.svg',
         },
         opp: {
-          left: './src/images/opp/left/%s.svg',
-          right: './src/images/opp/right/%s.svg',
+          left: './images/opp/left/%s.svg',
+          right: './images/opp/right/%s.svg',
         }
       },
       isUserTurn: true,

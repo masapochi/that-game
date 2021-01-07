@@ -3,7 +3,7 @@
 
 <head>
   <?php require_once __DIR__ . '/./templates/meta.php'; ?>
-  <link rel="stylesheet" href="dist/css/home.min.css">
+  <link rel="stylesheet" href="./css/home.min.css">
 
 </head>
 

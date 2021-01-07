@@ -6,7 +6,7 @@
   "license": "",
   "author": "",
   "scripts": {
-    "cleanup": "rm -rf public",
+    "cleanup": "rm -rf public/css public/images public/js public/mix-manifest.json",
     "dev": "npm run development",
     "development": "node node_modules/cross-env/src/bin/cross-env.js NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch": "npm run cleanup && npm run development -- --watch",

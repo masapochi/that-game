@@ -1,6 +1,6 @@
 <header class="navbar">
   <button class="menu menu-open" id="js-open">
-    <img class="icon" src="./src/images/icons/menu_open.svg" alt="Open">
+    <img class="icon" src="./images/icons/menu_open.svg" alt="Open">
   </button>
 </header>
 <div id="js-overlay" class="overlay">
@@ -11,7 +11,7 @@
       <li><a href="/history.php">History</a></li>
       <li>
         <button class="menu menu-close" id="js-close">
-          <img class="icon" src="./src/images/icons/menu_close.svg" alt="Close">
+          <img class="icon" src="./images/icons/menu_close.svg" alt="Close">
         </button>
       </li>
     </ul>
