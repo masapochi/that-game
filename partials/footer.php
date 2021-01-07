@@ -1,3 +1,3 @@
 <footer>
-  <small>&copy;2020 Created By Maszapocsi</small>
+  <small>&copy;2020 Created By Masapochi</small>
 </footer>
