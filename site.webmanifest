@@ -3,12 +3,12 @@
   "name": "That Game",
   "icons": [
     {
-      "src": "dist/images/favicons/icon.png",
+      "src": "dist/images/common/icon.png",
       "type": "image/png",
       "sizes": "192x192"
     }
   ],
   "start_url": "/?utm_source=homescreen",
-  "background_color": "#fafafa",
-  "theme_color": "#fafafa"
+  "background_color": "#adff2f",
+  "theme_color": "#adff2f"
 }
