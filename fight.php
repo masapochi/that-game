@@ -79,7 +79,6 @@
 
 
   <?php require_once __DIR__ . '/./templates/scripts.php'; ?>
-  <script src="dist/js/fight/index.js"></script>
   <script src="dist/js/fight/app.js"></script>
 
   </script>

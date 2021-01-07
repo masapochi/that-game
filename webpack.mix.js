@@ -29,7 +29,6 @@ mix
 
   })
   .js('src/js/common/toggle_menu.js', 'dist/js/common/toggle_menu.js')
-  .js('src/js/fight/index.js', 'dist/js/fight/index.js')
   .js('src/js/fight/app.js', 'dist/js/fight/app.js')
   .autoload({
     "vue": ['Vue', 'window.Vue']
