@@ -4,8 +4,8 @@ const overlay = document.getElementById('js-overlay')
 const menus = document.getElementById('js-menu-box');
 const tl = gsap.timeline({
   defaults: {
-    duration: 1,
-    ease: Back.easeOut.config(2)
+    duration: .5,
+    ease: 'power2.ease'
   }
 })
 
