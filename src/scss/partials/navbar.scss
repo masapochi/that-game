@@ -1,5 +1,5 @@
 .menu {
-  padding: $edge-padding;
+  padding: 16px;
   color: $primary-color;
   border: none;
   background: transparent;
@@ -7,10 +7,15 @@
   outline: none;
 }
 
+.menu-open>.icon {
+  width: 32px;
+  height: auto;
+  object-fit: cover;
+}
+
 .navbar {
   position: relative;
   z-index: 1;
-
 }
 
 .overlay {
@@ -53,19 +58,23 @@
     }
   }
 
-  .menu-close {
-    width: 3.5rem;
-    height: 3.5rem;
-    background: #fff;
-    border-radius: 50%;
-    vertical-align: baseline;
-    margin-top: 15%;
 
-    &:hover {
-      background: $secondary-color;
-    }
+}
+
+
+.menu-close {
+  background: #fff;
+  border-radius: 50%;
+  vertical-align: baseline;
+  margin-top: 15%;
+
+  &:hover {
+    background: $secondary-color;
   }
 
-
-
+  &>.icon {
+    width: 32px;
+    height: auto;
+    object-fit: cover;
+  }
 }
