@@ -14,7 +14,7 @@
   <meta property="og:image" content="">
 
   <link rel="manifest" href="site.webmanifest">
-  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="apple-touch-icon" href="dist/images/favicons/icon.png">
 
   <link rel="stylesheet" href="dist/css/home.min.css">
   <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.2/css/all.css">

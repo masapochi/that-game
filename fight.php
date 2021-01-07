@@ -14,8 +14,7 @@
   <meta property="og:image" content="">
 
   <link rel="manifest" href="site.webmanifest">
-  <link rel="apple-touch-icon" href="icon.png">
-  <!-- Place favicon.ico in the root directory -->
+  <link rel="apple-touch-icon" href="dist/images/favicons/icon.png">
 
   <link rel="stylesheet" href="dist/css/fight.min.css">
   <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -29,9 +28,9 @@
     <div class="container">
       <div id="fight" class="grid" v-cloak>
         <div class="opponent">
-          <p>
+          <!-- <p>
             <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
-          </p>
+          </p> -->
           <img class="fist" :src="oppImg.right" v-if="oppRemain === 2">
           <img class="fist" :src="oppImg.right" v-else-if="oppRemain === 2">
 
@@ -54,9 +53,9 @@
           <img class="fist" :src="userImg.right" v-if="userRemain === 2 || userRemain === 1">
 
           <img class="fist" :src="userImg.right" v-else>
-          <p>
+          <!-- <p>
             <small>Call: {{ callNum }} / Remain: {{ userRemain}} / Raise: {{ userRaise}}</small>
-          </p>
+          </p> -->
         </div>
 
         <template v-if="isUserTurn">
