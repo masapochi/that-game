@@ -2,7 +2,7 @@
     "/dist/js/common/toggle_menu.js": "/dist/js/common/toggle_menu.js",
     "/dist/js/fight/index.js": "/dist/js/fight/index.js",
     "/dist/js/fight/app.js": "/dist/js/fight/app.js",
+    "/dist/css/history.min.css": "/dist/css/history.min.css",
     "/dist/css/fight.min.css": "/dist/css/fight.min.css",
-    "/dist/css/home.min.css": "/dist/css/home.min.css",
-    "/dist/css/history.min.css": "/dist/css/history.min.css"
+    "/dist/css/home.min.css": "/dist/css/home.min.css"
 }

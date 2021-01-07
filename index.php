@@ -15,7 +15,6 @@
 
   <link rel="manifest" href="site.webmanifest">
   <link rel="apple-touch-icon" href="icon.png">
-  <!-- Place favicon.ico in the root directory -->
 
   <link rel="stylesheet" href="dist/css/home.min.css">
   <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.2/css/all.css">
