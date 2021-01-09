@@ -13,34 +13,38 @@
     <div class="container">
       <div id="fight" class="grid" v-cloak>
         <div class="opponent">
-          <p>
+          <!-- <p>
             <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
-          </p>
-          <img class="fist" :src="oppImg.right" v-if="oppRemain === 2">
-          <img class="fist" :src="oppImg.right" v-else-if="oppRemain === 2">
+          </p> -->
+          <img class="fist" :src="img.opp.right" v-if="oppRemain === 2">
+          <img class="fist" :src="img.opp.right" v-else-if="oppRemain === 2">
 
-          <img class="fist" :src="oppImg.right" v-else>
+          <img class="fist" :src="img.opp.right" v-else>
 
-          <img class="fist" :src="oppImg.left" v-if="oppRemain === 2 || oppRemain === 1">
+          <img class="fist" :src="img.opp.left" v-if="oppRemain === 2 || oppRemain === 1">
 
-          <img class="fist" :src="oppImg.left" v-else>
+          <img class="fist" :src="img.opp.left" v-else>
         </div>
 
-        <transition name="slide-fade" mode="out-in">
+
+        <!-- <transition name="slide-fade" mode="out-in"> -->
+        <div class="balloon">
           <p class="message" :key="message">{{ message }}</p>
-        </transition>
+        </div>
+        <!-- </transition> -->
+
 
         <div class="user">
-          <img class="fist" :src="userImg.left" v-if="userRemain === 2">
+          <img class="fist" :src="img.user.left" v-if="userRemain === 2">
 
-          <img class="fist" :src="userImg.left" v-else>
+          <img class="fist" :src="img.user.left" v-else>
 
-          <img class="fist" :src="userImg.right" v-if="userRemain === 2 || userRemain === 1">
+          <img class="fist" :src="img.user.right" v-if="userRemain === 2 || userRemain === 1">
 
-          <img class="fist" :src="userImg.right" v-else>
-          <p>
+          <img class="fist" :src="img.user.right" v-else>
+          <!-- <p>
             <small>Call: {{ callNum }} / Remain: {{ userRemain}} / Raise: {{ userRaise}}</small>
-          </p>
+          </p> -->
         </div>
 
         <template v-if="isUserTurn">
@@ -54,7 +58,7 @@
 
             <div class="btn-box">
               <template v-for="(num, i) in callables">
-                <button type="button" class="btn call-btn" :class="{active: callNum === i}" :data-num="i" @click="call($event)" :key="'call-' + i">{{ i }}</button>
+                <button type="button" class="btn call-btn" :class="{active: callNum === i}" :data-num="i" @click="setUserCall($event)" :key="'call-' + i">{{ i }}</button>
               </template>
             </div>
           </div>
@@ -65,10 +69,11 @@
 
           <div class="btn-box">
             <template v-for="(num, i) in raisables">
-              <button type="button" class="btn finger-btn" :class="{active: userRaise === i}" :data-num="i" @click="raise($event)" :key="'finger-' + i">{{ i }}</button>
+              <button type="button" class="btn finger-btn" :class="{active: userRaise === i}" :data-num="i" @click="setUserRaise($event)" :key="'finger-' + i">{{ i }}</button>
             </template>
           </div>
         </div>
+
 
         <div class="btn-box">
           <button type="button" class="btn fight-btn" id="js-fight-btn" @click="fight" :disabled="!isReady && isUserTurn">Fight</button>

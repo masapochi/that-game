@@ -1,35 +1,51 @@
 import { sprintf } from "sprintf-js";
-import { randomNum, isNull } from "../utils";
+import { randomNum, isNull, promiseTimeout } from "../utils";
 import { USER_IMAGE_FORMAT, OPP_IMAGE_FORMAT } from './consts';
 import Vue from "vue";
 
 Vue.config.productionTip = false;
-
-const waitPromise = (func, ms = 2000) => new Promise(resolve => setTimeout(() => {
-  resolve(func())
-}, ms))
-
 
 new Vue({
   el: '#fight',
   data() {
     return {
       img: {
-        user: USER_IMAGE_FORMAT,
-        opp: OPP_IMAGE_FORMAT
+        user: { left: null, right: null },
+        opp: { left: null, right: null }
       },
       isUserTurn: true,
-      isFinished: false,
-      isDraw: false,
       callNum: null,
-      userRaise: null,
       userRemain: 2,
+      userRaise: null,
       oppRemain: 2,
+      oppRaise: null,
       message: 'Your Turn!',
     }
   },
   computed: {
-    userImg() {
+    totalRaisedThumbs() { return this.userRaise + this.oppRaise },
+    callables() { return this.userRemain + this.oppRemain + 1 },
+    raisables() { return this.userRemain + 1 },
+    isReady() { return !isNull(this.callNum) && !isNull(this.userRaise) ? true : false }
+  },
+  mounted() {
+    this.setUserImg();
+    this.setOppImg();
+  },
+  methods: {
+    setUserCall({ target }) { this.callNum = parseInt(target.dataset.num) },
+    setUserRaise({ target }) { this.userRaise = parseInt(target.dataset.num) },
+    setOppCall() { this.callNum = randomNum(0, this.userRemain + this.oppRemain) },
+    setOppRaise() { this.oppRaise = randomNum(0, this.oppRemain) },
+    reduceRemain() {
+      if (this.isUserTurn) {
+        this.userRemain -= 1;
+      } else {
+        this.oppRemain -= 1;
+      }
+    },
+
+    setUserImg() {
       let left = 'down';
       let right = 'down';
       if (this.userRemain === 2) {
@@ -39,12 +55,14 @@ new Vue({
         left = 'down_lost';
         if (this.userRaise === 1) right = 'up';
       }
-      return {
-        left: sprintf(this.img.user.left, left),
-        right: sprintf(this.img.user.right, right),
+      const hands = {
+        left: sprintf(USER_IMAGE_FORMAT.left, left),
+        right: sprintf(USER_IMAGE_FORMAT.right, right),
       }
+      console.log(hands);
+      this.img.user = hands;
     },
-    oppImg() {
+    setOppImg() {
       let left = 'down';
       let right = 'down';
       if (this.oppRemain === 2) {
@@ -54,73 +72,64 @@ new Vue({
         right = 'down_lost';
         if (this.oppRaise === 1) left = 'up';
       }
-      return {
-        left: sprintf(this.img.opp.left, left),
-        right: sprintf(this.img.opp.right, right),
+      const hands = {
+        left: sprintf(OPP_IMAGE_FORMAT.left, left),
+        right: sprintf(OPP_IMAGE_FORMAT.right, right),
       }
+      console.log(hands);
+      this.img.opp = hands;
     },
-    totalRaisedThumbs() { return this.userRaise + this.oppRaise },
-    oppRaise() { return randomNum(0, this.oppRemain) },
-    callables() { return this.userRemain + this.oppRemain + 1 },
-    raisables() { return this.userRemain + 1 },
-    isReady() { return !isNull(this.callNum) && !isNull(this.userRaise) ? true : false }
-  },
-  methods: {
-    call({ target }) { this.callNum = parseInt(target.dataset.num) },
-    raise({ target }) { this.userRaise = parseInt(target.dataset.num) },
-    setOppCallNum() { return randomNum(0, this.callables) },
-    reduceRemain() {
-      if (this.isUserTurn) this.userRemain -= 1;
-      if (!this.isUserTurn) this.oppRemain -= 1;
+
+    call() {
+      this.message = 'いっせーので…';
+      const f = () => {
+        if (!this.isUserTurn) {
+          this.setOppCall();
+        };
+        this.setOppRaise();
+
+        this.setUserImg();
+        this.setOppImg();
+        this.message = `${this.callNum}!!`
+      }
+      return promiseTimeout(f);
     },
-    start() {
-      const f = () => { this.message = `${this.callNum}!!`; }
-      return waitPromise(f, 2000);
-    },
+
     changeTurns() {
-
-      return new Promise(resolve => {
-        setTimeout(() => {
-          this.isUserTurn = !this.isUserTurn;
-          resolve();
-        }, 2000);
-      })
-    },
-    initialize() {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          this.isUserTurn = !this.isUserTurn;
-          this.callNum = this.isUserTurn ? null : this.setOppCallNum();
-          this.isDraw = false;
-          this.isFinished = false;
-          this.message = this.isUserTurn ? 'Your Turn!' : 'Opponent\'s Turn!';
-          this.userRaise = null;
-
-          resolve();
-        }, 3000);
-      })
-    },
-    async fight() {
-      this.message = 'いっせーので…'
-
-      await this.start();
-      await this.judge();
-      await this.initialize();
+      const f = () => { this.isUserTurn = !this.isUserTurn };
+      return promiseTimeout(f)
     },
 
     judge() {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          if (this.callNum === this.totalRaisedThumbs) {
-            this.reduceRemain();
-          } else {
-            this.isDraw = true;
-          }
-          this.message = this.isDraw ? `Draw!` : 'HIT!!!'
-          resolve();
-        }, 2000);
-      })
+      const f = () => {
+        if (this.callNum === this.totalRaisedThumbs) {
+          this.reduceRemain();
+          this.message = this.isUserTurn ? `Yey!!!` : `Oops...`;
+        } else {
+          this.message = `Draw!`;
+        }
+      }
+      return promiseTimeout(f)
+    },
+    initialize() {
+      // const f = () => {
+      this.callNum = null;
+      this.userRaise = null;
+      this.oppRaise = null;
+      this.setUserImg()
+      this.setOppImg()
+      this.message = this.isUserTurn ? 'Your Turn!' : 'Opponent\'s Turn!';
+      // }
+      // return promiseTimeout(f)
+    },
 
-    }
+    async fight() {
+      await this.call();
+      await this.judge();
+      await this.changeTurns();
+      await this.initialize();
+    },
+
+
   },
 });
