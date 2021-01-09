@@ -5,6 +5,10 @@ import Vue from "vue";
 
 Vue.config.productionTip = false;
 
+const waitPromise = (func, ms = 2000) => new Promise(resolve => setTimeout(() => {
+  resolve(func())
+}, ms))
+
 
 new Vue({
   el: '#fight',
@@ -55,27 +59,26 @@ new Vue({
         right: sprintf(this.img.opp.right, right),
       }
     },
+    totalRaisedThumbs() { return this.userRaise + this.oppRaise },
     oppRaise() { return randomNum(0, this.oppRemain) },
     callables() { return this.userRemain + this.oppRemain + 1 },
     raisables() { return this.userRemain + 1 },
     isReady() { return !isNull(this.callNum) && !isNull(this.userRaise) ? true : false }
   },
   methods: {
-    setOppCallNum() { return randomNum(0, this.callables) },
     call({ target }) { this.callNum = parseInt(target.dataset.num) },
     raise({ target }) { this.userRaise = parseInt(target.dataset.num) },
-    setCallNumMessage() { this.message = `${this.callNum}!!`; },
-    setResultMessage() { this.message = this.isDraw ? `Draw!` : 'HIT!!!' },
-
+    setOppCallNum() { return randomNum(0, this.callables) },
+    reduceRemain() {
+      if (this.isUserTurn) this.userRemain -= 1;
+      if (!this.isUserTurn) this.oppRemain -= 1;
+    },
     start() {
-      this.message = 'いっせーので…'
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve(this.setCallNumMessage());
-        }, 2000);
-      })
+      const f = () => { this.message = `${this.callNum}!!`; }
+      return waitPromise(f, 2000);
     },
     changeTurns() {
+
       return new Promise(resolve => {
         setTimeout(() => {
           this.isUserTurn = !this.isUserTurn;
@@ -98,26 +101,23 @@ new Vue({
       })
     },
     async fight() {
+      this.message = 'いっせーので…'
+
       await this.start();
       await this.judge();
       await this.initialize();
     },
-    reduseUserRemain() { this.userRemain -= 1 },
-    reduceOppRemain() { this.oppRemain -= 1 },
+
     judge() {
       return new Promise(resolve => {
         setTimeout(() => {
-          if (this.callNum === this.userRaise + this.oppRaise) {
-            if (this.isUserTurn) {
-              this.reduceOppRemain();
-            } else {
-              this.reduseUserRemain();
-            }
+          if (this.callNum === this.totalRaisedThumbs) {
+            this.reduceRemain();
           } else {
             this.isDraw = true;
           }
-
-          resolve(this.setResultMessage());
+          this.message = this.isDraw ? `Draw!` : 'HIT!!!'
+          resolve();
         }, 2000);
       })
 
