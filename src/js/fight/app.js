@@ -1,22 +1,18 @@
 import { sprintf } from "sprintf-js";
+import { randomNum, isNull } from "../utils";
+import { USER_IMAGE_FORMAT, OPP_IMAGE_FORMAT } from './consts';
 import Vue from "vue";
-Vue.config.productionTip = false;
-const randomNum = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-const isNull = (value) => value === null ? true : false;
+Vue.config.productionTip = false;
+
+
 new Vue({
   el: '#fight',
   data() {
     return {
       img: {
-        user: {
-          left: './images/user/left/%s.svg',
-          right: './images/user/right/%s.svg',
-        },
-        opp: {
-          left: './images/opp/left/%s.svg',
-          right: './images/opp/right/%s.svg',
-        }
+        user: USER_IMAGE_FORMAT,
+        opp: OPP_IMAGE_FORMAT
       },
       isUserTurn: true,
       isFinished: false,
@@ -30,16 +26,30 @@ new Vue({
   },
   computed: {
     userImg() {
-      const left = this.userRemain > 0 ? 'down' : 'down_lost'
-      const right = this.userRemain === 2 ? 'down' : 'down_lost'
+      let left = 'down';
+      let right = 'down';
+      if (this.userRemain === 2) {
+        if (this.userRaise >= 1) left = 'up';
+        if (this.userRaise === 2) right = 'up';
+      } else if (this.userRemain === 1) {
+        left = 'down_lost';
+        if (this.userRaise === 1) right = 'up';
+      }
       return {
-        left: sprintf(this.img.user.left, 'down'),
-        right: sprintf(this.img.user.right, 'down'),
+        left: sprintf(this.img.user.left, left),
+        right: sprintf(this.img.user.right, right),
       }
     },
     oppImg() {
-      const left = this.oppRemain > 0 ? 'down' : 'down_lost'
-      const right = this.oppRemain === 2 ? 'down' : 'down_lost'
+      let left = 'down';
+      let right = 'down';
+      if (this.oppRemain === 2) {
+        if (this.oppRaise >= 1) right = 'up';
+        if (this.oppRaise === 2) left = 'up';
+      } else if (this.oppRemain === 1) {
+        right = 'down_lost';
+        if (this.oppRaise === 1) left = 'up';
+      }
       return {
         left: sprintf(this.img.opp.left, left),
         right: sprintf(this.img.opp.right, right),
@@ -54,12 +64,8 @@ new Vue({
     setOppCallNum() { return randomNum(0, this.callables) },
     call({ target }) { this.callNum = parseInt(target.dataset.num) },
     raise({ target }) { this.userRaise = parseInt(target.dataset.num) },
-    setCallNumMessage() {
-      this.message = `${this.callNum}!!`;
-    },
-    setResultMessage() {
-      this.message = this.isDraw ? `Draw!` : 'HIT!!!'
-    },
+    setCallNumMessage() { this.message = `${this.callNum}!!`; },
+    setResultMessage() { this.message = this.isDraw ? `Draw!` : 'HIT!!!' },
 
     start() {
       this.message = 'いっせーので…'
@@ -94,17 +100,18 @@ new Vue({
     async fight() {
       await this.start();
       await this.judge();
-      // await this.changeTurns();
       await this.initialize();
     },
+    reduseUserRemain() { this.userRemain -= 1 },
+    reduceOppRemain() { this.oppRemain -= 1 },
     judge() {
       return new Promise(resolve => {
         setTimeout(() => {
           if (this.callNum === this.userRaise + this.oppRaise) {
             if (this.isUserTurn) {
-              this.oppRemain -= 1;
+              this.reduceOppRemain();
             } else {
-              this.userRemain -= 1;
+              this.reduseUserRemain();
             }
           } else {
             this.isDraw = true;
@@ -116,20 +123,4 @@ new Vue({
 
     }
   },
-
-
-})
-      // console.group('judge')
-      // console.group('this.callNum')
-      // console.log(this.callNum)
-      // console.groupEnd();
-      // console.group('this.userRaise ')
-      // console.log(this.userRaise)
-      // console.groupEnd();
-      // console.group('this.oppRaise')
-      // console.log(this.oppRaise)
-      // console.groupEnd();
-      // console.group('this.userRaise + this.oppRaise')
-      // console.log(this.userRaise + this.oppRaise)
-      // console.groupEnd();
-      // console.groupEnd();
+});

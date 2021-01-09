@@ -13,9 +13,9 @@
     <div class="container">
       <div id="fight" class="grid" v-cloak>
         <div class="opponent">
-          <!-- <p>
+          <p>
             <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
-          </p> -->
+          </p>
           <img class="fist" :src="oppImg.right" v-if="oppRemain === 2">
           <img class="fist" :src="oppImg.right" v-else-if="oppRemain === 2">
 
@@ -38,9 +38,9 @@
           <img class="fist" :src="userImg.right" v-if="userRemain === 2 || userRemain === 1">
 
           <img class="fist" :src="userImg.right" v-else>
-          <!-- <p>
+          <p>
             <small>Call: {{ callNum }} / Remain: {{ userRemain}} / Raise: {{ userRaise}}</small>
-          </p> -->
+          </p>
         </div>
 
         <template v-if="isUserTurn">
