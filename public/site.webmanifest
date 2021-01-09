@@ -1,14 +1,16 @@
 {
   "short_name": "That Game",
   "name": "That Game",
+  "description": "This is \"That Game\" every one knows.",
+  "start_url": "/?utm_source=homescreen",
+  "display": "standalone",
+  "background_color": "#adff2f",
+  "theme_color": "#adff2f",
   "icons": [
     {
       "src": "./touch-icon.png",
       "type": "image/png",
       "sizes": "192x192"
     }
-  ],
-  "start_url": "/?utm_source=homescreen",
-  "background_color": "#adff2f",
-  "theme_color": "#adff2f"
+  ]
 }
