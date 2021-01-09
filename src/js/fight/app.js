@@ -9,11 +9,12 @@ new Vue({
   el: '#fight',
   data() {
     return {
+      isNeutral: true,
+      isUserTurn: true,
       img: {
         user: { left: null, right: null },
         opp: { left: null, right: null }
       },
-      isUserTurn: true,
       callNum: null,
       userRemain: 2,
       userRaise: null,
@@ -26,7 +27,14 @@ new Vue({
     totalRaisedThumbs() { return this.userRaise + this.oppRaise },
     callables() { return this.userRemain + this.oppRemain + 1 },
     raisables() { return this.userRemain + 1 },
-    isReady() { return !isNull(this.callNum) && !isNull(this.userRaise) ? true : false }
+    isReady() { return !isNull(this.callNum) && !isNull(this.userRaise) ? true : false },
+    balloonClass() {
+      return {
+        'is-neutral': this.isNeutral,
+        'is-user': !this.isNeutral && this.isUserTurn,
+        'is-opp': !this.isNeutral && !this.isUserTurn
+      }
+    },
   },
   mounted() {
     this.setUserImg();
@@ -54,6 +62,9 @@ new Vue({
       } else if (this.userRemain === 1) {
         left = 'down_lost';
         if (this.userRaise === 1) right = 'up';
+      } else {
+        left = 'down_lost'
+        right = 'down_lost'
       }
       const hands = {
         left: sprintf(USER_IMAGE_FORMAT.left, left),
@@ -71,6 +82,9 @@ new Vue({
       } else if (this.oppRemain === 1) {
         right = 'down_lost';
         if (this.oppRaise === 1) left = 'up';
+      } else {
+        left = 'down_lost'
+        right = 'down_lost'
       }
       const hands = {
         left: sprintf(OPP_IMAGE_FORMAT.left, left),
@@ -104,15 +118,17 @@ new Vue({
       const f = () => {
         if (this.callNum === this.totalRaisedThumbs) {
           this.reduceRemain();
-          this.message = this.isUserTurn ? `Yey!!!` : `Oops...`;
+          this.message = `Yey!!!`;
         } else {
+          this.isNeutral = true;
           this.message = `Draw!`;
         }
       }
-      return promiseTimeout(f)
+      return promiseTimeout(f, 3000)
     },
     initialize() {
       // const f = () => {
+      this.isNeutral = true;
       this.callNum = null;
       this.userRaise = null;
       this.oppRaise = null;
@@ -124,6 +140,7 @@ new Vue({
     },
 
     async fight() {
+      this.isNeutral = false;
       await this.call();
       await this.judge();
       await this.changeTurns();
