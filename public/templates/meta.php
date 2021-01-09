@@ -11,7 +11,7 @@
 
 <link rel="manifest" href="site.webmanifest">
 <link rel="icon" href="favicon.ico">
-<link rel="apple-touch-icon" href="touch-icon.png">
+<link rel="apple-touch-icon" href="./touch-icon.png">
 <meta name="theme-color" content="#adff2f">
 
 <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.2/css/all.css">
