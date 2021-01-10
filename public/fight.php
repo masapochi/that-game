@@ -16,8 +16,8 @@
           <p>
             <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
           </p>
-          <img class="fist" :src="img.opp.right">
           <img class="fist" :src="img.opp.left">
+          <img class="fist" :src="img.opp.right">
         </div>
 
 

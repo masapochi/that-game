@@ -1,6 +1,6 @@
 import { sprintf } from "sprintf-js";
 import { randomNum, isNull, promiseTimeout } from "../utils";
-import { USER_IMAGE_FORMAT, OPP_IMAGE_FORMAT } from './consts';
+import { PLAYER, IMAGE_FORMAT, OPP_IMAGE_FORMAT, MESSAGE, STATUS } from './consts';
 import Vue from "vue";
 
 Vue.config.productionTip = false;
@@ -20,7 +20,7 @@ new Vue({
       userRaise: null,
       oppRemain: 2,
       oppRaise: null,
-      message: 'Your Turn!',
+      message: MESSAGE.USER_TURN,
     }
   },
   computed: {
@@ -37,8 +37,8 @@ new Vue({
     },
   },
   mounted() {
-    this.setUserImg();
-    this.setOppImg();
+    this.setThumbImg(PLAYER.USER);
+    this.setThumbImg(PLAYER.OPP);
   },
   methods: {
     setUserCall({ target }) { this.callNum = parseInt(target.dataset.num) },
@@ -53,64 +53,54 @@ new Vue({
       }
     },
 
-    setUserImg() {
+    setThumbImg(player) {
+      const remain = this[`${player}Remain`];
+      const raise = this[`${player}Raise`];
       let left = 'down';
       let right = 'down';
-      if (this.userRemain === 2) {
-        if (this.userRaise >= 1) left = 'up';
-        if (this.userRaise === 2) right = 'up';
-      } else if (this.userRemain === 1) {
+
+      if (remain === 0) {
+        left = 'down_lost'
+        right = 'down_lost'
+      }
+      if (remain === 1) {
         left = 'down_lost';
-        if (this.userRaise === 1) right = 'up';
-      } else {
-        left = 'down_lost'
-        right = 'down_lost'
+        if (raise === 1) right = 'up';
       }
+      if (remain === 2) {
+        if (raise >= 1) left = 'up';
+        if (raise === 2) right = 'up';
+      }
+
       const hands = {
-        left: sprintf(USER_IMAGE_FORMAT.left, left),
-        right: sprintf(USER_IMAGE_FORMAT.right, right),
+        left: sprintf(IMAGE_FORMAT.LEFT, player, left),
+        right: sprintf(IMAGE_FORMAT.RIGHT, player, right),
       }
       console.log(hands);
-      this.img.user = hands;
-    },
-    setOppImg() {
-      let left = 'down';
-      let right = 'down';
-      if (this.oppRemain === 2) {
-        if (this.oppRaise >= 1) right = 'up';
-        if (this.oppRaise === 2) left = 'up';
-      } else if (this.oppRemain === 1) {
-        right = 'down_lost';
-        if (this.oppRaise === 1) left = 'up';
-      } else {
-        left = 'down_lost'
-        right = 'down_lost'
-      }
-      const hands = {
-        left: sprintf(OPP_IMAGE_FORMAT.left, left),
-        right: sprintf(OPP_IMAGE_FORMAT.right, right),
-      }
-      console.log(hands);
-      this.img.opp = hands;
+      this.img[player] = hands;
     },
 
     call() {
-      this.message = 'いっせーので…';
+      this.message = MESSAGE.START;
       const f = () => {
         if (!this.isUserTurn) {
           this.setOppCall();
         };
         this.setOppRaise();
 
-        this.setUserImg();
-        this.setOppImg();
-        this.message = `${this.callNum}!!`
+        this.setThumbImg(PLAYER.USER);
+        this.setThumbImg(PLAYER.OPP);
+
+        this.message = sprintf(MESSAGE.CALL, this.callNum);
       }
       return promiseTimeout(f);
     },
 
     changeTurns() {
-      const f = () => { this.isUserTurn = !this.isUserTurn };
+      const f = () => {
+        this.isUserTurn = !this.isUserTurn;
+        this.message = this.isUserTurn ? MESSAGE.USER_TURN : MESSAGE.OPP_TURN;
+      };
       return promiseTimeout(f)
     },
 
@@ -118,23 +108,24 @@ new Vue({
       const f = () => {
         if (this.callNum === this.totalRaisedThumbs) {
           this.reduceRemain();
-          this.message = `Yey!!!`;
+          this.message = `いぇーいっ!`;
         } else {
-          this.isNeutral = true;
-          this.message = `Draw!`;
+          // this.isNeutral = true;
+          this.message = `引き分け!`;
         }
       }
       return promiseTimeout(f, 3000)
     },
     initialize() {
       // const f = () => {
-      this.isNeutral = true;
+      // this.isNeutral = true;
       this.callNum = null;
       this.userRaise = null;
       this.oppRaise = null;
-      this.setUserImg()
-      this.setOppImg()
-      this.message = this.isUserTurn ? 'Your Turn!' : 'Opponent\'s Turn!';
+      this.setThumbImg(PLAYER.USER);
+      this.setThumbImg(PLAYER.OPP);
+      const f = () => { this.isNeutral = true; }
+      promiseTimeout(f, 2000)
       // }
       // return promiseTimeout(f)
     },
@@ -145,8 +136,52 @@ new Vue({
       await this.judge();
       await this.changeTurns();
       await this.initialize();
+
+
     },
 
 
   },
 });
+
+
+// setUserImg() {
+//   let left = 'down';
+//   let right = 'down';
+//   if (this.userRemain === 2) {
+//     if (this.userRaise >= 1) left = 'up';
+//     if (this.userRaise === 2) right = 'up';
+//   } else if (this.userRemain === 1) {
+//     left = 'down_lost';
+//     if (this.userRaise === 1) right = 'up';
+//   } else {
+//     left = 'down_lost'
+//     right = 'down_lost'
+//   }
+//   const hands = {
+//     left: sprintf(USER_IMAGE_FORMAT.left, left),
+//     right: sprintf(USER_IMAGE_FORMAT.right, right),
+//   }
+//   console.log(hands);
+//   this.img.user = hands;
+// },
+// setOppImg() {
+//   let left = 'down';
+//   let right = 'down';
+//   if (this.oppRemain === 2) {
+//     if (this.oppRaise >= 1) right = 'up';
+//     if (this.oppRaise === 2) left = 'up';
+//   } else if (this.oppRemain === 1) {
+//     right = 'down_lost';
+//     if (this.oppRaise === 1) left = 'up';
+//   } else {
+//     left = 'down_lost'
+//     right = 'down_lost'
+//   }
+//   const hands = {
+//     left: sprintf(OPP_IMAGE_FORMAT.left, left),
+//     right: sprintf(OPP_IMAGE_FORMAT.right, right),
+//   }
+//   console.log(hands);
+//   this.img.opp = hands;
+// },
