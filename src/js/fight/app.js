@@ -1,6 +1,7 @@
 import { sprintf } from "sprintf-js";
 import { randomNum, isNull, promiseTimeout } from "../utils";
-import { PLAYER, IMAGE_FORMAT, OPP_IMAGE_FORMAT, MESSAGE, STATUS } from './consts';
+import { PLAYER, IMAGE_FORMAT, MESSAGE, STATUS } from './consts';
+
 import Vue from "vue";
 
 Vue.config.productionTip = false;
@@ -20,14 +21,25 @@ new Vue({
       userRaise: null,
       oppRemain: 2,
       oppRaise: null,
+      player: PLAYER.USER,
       message: MESSAGE.USER_TURN,
+      status: STATUS.NEUTRAL,
+
     }
   },
   computed: {
     totalRaisedThumbs() { return this.userRaise + this.oppRaise },
-    callables() { return this.userRemain + this.oppRemain + 1 },
+    totalRemainThumbs() { return this.userRemain + this.oppRemain },
+    callables() { return this.totalRemainThumbs + 1 },
     raisables() { return this.userRemain + 1 },
-    isReady() { return !isNull(this.callNum) && !isNull(this.userRaise) ? true : false },
+    isReady() {
+      const isSelected = this.isUserTurn
+        ? !isNull(this.callNum) && !isNull(this.userRaise)
+        : !isNull(this.userRaise)
+      return isSelected ? true : false
+    },
+    isSettled() { return this.callNum === this.totalRaisedThumbs ? true : false },
+    isFinished() { return this.userRemain === 0 || this.oppRemain === 0 ? true : false },
     balloonClass() {
       return {
         'is-neutral': this.isNeutral,
@@ -43,16 +55,15 @@ new Vue({
   methods: {
     setUserCall({ target }) { this.callNum = parseInt(target.dataset.num) },
     setUserRaise({ target }) { this.userRaise = parseInt(target.dataset.num) },
-    setOppCall() { this.callNum = randomNum(0, this.userRemain + this.oppRemain) },
+    setOppCall() { this.callNum = randomNum(0, this.totalRaisedThumbs) },
     setOppRaise() { this.oppRaise = randomNum(0, this.oppRemain) },
-    reduceRemain() {
-      if (this.isUserTurn) {
-        this.userRemain -= 1;
-      } else {
-        this.oppRemain -= 1;
-      }
+    reduceRemain(num) {
+      const target = this.isUserTurn ? PLAYER.USER : PLAYER.OPP;
+      this[`${target}Remain`] -= num;
     },
-
+    setStatus(status) {
+      this.status = status;
+    },
     setThumbImg(player) {
       const remain = this[`${player}Remain`];
       const raise = this[`${player}Raise`];
@@ -81,6 +92,7 @@ new Vue({
     },
 
     call() {
+      this.setStatus(STATUS.START)
       this.message = MESSAGE.START;
       const f = () => {
         if (!this.isUserTurn) {
@@ -91,6 +103,7 @@ new Vue({
         this.setThumbImg(PLAYER.USER);
         this.setThumbImg(PLAYER.OPP);
 
+        this.setStatus(STATUS.CALL)
         this.message = sprintf(MESSAGE.CALL, this.callNum);
       }
       return promiseTimeout(f);
@@ -106,36 +119,41 @@ new Vue({
 
     judge() {
       const f = () => {
-        if (this.callNum === this.totalRaisedThumbs) {
-          this.reduceRemain();
-          this.message = `いぇーいっ!`;
-        } else {
-          // this.isNeutral = true;
-          this.message = `引き分け!`;
-        }
+        this.setStatus(STATUS.JUDGE)
+        const num = this.isSettled ? 1 : 0;
+        this.reduceRemain(num)
+        const status = this.isSettled ? STATUS.SETTLE : STATUS.TIE;
+        this.setStatus(status);
+        this.message = this.isSettled ? MESSAGE.SETTLE : MESSAGE.TIE;
       }
       return promiseTimeout(f, 3000)
     },
     initialize() {
       // const f = () => {
       // this.isNeutral = true;
+      this.setStatus(STATUS.NEUTRAL);
       this.callNum = null;
       this.userRaise = null;
       this.oppRaise = null;
       this.setThumbImg(PLAYER.USER);
       this.setThumbImg(PLAYER.OPP);
-      const f = () => { this.isNeutral = true; }
-      promiseTimeout(f, 2000)
+      // const f = () => { this.isNeutral = true; }
+      // promiseTimeout(f, 2000)
       // }
       // return promiseTimeout(f)
     },
 
     async fight() {
-      this.isNeutral = false;
       await this.call();
       await this.judge();
-      await this.changeTurns();
-      await this.initialize();
+      if (!this.isFinished) {
+        await this.changeTurns();
+        await this.initialize();
+      } else {
+        this.setStatus(STATUS.FINISH);
+        const player = this.userRemain > 0 ? 'あなた' : '相手';
+        this.message = sprintf(MESSAGE.FINISH, player)
+      }
 
 
     },

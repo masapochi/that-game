@@ -13,9 +13,9 @@
     <div class="container">
       <div id="fight" class="grid" v-cloak>
         <div class="opponent">
-          <p>
+          <!-- <p>
             <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
-          </p>
+          </p> -->
           <img class="fist" :src="img.opp.left">
           <img class="fist" :src="img.opp.right">
         </div>
@@ -32,12 +32,12 @@
           <img class="fist" :src="img.user.left">
           <img class="fist" :src="img.user.right">
 
-          <p>
+          <!-- <p>
             <small>Call: {{ callNum }} / Remain: {{ userRemain}} / Raise: {{ userRaise}}</small>
-          </p>
+          </p> -->
         </div>
 
-        <template v-if="isNeutral">
+        <template v-if="!isFinished">
           <template v-if="isUserTurn">
             <div class="call">
               <p>
@@ -67,10 +67,14 @@
 
 
           <div class="btn-box">
-            <button type="button" class="btn fight-btn" id="js-fight-btn" @click="fight" :disabled="!isReady && isUserTurn">Fight</button>
+            <button type="button" class="btn fight-btn" id="js-fight-btn" @click="fight" :disabled="!isReady">Fight</button>
           </div>
         </template>
-
+        <template v-else>
+          <div class="btn-box">
+            <a href="./fight.php" class="btn fight-btn">PlayAgain</a>
+          </div>
+        </template>
 
       </div>
     </div>
