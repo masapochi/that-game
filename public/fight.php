@@ -12,7 +12,7 @@
   <main>
     <div class="container">
       <div id="fight" class="grid" v-cloak>
-        <template v-if="isFinished">
+        <!-- <template v-if="isFinished">
 
           <template v-if="oppRemain === 0">
             <div class="img-box">
@@ -39,14 +39,14 @@
               </div>
             </template>
           </template>
-          <template v-else>
-            <fist-images class="img-box" classes="opponent" :left="img.opp.left" :right="img.opp.right">
-              <!-- <p>
+          <template v-else> -->
+        <fist-images class="img-box" classes="opponent" :left="img.opp.left" :right="img.opp.right">
+          <!-- <p>
                 <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
               </p> -->
-            </fist-images>
-          </template>
-        </template>
+        </fist-images>
+        <!-- </template>
+        </template> -->
 
 
 
@@ -55,13 +55,13 @@
         <balloon-message :classes="balloonClass" :message="message"></balloon-message>
         <!-- </transition> -->
 
-        <template v-if="!isFinished">
-          <fist-images class="img-box" classes="user" :left="img.user.left" :right="img.user.right">
-            <!-- <p>
+        <!-- <template v-if="!isFinished"> -->
+        <fist-images class="img-box" classes="user" :left="img.user.left" :right="img.user.right">
+          <!-- <p>
             <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
           </p> -->
-          </fist-images>
-        </template>
+        </fist-images>
+        <!-- </template>
         <template v-else-if="oppRemain === 0">
           <div class="img-box">
             <img class="face" src="./images/faces/lose.svg" alt="">
@@ -81,7 +81,7 @@
           <div class="img-box">
             <img class="face" src="./images/faces/happy.svg" alt="">
           </div>
-        </template>
+        </template> -->
 
 
         <template v-if="!isFinished">
@@ -99,7 +99,7 @@
             <p class="label">あげる本数</p>
 
             <div class="btn-box">
-              <num-button v-for="(num, i) in raisables" :classes="{active: userRaise === i}" :num="i" @clicked="setUserRaise" :disabled="isFighting" :key="i" />
+              <num-button v-for="(num, i) in raisables" :classes="{active: me.raise === i}" :num="i" @clicked="setUserRaise" :disabled="isFighting" :key="i" />
             </div>
           </div>
 

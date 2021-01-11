@@ -1,4 +1,4 @@
-export const PLAYER = {
+export const PLAYERS = {
   USER: `user`,
   OPP: `opp`,
 }
@@ -11,7 +11,9 @@ export const MESSAGE = {
   DECIDED: `いぇーいっ！`,
   DRAWN: `引き分け！`,
   USER_WON: `あなたの勝ちです。`,
-  OPP_WON: `相手の勝ちです。`
+  OPP_WON: `相手の勝ちです。`,
+  TURN: `%sの番です。`,
+  WINNNER: `%sの勝ちです。`
 }
 
 export const STATUS = {
@@ -30,4 +32,27 @@ export const IMAGE_FORMAT = {
 export const TEST = {
   a: 'aaa',
   b: 'bbb'
+}
+
+export const player = {
+  me: {
+    name: 'あなた',
+    remain: 2,
+    raise: null,
+    isTurn: true,
+    img: {
+      left: `./images/user/left/%s.svg`,
+      right: `./images/user/right/%s.svg`,
+    },
+  },
+  opp: {
+    name: '相手',
+    remain: 2,
+    raise: null,
+    isTurn: false,
+    img: {
+      left: `./images/opp/left/%s.svg`,
+      right: `./images/opp/right/%s.svg`,
+    },
+  }
 }
