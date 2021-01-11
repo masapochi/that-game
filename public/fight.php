@@ -42,8 +42,7 @@
             <div class="call">
               <p>
                 <small>
-                  Number of fingers to call.
-                  <span v-if="callNum !== null">{{ callNum }}</span>
+                  Call <span v-if="callNum !== null">{{ callNum }}</span>
                 </small>
               </p>
 
@@ -56,7 +55,7 @@
           </template>
 
           <div class="raise">
-            <p><small>Number of fingers to raise.</small></p>
+            <p><small>Raise</small></p>
 
             <div class="btn-box">
               <template v-for="(num, i) in raisables">
@@ -76,6 +75,7 @@
           </div>
         </template>
 
+        <div style="width:320px; height: 50px; background-color: #aaa;"></div>
       </div>
     </div>
   </main>

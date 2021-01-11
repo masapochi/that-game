@@ -13,6 +13,10 @@ html {
   font-weight: $base-font-weight;
 }
 
+main {
+  overflow: hidden;
+}
+
 // Remove text-shadow in selection highlight:
 // https://twitter.com/miketaylr/status/12228805301
 //

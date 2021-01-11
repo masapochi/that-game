@@ -6,24 +6,28 @@ export const PLAYER = {
 export const MESSAGE = {
   USER_TURN: `あなたの番です。`,
   OPP_TURN: `相手の番です。`,
-  START: `いっせーので…`,
-  CALL: `%d！`,
-  SETTLE: `いぇーいっ！`,
-  TIE: `引き分け！`,
-  FINISH: `%sの勝ちです。`
+  STARTED: `いっせーので…`,
+  CALLED: `%d！`,
+  DECIDED: `いぇーいっ！`,
+  DRAWN: `引き分け！`,
+  USER_WON: `あなたの勝ちです。`,
+  OPP_WON: `相手の勝ちです。`
 }
 
 export const STATUS = {
-  NEUTRAL: `NEUTRAL`,
-  START: `START`,
-  CALL: `CALL`,
-  JUDGE: `JUDGE`,
-  SETTLE: `SETTLE`,
-  TIE: `TIE`,
-  FINISH: `FINISH`,
+  DEFAULT: `DEFAULT`,
+  STARTED: `STARTED`,
+  CALLED: `CALLED`,
+  DECIDED: `DECIDED`,
+  DRAWN: `DRAWN`,
+  FINISHED: `FINISHED`,
 }
 
 export const IMAGE_FORMAT = {
   LEFT: `./images/%s/left/%s.svg`,
   RIGHT: `./images/%s/right/%s.svg`,
+}
+export const TEST = {
+  a: 'aaa',
+  b: 'bbb'
 }

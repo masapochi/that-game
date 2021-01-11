@@ -1,7 +1,6 @@
 import { sprintf } from "sprintf-js";
 import { randomNum, isNull, promiseTimeout } from "../utils";
 import { PLAYER, IMAGE_FORMAT, MESSAGE, STATUS } from './consts';
-
 import Vue from "vue";
 
 Vue.config.productionTip = false;
@@ -10,7 +9,6 @@ new Vue({
   el: '#fight',
   data() {
     return {
-      isNeutral: true,
       isUserTurn: true,
       img: {
         user: { left: null, right: null },
@@ -21,92 +19,126 @@ new Vue({
       userRaise: null,
       oppRemain: 2,
       oppRaise: null,
-      player: PLAYER.USER,
       message: MESSAGE.USER_TURN,
-      status: STATUS.NEUTRAL,
-
+      status: STATUS.DEFAULT,
     }
   },
   computed: {
-    totalRaisedThumbs() { return this.userRaise + this.oppRaise },
-    totalRemainThumbs() { return this.userRemain + this.oppRemain },
-    callables() { return this.totalRemainThumbs + 1 },
-    raisables() { return this.userRemain + 1 },
+    totalRaised() {
+      return this.userRaise + this.oppRaise
+    },
+    totalRemain() {
+      return this.userRemain + this.oppRemain
+    },
+    callables() {
+      return this.totalRemain + 1
+    },
+    raisables() {
+      return this.userRemain + 1
+    },
     isReady() {
       const isSelected = this.isUserTurn
         ? !isNull(this.callNum) && !isNull(this.userRaise)
         : !isNull(this.userRaise)
       return isSelected ? true : false
     },
-    isSettled() { return this.callNum === this.totalRaisedThumbs ? true : false },
-    isFinished() { return this.userRemain === 0 || this.oppRemain === 0 ? true : false },
+    isNeutralStatus() {
+      return [STATUS.DEFAULT, STATUS.DRAWN, STATUS.FINISHED].includes(this.status)
+    },
+    isFightingStatus() {
+      return [STATUS.STARTED, STATUS.CALLED, STATUS.DECIDED].includes(this.status)
+    },
+    isFighting() {
+      return [STATUS.STARTED, STATUS.CALLED, STATUS.DECIDED, STATUS.DRAWN, , STATUS.FINISHED].includes(this.status)
+    },
+    isDecided() {
+      return this.callNum === this.totalRaised ? true : false
+    },
+    isFinished() {
+      return this.userRemain === 0 || this.oppRemain === 0 ? true : false
+    },
     balloonClass() {
       return {
-        'is-neutral': this.isNeutral,
-        'is-user': !this.isNeutral && this.isUserTurn,
-        'is-opp': !this.isNeutral && !this.isUserTurn
+        'is-default': this.isNeutralStatus,
+        'is-user': this.isFightingStatus && this.isUserTurn,
+        'is-opp': this.isFightingStatus && !this.isUserTurn,
+        'is-called': STATUS.CALLED === this.status,
+        'is-decided': STATUS.DECIDED === this.status,
+        'is-drawn': STATUS.DRAWN === this.status,
+        'is-finished': STATUS.FINISHED === this.status,
       }
     },
   },
   mounted() {
-    this.setThumbImg(PLAYER.USER);
-    this.setThumbImg(PLAYER.OPP);
+    this.setImage();
   },
   methods: {
-    setUserCall({ target }) { this.callNum = parseInt(target.dataset.num) },
-    setUserRaise({ target }) { this.userRaise = parseInt(target.dataset.num) },
-    setOppCall() { this.callNum = randomNum(0, this.totalRaisedThumbs) },
-    setOppRaise() { this.oppRaise = randomNum(0, this.oppRemain) },
+    setUserCall({ target }) {
+      this.callNum = parseInt(target.dataset.num)
+    },
+    setUserRaise({ target }) {
+      this.userRaise = parseInt(target.dataset.num)
+    },
+    setOppCall() {
+      this.callNum = randomNum(0, this.totalRaised)
+    },
+    setOppRaise() {
+      this.oppRaise = randomNum(0, this.oppRemain)
+    },
     reduceRemain(num) {
       const target = this.isUserTurn ? PLAYER.USER : PLAYER.OPP;
       this[`${target}Remain`] -= num;
     },
-    setStatus(status) {
-      this.status = status;
-    },
-    setThumbImg(player) {
-      const remain = this[`${player}Remain`];
-      const raise = this[`${player}Raise`];
-      let left = 'down';
-      let right = 'down';
 
-      if (remain === 0) {
-        left = 'down_lost'
-        right = 'down_lost'
-      }
-      if (remain === 1) {
-        left = 'down_lost';
-        if (raise === 1) right = 'up';
-      }
-      if (remain === 2) {
-        if (raise >= 1) left = 'up';
-        if (raise === 2) right = 'up';
+    setImage() {
+      for (const [_, player] of Object.entries({ ...PLAYER })) {
+        const remain = this[`${player}Remain`];
+        const raise = this[`${player}Raise`];
+        let left = 'down';
+        let right = 'down';
+
+        if (remain === 0) {
+          left = 'down_lost'
+          right = 'down_lost'
+        }
+        if (remain === 1) {
+          left = 'down_lost';
+          if (raise === 1) right = 'up';
+        }
+        if (remain === 2) {
+          if (raise >= 1) left = 'up';
+          if (raise === 2) right = 'up';
+        }
+
+        this.img[player] = {
+          left: sprintf(IMAGE_FORMAT.LEFT, player, left),
+          right: sprintf(IMAGE_FORMAT.RIGHT, player, right),
+        };
       }
 
-      const hands = {
-        left: sprintf(IMAGE_FORMAT.LEFT, player, left),
-        right: sprintf(IMAGE_FORMAT.RIGHT, player, right),
-      }
-      console.log(hands);
-      this.img[player] = hands;
     },
 
     call() {
-      this.setStatus(STATUS.START)
-      this.message = MESSAGE.START;
       const f = () => {
-        if (!this.isUserTurn) {
-          this.setOppCall();
-        };
+        if (!this.isUserTurn) this.setOppCall();
+
         this.setOppRaise();
-
-        this.setThumbImg(PLAYER.USER);
-        this.setThumbImg(PLAYER.OPP);
-
-        this.setStatus(STATUS.CALL)
-        this.message = sprintf(MESSAGE.CALL, this.callNum);
+        this.status = STATUS.CALLED;
+        this.message = sprintf(MESSAGE.CALLED, this.callNum);
       }
       return promiseTimeout(f);
+    },
+
+    judge() {
+      this.setImage();
+      const f = () => {
+        const num = this.isDecided ? 1 : 0;
+        this.reduceRemain(num)
+        this.status = this.isDecided ? STATUS.DECIDED : STATUS.DRAWN;
+        this.message = this.isDecided ? MESSAGE.DECIDED : MESSAGE.DRAWN;
+        this.setImage();
+      }
+      return promiseTimeout(f, 3000)
     },
 
     changeTurns() {
@@ -117,89 +149,29 @@ new Vue({
       return promiseTimeout(f)
     },
 
-    judge() {
-      const f = () => {
-        this.setStatus(STATUS.JUDGE)
-        const num = this.isSettled ? 1 : 0;
-        this.reduceRemain(num)
-        const status = this.isSettled ? STATUS.SETTLE : STATUS.TIE;
-        this.setStatus(status);
-        this.message = this.isSettled ? MESSAGE.SETTLE : MESSAGE.TIE;
-      }
-      return promiseTimeout(f, 3000)
-    },
+
     initialize() {
-      // const f = () => {
-      // this.isNeutral = true;
-      this.setStatus(STATUS.NEUTRAL);
+      this.status = STATUS.DEFAULT;
       this.callNum = null;
       this.userRaise = null;
       this.oppRaise = null;
-      this.setThumbImg(PLAYER.USER);
-      this.setThumbImg(PLAYER.OPP);
-      // const f = () => { this.isNeutral = true; }
-      // promiseTimeout(f, 2000)
-      // }
-      // return promiseTimeout(f)
+      this.setImage();
     },
 
     async fight() {
+      this.status = STATUS.STARTED;
+      this.message = MESSAGE.STARTED;
       await this.call();
       await this.judge();
       if (!this.isFinished) {
         await this.changeTurns();
         await this.initialize();
+
       } else {
-        this.setStatus(STATUS.FINISH);
-        const player = this.userRemain > 0 ? 'あなた' : '相手';
-        this.message = sprintf(MESSAGE.FINISH, player)
+        this.status = STATUS.FINISHED;
+        this.message = this.userRemain === 0
+          ? MESSAGE.USER_WON : MESSAGE.OPP_WON;
       }
-
-
     },
-
-
   },
 });
-
-
-// setUserImg() {
-//   let left = 'down';
-//   let right = 'down';
-//   if (this.userRemain === 2) {
-//     if (this.userRaise >= 1) left = 'up';
-//     if (this.userRaise === 2) right = 'up';
-//   } else if (this.userRemain === 1) {
-//     left = 'down_lost';
-//     if (this.userRaise === 1) right = 'up';
-//   } else {
-//     left = 'down_lost'
-//     right = 'down_lost'
-//   }
-//   const hands = {
-//     left: sprintf(USER_IMAGE_FORMAT.left, left),
-//     right: sprintf(USER_IMAGE_FORMAT.right, right),
-//   }
-//   console.log(hands);
-//   this.img.user = hands;
-// },
-// setOppImg() {
-//   let left = 'down';
-//   let right = 'down';
-//   if (this.oppRemain === 2) {
-//     if (this.oppRaise >= 1) right = 'up';
-//     if (this.oppRaise === 2) left = 'up';
-//   } else if (this.oppRemain === 1) {
-//     right = 'down_lost';
-//     if (this.oppRaise === 1) left = 'up';
-//   } else {
-//     left = 'down_lost'
-//     right = 'down_lost'
-//   }
-//   const hands = {
-//     left: sprintf(OPP_IMAGE_FORMAT.left, left),
-//     right: sprintf(OPP_IMAGE_FORMAT.right, right),
-//   }
-//   console.log(hands);
-//   this.img.opp = hands;
-// },
