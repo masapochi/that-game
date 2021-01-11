@@ -16,8 +16,7 @@
     padding: 0 2.5%;
   }
 
-  .btn.call-btn,
-  .btn.finger-btn {
+  .btn.-circle {
     width: 44px;
     height: 44px;
     line-height: 44px;
@@ -25,8 +24,7 @@
     background-color: $disabled-btn-color;
   }
 
-  .call-btn.active,
-  .btn.finger-btn.active {
+  .btn.-circle.active {
     background-color: $primary-color;
   }
 

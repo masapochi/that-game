@@ -7,7 +7,9 @@ const sassOptions = {
 };
 
 mix.setPublicPath('public');
-
+// mix.autoload({
+//   'vue': ['Vue', 'window.vue']
+// })
 mix.webpackConfig({
   resolve: {
     alias: { 'vue$': 'vue/dist/vue.esm.js' }
@@ -30,6 +32,7 @@ mix
   })
   .js('src/js/common/toggle_menu.js', 'public/js/common/toggle_menu.js')
   .js('src/js/fight/app.js', 'public/js/fight/app.js')
+  .vue()
   .autoload({
     "vue": ['Vue', 'window.Vue']
   })

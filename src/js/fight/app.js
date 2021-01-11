@@ -2,11 +2,18 @@ import { sprintf } from "sprintf-js";
 import { randomNum, isNull, promiseTimeout } from "../utils";
 import { PLAYER, IMAGE_FORMAT, MESSAGE, STATUS } from './consts';
 import Vue from "vue";
+import FistImages from "./components/FistImages.vue";
+import BalloonMessage from "./components/BalloonMessage.vue";
+import NumButton from "./components/NumButton.vue";
 
 Vue.config.productionTip = false;
 
 new Vue({
-  el: '#fight',
+  components: {
+    FistImages,
+    BalloonMessage,
+    NumButton,
+  },
   data() {
     return {
       isUserTurn: true,
@@ -24,39 +31,21 @@ new Vue({
     }
   },
   computed: {
-    totalRaised() {
-      return this.userRaise + this.oppRaise
-    },
-    totalRemain() {
-      return this.userRemain + this.oppRemain
-    },
-    callables() {
-      return this.totalRemain + 1
-    },
-    raisables() {
-      return this.userRemain + 1
-    },
+    totalRaised() { return this.userRaise + this.oppRaise },
+    totalRemain() { return this.userRemain + this.oppRemain },
+    callables() { return this.totalRemain + 1 },
+    raisables() { return this.userRemain + 1 },
     isReady() {
       const isSelected = this.isUserTurn
         ? !isNull(this.callNum) && !isNull(this.userRaise)
         : !isNull(this.userRaise)
       return isSelected ? true : false
     },
-    isNeutralStatus() {
-      return [STATUS.DEFAULT, STATUS.DRAWN, STATUS.FINISHED].includes(this.status)
-    },
-    isFightingStatus() {
-      return [STATUS.STARTED, STATUS.CALLED, STATUS.DECIDED].includes(this.status)
-    },
-    isFighting() {
-      return [STATUS.STARTED, STATUS.CALLED, STATUS.DECIDED, STATUS.DRAWN, , STATUS.FINISHED].includes(this.status)
-    },
-    isDecided() {
-      return this.callNum === this.totalRaised ? true : false
-    },
-    isFinished() {
-      return this.userRemain === 0 || this.oppRemain === 0 ? true : false
-    },
+    isNeutralStatus() { return [STATUS.DEFAULT, STATUS.DRAWN, STATUS.FINISHED].includes(this.status) },
+    isFightingStatus() { return [STATUS.STARTED, STATUS.CALLED, STATUS.DECIDED].includes(this.status) },
+    isFighting() { return [STATUS.STARTED, STATUS.CALLED, STATUS.DECIDED, STATUS.DRAWN, , STATUS.FINISHED].includes(this.status) },
+    isDecided() { return this.callNum === this.totalRaised ? true : false },
+    isFinished() { return this.userRemain === 0 || this.oppRemain === 0 ? true : false },
     balloonClass() {
       return {
         'is-default': this.isNeutralStatus,
@@ -73,21 +62,65 @@ new Vue({
     this.setImage();
   },
   methods: {
-    setUserCall({ target }) {
-      this.callNum = parseInt(target.dataset.num)
-    },
-    setUserRaise({ target }) {
-      this.userRaise = parseInt(target.dataset.num)
-    },
-    setOppCall() {
-      this.callNum = randomNum(0, this.totalRaised)
-    },
-    setOppRaise() {
-      this.oppRaise = randomNum(0, this.oppRemain)
-    },
+    setUserCall(value) { this.callNum = value },
+    setUserRaise(value) { this.userRaise = value },
+    setOppCall() { this.callNum = randomNum(0, this.totalRaised) },
+    setOppRaise() { this.oppRaise = randomNum(0, this.oppRemain) },
     reduceRemain(num) {
-      const target = this.isUserTurn ? PLAYER.USER : PLAYER.OPP;
-      this[`${target}Remain`] -= num;
+      const target = this.isUserTurn ? PLAYER.USER : PLAYER.OPP; this[`${target}Remain`] -= num;
+    },
+
+    call() {
+      return promiseTimeout(() => {
+        if (!this.isUserTurn) this.setOppCall();
+
+        this.setOppRaise();
+        this.status = STATUS.CALLED;
+        this.message = sprintf(MESSAGE.CALLED, this.callNum);
+      });
+    },
+
+    judge() {
+      this.setImage();
+      return promiseTimeout(() => {
+        const num = this.isDecided ? 1 : 0;
+        this.reduceRemain(num)
+        this.status = this.isDecided ? STATUS.DECIDED : STATUS.DRAWN;
+        this.message = this.isDecided ? MESSAGE.DECIDED : MESSAGE.DRAWN;
+        this.setImage();
+      }, 3000)
+    },
+
+    changeTurns() {
+      return promiseTimeout(() => {
+        this.isUserTurn = !this.isUserTurn;
+        this.message = this.isUserTurn ? MESSAGE.USER_TURN : MESSAGE.OPP_TURN;
+      })
+    },
+
+
+    initialize() {
+      this.status = STATUS.DEFAULT;
+      this.callNum = null;
+      this.userRaise = null;
+      this.oppRaise = null;
+      this.setImage();
+    },
+
+    async fight() {
+      this.status = STATUS.STARTED;
+      this.message = MESSAGE.STARTED;
+      await this.call();
+      await this.judge();
+      if (!this.isFinished) {
+        await this.changeTurns();
+        await this.initialize();
+
+      } else {
+        this.status = STATUS.FINISHED;
+        this.message = this.userRemain === 0
+          ? MESSAGE.USER_WON : MESSAGE.OPP_WON;
+      }
     },
 
     setImage() {
@@ -117,61 +150,5 @@ new Vue({
       }
 
     },
-
-    call() {
-      const f = () => {
-        if (!this.isUserTurn) this.setOppCall();
-
-        this.setOppRaise();
-        this.status = STATUS.CALLED;
-        this.message = sprintf(MESSAGE.CALLED, this.callNum);
-      }
-      return promiseTimeout(f);
-    },
-
-    judge() {
-      this.setImage();
-      const f = () => {
-        const num = this.isDecided ? 1 : 0;
-        this.reduceRemain(num)
-        this.status = this.isDecided ? STATUS.DECIDED : STATUS.DRAWN;
-        this.message = this.isDecided ? MESSAGE.DECIDED : MESSAGE.DRAWN;
-        this.setImage();
-      }
-      return promiseTimeout(f, 3000)
-    },
-
-    changeTurns() {
-      const f = () => {
-        this.isUserTurn = !this.isUserTurn;
-        this.message = this.isUserTurn ? MESSAGE.USER_TURN : MESSAGE.OPP_TURN;
-      };
-      return promiseTimeout(f)
-    },
-
-
-    initialize() {
-      this.status = STATUS.DEFAULT;
-      this.callNum = null;
-      this.userRaise = null;
-      this.oppRaise = null;
-      this.setImage();
-    },
-
-    async fight() {
-      this.status = STATUS.STARTED;
-      this.message = MESSAGE.STARTED;
-      await this.call();
-      await this.judge();
-      if (!this.isFinished) {
-        await this.changeTurns();
-        await this.initialize();
-
-      } else {
-        this.status = STATUS.FINISHED;
-        this.message = this.userRemain === 0
-          ? MESSAGE.USER_WON : MESSAGE.OPP_WON;
-      }
-    },
   },
-});
+}).$mount('#fight');

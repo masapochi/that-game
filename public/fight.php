@@ -12,30 +12,23 @@
   <main>
     <div class="container">
       <div id="fight" class="grid" v-cloak>
-        <div class="opponent">
-          <!-- <p>
+        <fist-images class="opponent" :left="img.opp.left" :right="img.opp.right">
+          <p>
             <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
-          </p> -->
-          <img class="fist" :src="img.opp.left">
-          <img class="fist" :src="img.opp.right">
-        </div>
+          </p>
+        </fist-images>
 
 
         <!-- <transition name="slide-fade" mode="out-in"> -->
-        <div class="balloon" :class="balloonClass">
-          <p class="message" :key="message">{{ message }}</p>
-        </div>
+        <balloon-message :classes="balloonClass" :message="message"></balloon-message>
         <!-- </transition> -->
 
 
-        <div class="user">
-          <img class="fist" :src="img.user.left">
-          <img class="fist" :src="img.user.right">
-
-          <!-- <p>
-            <small>Call: {{ callNum }} / Remain: {{ userRemain}} / Raise: {{ userRaise}}</small>
-          </p> -->
-        </div>
+        <fist-images class="user" :left="img.user.left" :right="img.user.right">
+          <p>
+            <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
+          </p>
+        </fist-images>
 
         <template v-if="!isFinished">
           <template v-if="isUserTurn">
@@ -47,9 +40,9 @@
               </p>
 
               <div class="btn-box">
-                <template v-for="(num, i) in callables">
-                  <button type="button" class="btn call-btn" :class="{active: callNum === i}" :data-num="i" @click="setUserCall($event)" :key="'call-' + i">{{ i }}</button>
-                </template>
+                <!-- <template v-for="(num, i) in callables"> -->
+                <num-button v-for="(num, i) in callables" :classes="{active: callNum === i}" :num="i" @clicked="setUserCall" :key="i" />
+                <!-- </template> -->
               </div>
             </div>
           </template>
@@ -58,9 +51,9 @@
             <p><small>Raise</small></p>
 
             <div class="btn-box">
-              <template v-for="(num, i) in raisables">
-                <button type="button" class="btn finger-btn" :class="{active: userRaise === i}" :data-num="i" @click="setUserRaise($event)" :key="'finger-' + i">{{ i }}</button>
-              </template>
+              <!-- <template> -->
+              <num-button v-for="(num, i) in raisables" :classes="{active: userRaise === i}" :num="i" @clicked="setUserRaise" :key="i" />
+              <!-- </template> -->
             </div>
           </div>
 
@@ -84,7 +77,6 @@
   <?php require_once __DIR__ . '/./templates/scripts.php'; ?>
   <script src="./js/fight/app.js"></script>
 
-  </script>
   <?php require_once __DIR__ . '/./templates/tag_manager.php'; ?>
 </body>
 
