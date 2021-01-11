@@ -5,15 +5,16 @@
     margin: 0;
   }
 
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
   .grid {
     display: grid;
     grid-template-rows: repeat(auto-fit, 1fr);
     grid-gap: 1rem;
     text-align: center;
-  }
-
-  .btn-box {
-    padding: 0 2.5%;
   }
 
   .btn.-circle {
@@ -28,7 +29,35 @@
     background-color: $primary-color;
   }
 
-  .fight-btn:disabled {
+  .call,
+  .raise {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    text-align: left;
+    min-height: 44px;
+  }
+
+
+  .call .label,
+  .raise .label {
+    width: 18%;
+    font-size: .85rem;
+    padding-right: 3%;
+  }
+
+  .call .btn-box,
+  .raise .btn-box {
+    flex-grow: 1;
+  }
+
+  .btn-box .btn {
+    margin-right: 0.25rem;
+  }
+
+  .btn:disabled {
     background-color: $disabled-btn-color;
     cursor: not-allowed;
   }
@@ -38,10 +67,9 @@
     background-color: #fff;
     padding: 8px;
     width: 90%;
-    margin: 0 auto;
+    margin: 1rem auto 0 auto;
     border-radius: 40px;
-    border: 1px solid #aaa;
-    margin-top: 1rem;
+    border: 1px solid #bbbbbb;
   }
 
   .balloon.is-user {
@@ -77,7 +105,6 @@
 
   .message {
     font-size: 1rem;
-    font-weight: 600;
     margin: 0;
   }
 
@@ -90,16 +117,40 @@
   }
 
   .is-called .message {
-    font-size: 1.5rem;
+    font-weight: 600;
   }
 
   .control {
     width: 100%;
   }
 
-  .fist {
+  .fight {
+    margin-top: 0.4rem;
+  }
+
+  .play-again {
+    margin-top: 1.5rem;
+  }
+
+  .img-box {
+    text-align: center;
+  }
+
+  .fist,
+  .face {
     width: auto;
-    height: 88px;
     object-fit: cover;
+  }
+
+  .fist {
+    height: 88px;
+  }
+
+  .face {
+    height: 64px;
+  }
+
+  .adsense {
+    margin-top: auto;
   }
 }

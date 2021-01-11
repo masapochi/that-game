@@ -4,6 +4,7 @@
     class="btn -circle"
     :class="classes"
     :data-num="num"
+    :disabled="disabled"
     @click="clicked"
   >
     {{ num }}
@@ -26,6 +27,11 @@ export default {
     num: {
       type: Number,
       required: true,
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   methods: {
