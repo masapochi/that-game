@@ -28,6 +28,7 @@ new Vue({
       oppRaise: null,
       message: MESSAGE.USER_TURN,
       status: STATUS.DEFAULT,
+
     }
   },
   computed: {
@@ -64,8 +65,17 @@ new Vue({
   methods: {
     setUserCall(value) { this.callNum = value },
     setUserRaise(value) { this.userRaise = value },
-    setOppCall() { this.callNum = randomNum(0, this.totalRaised) },
-    setOppRaise() { this.oppRaise = randomNum(0, this.oppRemain) },
+    setOppCall() { this.callNum = randomNum(0, this.totalRemain) },
+    setOppRaise() {
+      if (!this.isUserTurn) {
+        if (this.callNum === 0) this.oppRaise = 0;
+        if (this.callNum === 1) this.oppRaise = randomNum(0, 1);
+        if (this.callNum === 3) this.oppRaise = randomNum(0, this.oppRemain);
+        if (this.callNum === 4) this.oppRaise = 2;
+        return;
+      }
+      this.oppRaise = randomNum(0, this.oppRemain)
+    },
     reduceRemain(num) {
       const target = this.isUserTurn ? PLAYER.USER : PLAYER.OPP; this[`${target}Remain`] -= num;
     },
@@ -81,13 +91,11 @@ new Vue({
     },
 
     judge() {
-      this.setImage();
       return promiseTimeout(() => {
         const num = this.isDecided ? 1 : 0;
         this.reduceRemain(num)
         this.status = this.isDecided ? STATUS.DECIDED : STATUS.DRAWN;
         this.message = this.isDecided ? MESSAGE.DECIDED : MESSAGE.DRAWN;
-        this.setImage();
       }, 3000)
     },
 
@@ -111,12 +119,16 @@ new Vue({
       this.status = STATUS.STARTED;
       this.message = MESSAGE.STARTED;
       await this.call();
+      this.setImage();
       await this.judge();
+      this.setImage();
+
       if (!this.isFinished) {
         await this.changeTurns();
         await this.initialize();
 
       } else {
+        this.setImage();
         this.status = STATUS.FINISHED;
         this.message = this.userRemain === 0
           ? MESSAGE.USER_WON : MESSAGE.OPP_WON;

@@ -12,63 +12,114 @@
   <main>
     <div class="container">
       <div id="fight" class="grid" v-cloak>
-        <fist-images class="opponent" :left="img.opp.left" :right="img.opp.right">
-          <p>
-            <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
-          </p>
-        </fist-images>
+        <template v-if="isFinished">
+
+          <template v-if="oppRemain === 0">
+            <div class="img-box">
+              <img class="face" src="./images/faces/win.svg" alt="">
+            </div>
+          </template>
+          <template v-else-if="userRemain === 0">
+            <div class="img-box">
+              <img class="face" src="./images/faces/lose.svg" alt="">
+            </div>
+          </template>
+        </template>
+
+        <template v-else>
+          <template v-if="isDecided">
+            <template v-if="!isUserTurn">
+              <div class="img-box">
+                <img class="face" src="./images/faces/happy.svg" alt="">
+              </div>
+            </template>
+            <template v-else="isUserTurn &&">
+              <div class="img-box">
+                <img class="face" src="./images/faces/sad.svg" alt="">
+              </div>
+            </template>
+          </template>
+          <template v-else>
+            <fist-images class="img-box" classes="opponent" :left="img.opp.left" :right="img.opp.right">
+              <!-- <p>
+                <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
+              </p> -->
+            </fist-images>
+          </template>
+        </template>
+
+
 
 
         <!-- <transition name="slide-fade" mode="out-in"> -->
         <balloon-message :classes="balloonClass" :message="message"></balloon-message>
         <!-- </transition> -->
 
-
-        <fist-images class="user" :left="img.user.left" :right="img.user.right">
-          <p>
+        <template v-if="!isFinished">
+          <fist-images class="img-box" classes="user" :left="img.user.left" :right="img.user.right">
+            <!-- <p>
             <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
-          </p>
-        </fist-images>
+          </p> -->
+          </fist-images>
+        </template>
+        <template v-else-if="oppRemain === 0">
+          <div class="img-box">
+            <img class="face" src="./images/faces/lose.svg" alt="">
+          </div>
+        </template>
+        <template v-else-if="userRemain === 0">
+          <div class="img-box">
+            <img class="face" src="./images/faces/win.svg" alt="">
+          </div>
+        </template>
+        <template v-else-if="!isUserTurn && isDecided">
+          <div class="img-box">
+            <img class="face" src="./images/faces/sad.svg" alt="">
+          </div>
+        </template>
+        <template v-else-if="isUserTurn && isDecided">
+          <div class="img-box">
+            <img class="face" src="./images/faces/happy.svg" alt="">
+          </div>
+        </template>
+
 
         <template v-if="!isFinished">
-          <template v-if="isUserTurn">
-            <div class="call">
-              <p>
-                <small>
-                  Call <span v-if="callNum !== null">{{ callNum }}</span>
-                </small>
-              </p>
+          <div class="call">
+            <template v-if="isUserTurn">
+              <p class="label">コール</p>
 
               <div class="btn-box">
-                <!-- <template v-for="(num, i) in callables"> -->
-                <num-button v-for="(num, i) in callables" :classes="{active: callNum === i}" :num="i" @clicked="setUserCall" :key="i" />
-                <!-- </template> -->
+                <num-button v-for="(num, i) in callables" :classes="{active: callNum === i}" :num="i" @clicked="setUserCall" :disabled="isFighting" :key="i" />
               </div>
-            </div>
-          </template>
+            </template>
+          </div>
 
           <div class="raise">
-            <p><small>Raise</small></p>
+            <p class="label">あげる本数</p>
 
             <div class="btn-box">
-              <!-- <template> -->
-              <num-button v-for="(num, i) in raisables" :classes="{active: userRaise === i}" :num="i" @clicked="setUserRaise" :key="i" />
-              <!-- </template> -->
+              <num-button v-for="(num, i) in raisables" :classes="{active: userRaise === i}" :num="i" @clicked="setUserRaise" :disabled="isFighting" :key="i" />
             </div>
           </div>
 
-
-          <div class="btn-box">
-            <button type="button" class="btn fight-btn" id="js-fight-btn" @click="fight" :disabled="!isReady">Fight</button>
-          </div>
+          <template v-if="!isFighting">
+            <div class="control fight">
+              <button type="button" class="btn" id="js-fight-btn" @click="fight" :disabled="!isReady">Fight</button>
+            </div>
+          </template>
         </template>
         <template v-else>
-          <div class="btn-box">
-            <a href="./fight.php" class="btn fight-btn">PlayAgain</a>
+          <div class="control play-again">
+            <a href="./fight.php" class="btn">Play Again</a>
+          </div>
+          <div class="control history">
+            <a href="./history.php" class="btn ">History</a>
           </div>
         </template>
-
-        <div style="width:320px; height: 50px; background-color: #aaa;"></div>
+      </div>
+      <div class="adsense" style="width:100%; height: 50px; background-color: #aaa;">
+        <a href="./" target="_blank" rel="noreferrer noopener">home</a>
       </div>
     </div>
   </main>
