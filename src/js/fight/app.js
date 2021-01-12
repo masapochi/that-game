@@ -1,7 +1,7 @@
 import Vue from "vue";
 import { sprintf } from "sprintf-js";
 import { randomNum, isNull, promiseTimeout } from "../utils";
-import { player, IMG_FMT, STATUS, NEUTRAL_STATUS, FIGHTING_STATUS, JUDGING_STATUS } from './consts';
+import { PLAYERS, IMG_FMT, STATUS, NEUTRAL_STATUS, FIGHTING_STATUS } from './consts';
 import FistImages from "./components/FistImages.vue";
 import BalloonMessage from "./components/BalloonMessage.vue";
 import NumButton from "./components/NumButton.vue";
@@ -16,8 +16,8 @@ new Vue({
   data() {
     return {
       callNum: null,
-      me: player.me,
-      opp: player.opp,
+      me: PLAYERS.me,
+      opp: PLAYERS.opp,
       message: '',
       status: '',
       isLoading: true,
@@ -142,7 +142,7 @@ new Vue({
     },
 
     setImage() {
-      for (const [p, _] of Object.entries({ ...player })) {
+      for (const [p, _] of Object.entries({ ...PLAYERS })) {
         const remain = this[p].remain;
         const raise = this[p].raise;
         let left = 'down';

@@ -1,5 +1,5 @@
 
-export const player = {
+export const PLAYERS = {
   me: {
     name: 'あなた',
     remain: 2,
@@ -60,7 +60,4 @@ export const NEUTRAL_STATUS = (() => {
 
 export const FIGHTING_STATUS = (() => {
   return [STATUS.READY, STATUS.CALLED, STATUS.JUDGED].map(status => status.STATE)
-})();
-export const JUDGING_STATUS = (() => {
-  return [STATUS.DRAWN, STATUS.JUDGED].map(status => status.STATE)
 })();
