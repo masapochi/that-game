@@ -11,7 +11,8 @@
   <?php require_once __DIR__ . '/./templates/navbar.php'; ?>
   <main>
     <div class="container">
-      <div id="fight" class="grid" v-cloak>
+      <div id="fight" class="grid" v-if="!isLoading" v-cloak>
+        <!--  -->
         <!-- <template v-if="isFinished">
 
           <template v-if="oppRemain === 0">
@@ -28,19 +29,19 @@
 
         <template v-else>
           <template v-if="isDecided">
-            <template v-if="!isUserTurn">
+            <template v-if="!isMyTurn">
               <div class="img-box">
                 <img class="face" src="./images/faces/happy.svg" alt="">
               </div>
             </template>
-            <template v-else="isUserTurn &&">
+            <template v-else="isMyTurn &&">
               <div class="img-box">
                 <img class="face" src="./images/faces/sad.svg" alt="">
               </div>
             </template>
           </template>
           <template v-else> -->
-        <fist-images class="img-box" classes="opponent" :left="img.opp.left" :right="img.opp.right">
+        <fist-images class="img-box" classes="opponent" :left="opp.img.left" :right="opp.img.right">
           <!-- <p>
                 <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
               </p> -->
@@ -52,11 +53,13 @@
 
 
         <!-- <transition name="slide-fade" mode="out-in"> -->
-        <balloon-message :classes="balloonClass" :message="message"></balloon-message>
+        <balloon-message :classes="balloonClass" :message="message">
+          <span class="round" v-if="!isFighting && !isFinished">ラウンド{{ round }}</span>
+        </balloon-message>
         <!-- </transition> -->
 
         <!-- <template v-if="!isFinished"> -->
-        <fist-images class="img-box" classes="user" :left="img.user.left" :right="img.user.right">
+        <fist-images class="img-box" classes="user" :left="me.img.left" :right="me.img.right">
           <!-- <p>
             <small>Call: {{ callNum }} / Remain: {{ oppRemain}} / Raise: {{ oppRaise}}</small>
           </p> -->
@@ -72,12 +75,12 @@
             <img class="face" src="./images/faces/win.svg" alt="">
           </div>
         </template>
-        <template v-else-if="!isUserTurn && isDecided">
+        <template v-else-if="!isMyTurn && isDecided">
           <div class="img-box">
             <img class="face" src="./images/faces/sad.svg" alt="">
           </div>
         </template>
-        <template v-else-if="isUserTurn && isDecided">
+        <template v-else-if="isMyTurn && isDecided">
           <div class="img-box">
             <img class="face" src="./images/faces/happy.svg" alt="">
           </div>
@@ -86,11 +89,11 @@
 
         <template v-if="!isFinished">
           <div class="call">
-            <template v-if="isUserTurn">
+            <template v-if="isMyTurn">
               <p class="label">コール</p>
 
               <div class="btn-box">
-                <num-button v-for="(num, i) in callables" :classes="{active: callNum === i}" :num="i" @clicked="setUserCall" :disabled="isFighting" :key="i" />
+                <num-button v-for="(num, i) in callables" :classes="{active: callNum === i}" :num="i" @clicked="setCall" :disabled="isFighting" :key="i" />
               </div>
             </template>
           </div>
@@ -99,13 +102,13 @@
             <p class="label">あげる本数</p>
 
             <div class="btn-box">
-              <num-button v-for="(num, i) in raisables" :classes="{active: me.raise === i}" :num="i" @clicked="setUserRaise" :disabled="isFighting" :key="i" />
+              <num-button v-for="(num, i) in raisables" :classes="{active: me.raise === i}" :num="i" @clicked="setRaise" :disabled="isFighting" :key="i" />
             </div>
           </div>
 
           <template v-if="!isFighting">
             <div class="control fight">
-              <button type="button" class="btn" id="js-fight-btn" @click="fight" :disabled="!isReady">Fight</button>
+              <button type="button" class="btn" id="js-fight-btn" @click="fight" :disabled="!canFight">Fight</button>
             </div>
           </template>
         </template>

@@ -1,4 +1,31 @@
 @import "../app/main";
+$caret-size: 14px;
+$caret-shadow-size: calc(#{$caret-size} + 2px);
+$caret-color: #fff;
+$caret-shadow-color: #dcdcdc;
+
+@mixin balloon-caret($size, $color, $turn) {
+  position: absolute;
+  left: 50%;
+  content: '';
+  border-right: $size solid transparent;
+  border-left: $size solid transparent;
+
+  $border-prop: $size solid $color;
+  $pos-prop: calc(-1 * #{$size});
+
+  @if ($turn=="me") {
+    border-top: $border-prop;
+    bottom: $pos-prop;
+  }
+
+  @else {
+    border-bottom: $border-prop;
+    top: $pos-prop;
+  }
+
+  transform: translateX(-50%);
+}
 
 .fight {
   p {
@@ -69,55 +96,70 @@
     width: 90%;
     margin: 1rem auto 0 auto;
     border-radius: 40px;
-    border: 1px solid #bbbbbb;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #dcdcdc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
   }
 
-  .balloon.is-user {
-    border-color: $primary-color;
-  }
 
-  .balloon.is-opp {
-    border-color: red;
-  }
 
   .balloon:before {
-    position: absolute;
-    left: 50%;
-    display: inline-block;
-    width: 16px;
-    transform: translateX(-50%);
-
+    z-index: 3;
   }
 
-  .balloon.is-opp:before {
-    content: '▲';
-    color: red;
-    position: absolute;
-    top: -18px;
+  .balloon:after {
+    z-index: 2;
   }
 
-  .balloon.is-user:before {
-    display: inline-block;
-    content: '▼';
-    color: $primary-color;
-    bottom: -18px;
+  .balloon.is-my-turn:before {
+    @include balloon-caret($caret-size, $caret-color, "me");
+  }
+
+  .balloon.is-my-turn:after {
+    @include balloon-caret($caret-shadow-size, $caret-shadow-color, "me");
+  }
+
+  .balloon.is-opp-turn:before {
+    @include balloon-caret($caret-size, $caret-color, "opp");
+  }
+
+  .balloon.is-opp-turn:after {
+    @include balloon-caret($caret-shadow-size, $caret-shadow-color, "opp");
+  }
+
+  .round {
+    font-size: .75rem;
+    margin-right: 1rem;
+    margin-top: 0.125rem;
+    color: #009e9f;
   }
 
   .message {
     font-size: 1rem;
     margin: 0;
+    font-weight: 600;
   }
 
-  .is-user .message {
+  .is-neutral .message {
+    font-weight: 400;
+  }
+
+  .is-my-turn .message {
     color: $primary-color;
+
   }
 
-  .is-opp .message {
-    color: red;
+  .is-opp-turn .message {
+    color: $opp-color;
   }
 
   .is-called .message {
-    font-weight: 600;
+    font-weight: 700;
+    color: $call-color;
   }
 
   .control {
