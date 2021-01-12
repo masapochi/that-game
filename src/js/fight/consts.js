@@ -1,38 +1,3 @@
-export const PLAYERS = {
-  USER: `user`,
-  OPP: `opp`,
-}
-
-export const MESSAGE = {
-  USER_TURN: `あなたの番です。`,
-  OPP_TURN: `相手の番です。`,
-  STARTED: `いっせーので…`,
-  CALLED: `%d！`,
-  DECIDED: `いぇーいっ！`,
-  DRAWN: `引き分け！`,
-  USER_WON: `あなたの勝ちです。`,
-  OPP_WON: `相手の勝ちです。`,
-  TURN: `%sの番です。`,
-  WINNNER: `%sの勝ちです。`
-}
-
-export const STATUS = {
-  DEFAULT: `DEFAULT`,
-  STARTED: `STARTED`,
-  CALLED: `CALLED`,
-  DECIDED: `DECIDED`,
-  DRAWN: `DRAWN`,
-  FINISHED: `FINISHED`,
-}
-
-export const IMAGE_FORMAT = {
-  LEFT: `./images/%s/left/%s.svg`,
-  RIGHT: `./images/%s/right/%s.svg`,
-}
-export const TEST = {
-  a: 'aaa',
-  b: 'bbb'
-}
 
 export const player = {
   me: {
@@ -41,8 +6,8 @@ export const player = {
     raise: null,
     isTurn: true,
     img: {
-      left: `./images/user/left/%s.svg`,
-      right: `./images/user/right/%s.svg`,
+      left: `./images/me/left/%s.svg`,
+      right: `./images/me/right/%s.svg`,
     },
   },
   opp: {
@@ -56,3 +21,71 @@ export const player = {
     },
   }
 }
+
+export const IMG_FMT = {
+  LEFT: `./images/%s/left/%s.svg`,
+  RIGHT: `./images/%s/right/%s.svg`,
+}
+
+export const STS = {
+  NEUTRAL: {
+    STATE: 'NEUTRAL',
+    MSG: `%sの番です。`,
+  },
+  READY: {
+    STATE: 'READY',
+    MSG: `いっせーので…`,
+  },
+  CALLED: {
+    STATE: `CALLED`,
+    MSG: `%d！`,
+  },
+  JUDGED: {
+    STATE: `JUDGED`,
+    MSG: `いぇーいっ！`,
+  },
+  DRAWN: {
+    STATE: `DRAWN`,
+    MSG: `引き分け！`,
+  },
+  FINISHED: {
+    STATE: `FINISHED`,
+    MSG: `%sの勝ちです。`,
+  },
+}
+
+export const NEUTRAL_STATUS = (() => {
+  return [STS.NEUTRAL, STS.DRAWN, STS.FINISHED].map(status => status.STATE);
+})();
+
+export const FIGHTING_STATUS = (() => {
+  return [STS.READY, STS.CALLED, STS.JUDGED].map(status => status.STATE)
+})();
+
+export const STATUS = {
+  NEUTRAL: `NEUTRAL`,
+  READY: `READY`,
+  CALLED: `CALLED`,
+  JUDGEDD: `JUDGEDD`,
+  DRAWN: `DRAWN`,
+  FINISHED: `FINISHED`,
+}
+
+
+// export const PLAYERS = {
+//   USER: `user`,
+//   OPP: `opp`,
+// }
+
+// export const MESSAGE = {
+//   USER_TURN: `あなたの番です。`,
+//   OPP_TURN: `相手の番です。`,
+//   READY: `いっせーので…`,
+//   GO: `%d！`,
+//   JUDGEDD: `いぇーいっ！`,
+//   DRAWN: `引き分け！`,
+//   USER_WON: `あなたの勝ちです。`,
+//   OPP_WON: `相手の勝ちです。`,
+//   TURN: `%sの番です。`,
+//   WINNNER: `%sの勝ちです。`
+// }

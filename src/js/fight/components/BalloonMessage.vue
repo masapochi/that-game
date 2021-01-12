@@ -1,5 +1,6 @@
 <template>
   <div class="balloon" :class="classes">
+    <slot />
     <p class="message" key="message">{{ message }}</p>
   </div>
 </template>

@@ -1,11 +1,10 @@
 import Vue from "vue";
 import { sprintf } from "sprintf-js";
 import { randomNum, isNull, promiseTimeout } from "../utils";
-import { player, PLAYERS, IMAGE_FORMAT, MESSAGE, STATUS } from './consts';
+import { player, IMG_FMT, STS, NEUTRAL_STATUS, FIGHTING_STATUS } from './consts';
 import FistImages from "./components/FistImages.vue";
 import BalloonMessage from "./components/BalloonMessage.vue";
 import NumButton from "./components/NumButton.vue";
-
 Vue.config.productionTip = false;
 
 new Vue({
@@ -16,101 +15,109 @@ new Vue({
   },
   data() {
     return {
+      callNum: null,
       me: player.me,
       opp: player.opp,
-      isUserTurn: true,
-      img: {
-        user: { left: null, right: null },
-        opp: { left: null, right: null }
-      },
-      callNum: null,
-      userRemain: 2,
-      userRaise: null,
-      oppRemain: 2,
-      oppRaise: null,
-      message: MESSAGE.USER_TURN,
-      status: STATUS.DEFAULT,
+      message: '',
+      status: '',
+      isLoading: true,
+      round: 1,
     }
   },
   computed: {
+    isMyTurn() { return !!this.me.isTurn },
     raisedTotal() { return this.me.raise + this.opp.raise },
     remainTotal() { return this.me.remain + this.opp.remain },
     callables() { return this.remainTotal + 1 },
     raisables() { return this.me.remain + 1 },
-    isReady() {
+    canFight() {
       const isSelected = this.me.isTurn
         ? !isNull(this.callNum) && !isNull(this.me.raise)
         : !isNull(this.me.raise)
-      return isSelected ? true : false
+      return !!isSelected;
     },
-    isNeutralStatus() { return [STATUS.DEFAULT, STATUS.DRAWN, STATUS.FINISHED].includes(this.status) },
-    isFightingStatus() { return [STATUS.STARTED, STATUS.CALLED, STATUS.DECIDED].includes(this.status) },
-    isFighting() { return [STATUS.STARTED, STATUS.CALLED, STATUS.DECIDED, STATUS.DRAWN, , STATUS.FINISHED].includes(this.status) },
-    isDecided() { return this.callNum === this.raisedTotal ? true : false },
-    isFinished() { return this.me.remain === 0 || this.opp.remain === 0 ? true : false },
+    isNeutral() { return NEUTRAL_STATUS.includes(this.status) },
+    isFighting() { return FIGHTING_STATUS.includes(this.status) },
+    isJudged() { return !!(this.callNum === this.raisedTotal) },
+    isFinished() { return !!(this.me.remain === 0 || this.opp.remain === 0) },
     balloonClass() {
       return {
-        'is-default': this.isNeutralStatus,
-        'is-user': this.isFightingStatus && this.me.isTurn,
-        'is-opp': this.isFightingStatus && !this.me.isTurn,
-        'is-called': STATUS.CALLED === this.status,
-        'is-decided': STATUS.DECIDED === this.status,
-        'is-drawn': STATUS.DRAWN === this.status,
-        'is-finished': STATUS.FINISHED === this.status,
+        'is-neutral': this.isNeutral,
+        'is-my-turn': this.isFighting && this.me.isTurn,
+        'is-opp-turn': this.isFighting && this.opp.isTurn,
+        'is-ready': STS.READY.STATE === this.status,
+        'is-called': STS.CALLED.STATE === this.status,
+        'is-judged': STS.JUDGED.STATE === this.status,
+        'is-drawn': STS.DRAWN.STATE === this.status,
+        'is-finished': STS.FINISHED.STATE === this.status,
       }
     },
   },
-  mounted() {
+  created() {
     this.setImage();
+    this.setStatus(STS.NEUTRAL, this.me.name)
+    this.isLoading = false;
   },
   methods: {
-    setUserCall(value) { this.callNum = value },
-    setUserRaise(value) { this.me.raise = value },
-    setOppCall() { this.callNum = randomNum(0, this.remainTotal) },
-    setOppRaise() {
-      if (!this.me.isTurn) {
-        if (this.callNum === 0) this.opp.raise = 0;
-        if (this.callNum === 1) this.opp.raise = randomNum(0, 1);
-        if (this.callNum === 3) this.opp.raise = randomNum(0, this.opp.remain);
-        if (this.callNum === 4) this.opp.raise = 2;
-        return;
-      }
-      this.opp.raise = randomNum(0, this.opp.remain)
+    setCall(value) { this.callNum = value },
+    setRaise(value) { this.me.raise = value },
+    setOpp() {
+      this.opp.raise = randomNum(0, this.opp.remain);
+      if (this.opp.isTurn) this.callNum = randomNum(this.opp.raise, this.remainTotal);
     },
-    reduce(num) {
-      const target = this.me.isTurn ? PLAYERS.USER : PLAYERS.OPP; this[`${target}Remain`] -= num;
+
+    setStatus(state, value = null) {
+      this.status = sprintf(state.STATE);
+      this.message = sprintf(state.MSG, value);
+    },
+
+    reduce() {
+      const num = this.isJudged ? 1 : 0;
+      if (this.me.isTurn) this.me.remain -= num;
+      if (this.opp.isTurn) this.opp.remain -= num;
+    },
+
+    ready() {
+      return promiseTimeout(() => {
+        this.setStatus(STS.READY)
+      }, 800);
     },
 
     call() {
       return promiseTimeout(() => {
-        if (!this.me.isTurn) this.setOppCall();
-
-        this.setOppRaise();
-        this.status = STATUS.CALLED;
-        this.message = sprintf(MESSAGE.CALLED, this.callNum);
-      });
+        this.setOpp();
+        this.setImage();
+        this.setStatus(STS.CALLED, this.callNum);
+      })
     },
 
     judge() {
       return promiseTimeout(() => {
-        const num = this.isDecided ? 1 : 0;
-        this.reduce(num)
-        this.status = this.isDecided ? STATUS.DECIDED : STATUS.DRAWN;
-        this.message = this.isDecided ? MESSAGE.DECIDED : MESSAGE.DRAWN;
-      }, 3000)
+        this.reduce()
+        const status = this.isJudged ? STS.JUDGED : STS.DRAWN;
+        this.setStatus(status)
+        // this.setImage();
+      });
     },
 
     change() {
       return promiseTimeout(() => {
         this.me.isTurn = !this.me.isTurn;
         this.opp.isTurn = !this.opp.isTurn;
-        this.message = this.me.isTurn ? MESSAGE.USER_TURN : MESSAGE.OPP_TURN;
+        const player = this.me.isTurn ? this.me.name : this.opp.name;
+        this.setStatus(STS.NEUTRAL, player);
       })
     },
 
+    finish() {
+      return promiseTimeout(() => {
+        const player = this.me.remain === 0 ? this.me.name : this.opp.name;
+        this.setStatus(STS.FINISHED, player);
+        this.setImage();
+      });
+    },
 
-    initialize() {
-      this.status = STATUS.DEFAULT;
+    reset() {
       this.callNum = null;
       this.me.raise = null;
       this.opp.raise = null;
@@ -118,29 +125,24 @@ new Vue({
     },
 
     async fight() {
-      this.status = STATUS.STARTED;
-      this.message = MESSAGE.STARTED;
+      await this.ready();
       await this.call();
-      this.setImage();
       await this.judge();
-      this.setImage();
 
       if (!this.isFinished) {
         await this.change();
-        await this.initialize();
-
+        await this.reset();
+        this.round += 1;
       } else {
-        this.setImage();
-        this.status = STATUS.FINISHED;
-        this.message = this.me.remain === 0
-          ? MESSAGE.USER_WON : MESSAGE.OPP_WON;
+        this.round = 1;
+        this.finish();
       }
     },
 
     setImage() {
-      for (const [_, player] of Object.entries({ ...PLAYERS })) {
-        const remain = this[`${player}Remain`];
-        const raise = this[`${player}Raise`];
+      for (const [p, _] of Object.entries({ ...player })) {
+        const remain = this[p].remain;
+        const raise = this[p].raise;
         let left = 'down';
         let right = 'down';
 
@@ -157,12 +159,9 @@ new Vue({
           if (raise === 2) right = 'up';
         }
 
-        this.img[player] = {
-          left: sprintf(IMAGE_FORMAT.LEFT, player, left),
-          right: sprintf(IMAGE_FORMAT.RIGHT, player, right),
-        };
+        this[p].img.left = sprintf(IMG_FMT.LEFT, p, left);
+        this[p].img.right = sprintf(IMG_FMT.RIGHT, p, right);
       }
-
     },
   },
 }).$mount('#fight');
