@@ -1,6 +1,6 @@
 @import "../app/main";
-$caret-size: 14px;
-$caret-shadow-size: calc(#{$caret-size} + 2px);
+$caret-size: 12px;
+$caret-shadow-size: calc(#{$caret-size} + 3px);
 $caret-color: #fff;
 $caret-shadow-color: #dcdcdc;
 
@@ -73,7 +73,9 @@ $caret-shadow-color: #dcdcdc;
 
     .btn-box {
       flex-grow: 1;
+      text-align: center;
     }
+
   }
 
   .btn-box .btn {
@@ -93,7 +95,7 @@ $caret-shadow-color: #dcdcdc;
     padding: 0 8px;
     width: 90%;
     margin: 1rem auto 0 auto;
-    border-radius: 40px;
+    border-radius: 10px;
     border-width: 2px;
     border-style: solid;
     border-color: #dcdcdc;
@@ -102,6 +104,8 @@ $caret-shadow-color: #dcdcdc;
     align-items: center;
     z-index: 1;
     height: 44px;
+    font-weight: 600;
+
 
     &:before {
       z-index: 3;
@@ -111,20 +115,28 @@ $caret-shadow-color: #dcdcdc;
       z-index: 2;
     }
 
-    &.is-my-turn:before {
-      @include balloon-caret($caret-size, $caret-color, "me");
+    &.is-my-turn {
+      border-color: $primary-color;
+
+      &:before {
+        @include balloon-caret($caret-size, $caret-color, "me");
+      }
+
+      &:after {
+        @include balloon-caret($caret-shadow-size, $primary-color, "me");
+      }
     }
 
-    &.is-my-turn:after {
-      @include balloon-caret($caret-shadow-size, $caret-shadow-color, "me");
-    }
+    &.is-opp-turn {
+      border-color: $opp-color;
 
-    &.is-opp-turn:before {
-      @include balloon-caret($caret-size, $caret-color, "opp");
-    }
+      &:before {
+        @include balloon-caret($caret-size, $caret-color, "opp");
+      }
 
-    &.is-opp-turn:after {
-      @include balloon-caret($caret-shadow-size, $caret-shadow-color, "opp");
+      &:after {
+        @include balloon-caret($caret-shadow-size, $opp-color, "opp");
+      }
     }
 
     .round {
@@ -137,11 +149,11 @@ $caret-shadow-color: #dcdcdc;
     .message {
       font-size: 1rem;
       margin: 0;
-      font-weight: 600;
+      color: #666;
     }
 
     &.is-neutral .message {
-      font-weight: 400;
+      // font-weight: 400;
     }
 
     &.is-my-turn .message {
