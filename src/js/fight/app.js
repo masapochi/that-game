@@ -1,7 +1,7 @@
 import Vue from "vue";
 import { sprintf } from "sprintf-js";
 import { randomNum, isNull, promiseTimeout } from "../utils";
-import { player, IMG_FMT, STS, NEUTRAL_STATUS, FIGHTING_STATUS } from './consts';
+import { player, IMG_FMT, STATUS, NEUTRAL_STATUS, FIGHTING_STATUS, JUDGING_STATUS } from './consts';
 import FistImages from "./components/FistImages.vue";
 import BalloonMessage from "./components/BalloonMessage.vue";
 import NumButton from "./components/NumButton.vue";
@@ -25,6 +25,7 @@ new Vue({
     }
   },
   computed: {
+    isWinner() { return this.isFinished && this.me.remain === 0 },
     isMyTurn() { return !!this.me.isTurn },
     raisedTotal() { return this.me.raise + this.opp.raise },
     remainTotal() { return this.me.remain + this.opp.remain },
@@ -38,6 +39,7 @@ new Vue({
     },
     isNeutral() { return NEUTRAL_STATUS.includes(this.status) },
     isFighting() { return FIGHTING_STATUS.includes(this.status) },
+    isDrawn() { return STATUS.DRAWN.STATE === this.status },
     isJudged() { return !!(this.callNum === this.raisedTotal) },
     isFinished() { return !!(this.me.remain === 0 || this.opp.remain === 0) },
     balloonClass() {
@@ -45,17 +47,17 @@ new Vue({
         'is-neutral': this.isNeutral,
         'is-my-turn': this.isFighting && this.me.isTurn,
         'is-opp-turn': this.isFighting && this.opp.isTurn,
-        'is-ready': STS.READY.STATE === this.status,
-        'is-called': STS.CALLED.STATE === this.status,
-        'is-judged': STS.JUDGED.STATE === this.status,
-        'is-drawn': STS.DRAWN.STATE === this.status,
-        'is-finished': STS.FINISHED.STATE === this.status,
+        'is-ready': STATUS.READY.STATE === this.status,
+        'is-called': STATUS.CALLED.STATE === this.status,
+        'is-judged': STATUS.JUDGED.STATE === this.status,
+        'is-drawn': STATUS.DRAWN.STATE === this.status,
+        'is-finished': STATUS.FINISHED.STATE === this.status,
       }
     },
   },
   created() {
     this.setImage();
-    this.setStatus(STS.NEUTRAL, this.me.name)
+    this.setStatus(STATUS.NEUTRAL, this.me.name)
     this.isLoading = false;
   },
   methods: {
@@ -79,7 +81,7 @@ new Vue({
 
     ready() {
       return promiseTimeout(() => {
-        this.setStatus(STS.READY)
+        this.setStatus(STATUS.READY)
       }, 800);
     },
 
@@ -87,14 +89,14 @@ new Vue({
       return promiseTimeout(() => {
         this.setOpp();
         this.setImage();
-        this.setStatus(STS.CALLED, this.callNum);
+        this.setStatus(STATUS.CALLED, this.callNum);
       })
     },
 
     judge() {
       return promiseTimeout(() => {
         this.reduce()
-        const status = this.isJudged ? STS.JUDGED : STS.DRAWN;
+        const status = this.isJudged ? STATUS.JUDGED : STATUS.DRAWN;
         this.setStatus(status)
         // this.setImage();
       });
@@ -105,14 +107,14 @@ new Vue({
         this.me.isTurn = !this.me.isTurn;
         this.opp.isTurn = !this.opp.isTurn;
         const player = this.me.isTurn ? this.me.name : this.opp.name;
-        this.setStatus(STS.NEUTRAL, player);
+        this.setStatus(STATUS.NEUTRAL, player);
       })
     },
 
     finish() {
       return promiseTimeout(() => {
         const player = this.me.remain === 0 ? this.me.name : this.opp.name;
-        this.setStatus(STS.FINISHED, player);
+        this.setStatus(STATUS.FINISHED, player);
         this.setImage();
       });
     },

@@ -93,7 +93,7 @@
               <p class="label">コール</p>
 
               <div class="btn-box">
-                <num-button v-for="(num, i) in callables" :classes="{active: callNum === i}" :num="i" @clicked="setCall" :disabled="isFighting" :key="i" />
+                <num-button v-for="(num, i) in callables" :classes="{active: callNum === i}" :num="i" @clicked="setCall" :disabled="isFighting || isDrawn" :key="i" />
               </div>
             </template>
           </div>
@@ -102,15 +102,13 @@
             <p class="label">あげる本数</p>
 
             <div class="btn-box">
-              <num-button v-for="(num, i) in raisables" :classes="{active: me.raise === i}" :num="i" @clicked="setRaise" :disabled="isFighting" :key="i" />
+              <num-button v-for="(num, i) in raisables" :classes="{active: me.raise === i}" :num="i" @clicked="setRaise" :disabled="isFighting || isDrawn" :key="i" />
             </div>
           </div>
 
-          <!-- <template v-if="!isFighting"> -->
           <div class="control fight">
-            <button type="button" class="btn" @click="fight" :disabled="!canFight || isFighting">Fight</button>
+            <button type="button" class="btn" @click="fight" :disabled="!canFight || isFighting || isDrawn">Fight</button>
           </div>
-          <!-- </template> -->
         </template>
         <template v-else>
           <div class="control play-again">
