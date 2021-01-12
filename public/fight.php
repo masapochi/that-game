@@ -106,11 +106,11 @@
             </div>
           </div>
 
-          <template v-if="!isFighting">
-            <div class="control fight">
-              <button type="button" class="btn" id="js-fight-btn" @click="fight" :disabled="!canFight">Fight</button>
-            </div>
-          </template>
+          <!-- <template v-if="!isFighting"> -->
+          <div class="control fight">
+            <button type="button" class="btn" @click="fight" :disabled="!canFight || isFighting">Fight</button>
+          </div>
+          <!-- </template> -->
         </template>
         <template v-else>
           <div class="control play-again">

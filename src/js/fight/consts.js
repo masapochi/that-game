@@ -30,7 +30,7 @@ export const IMG_FMT = {
 export const STS = {
   NEUTRAL: {
     STATE: 'NEUTRAL',
-    MSG: `%sの番です。`,
+    MSG: `「%s」の番です。`,
   },
   READY: {
     STATE: 'READY',
@@ -50,7 +50,7 @@ export const STS = {
   },
   FINISHED: {
     STATE: `FINISHED`,
-    MSG: `%sの勝ちです。`,
+    MSG: `「%s」の勝ちです。`,
   },
 }
 

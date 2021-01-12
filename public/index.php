@@ -22,6 +22,10 @@
           <a class="btn" href="history.php">History</a>
         </div>
       </section>
+
+      <div class="adsense" style="width:100%; height: 50px; background-color: #aaa;">
+        <a href="./" target="_blank" rel="noreferrer noopener">home</a>
+      </div>
     </div>
 
   </main>

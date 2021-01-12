@@ -32,11 +32,6 @@ $caret-shadow-color: #dcdcdc;
     margin: 0;
   }
 
-  .container {
-    display: flex;
-    flex-direction: column;
-  }
-
   .grid {
     display: grid;
     grid-template-rows: repeat(auto-fit, 1fr);
@@ -44,16 +39,21 @@ $caret-shadow-color: #dcdcdc;
     text-align: center;
   }
 
-  .btn.-circle {
-    width: 44px;
-    height: 44px;
-    line-height: 44px;
-    padding: 0;
-    background-color: $disabled-btn-color;
-  }
+  .btn {
+    &.-circle {
+      width: 44px;
+      height: 44px;
+      line-height: 44px;
+      padding: 0;
+      background-color: #fff;
+      color: $primary-color;
+      border: 1px solid $primary-color;
 
-  .btn.-circle.active {
-    background-color: $primary-color;
+      &.active {
+        background-color: $primary-color;
+        color: #fff;
+      }
+    }
   }
 
   .call,
@@ -65,19 +65,16 @@ $caret-shadow-color: #dcdcdc;
     width: 100%;
     text-align: left;
     min-height: 44px;
-  }
 
+    .label {
+      width: 18%;
+      font-size: .85rem;
+      padding-right: 3%;
+    }
 
-  .call .label,
-  .raise .label {
-    width: 18%;
-    font-size: .85rem;
-    padding-right: 3%;
-  }
-
-  .call .btn-box,
-  .raise .btn-box {
-    flex-grow: 1;
+    .btn-box {
+      flex-grow: 1;
+    }
   }
 
   .btn-box .btn {
@@ -86,6 +83,8 @@ $caret-shadow-color: #dcdcdc;
 
   .btn:disabled {
     background-color: $disabled-btn-color;
+    border: 1px solid $disabled-btn-color;
+    color: #fff;
     cursor: not-allowed;
   }
 
@@ -103,67 +102,62 @@ $caret-shadow-color: #dcdcdc;
     justify-content: center;
     align-items: center;
     z-index: 1;
-  }
 
+    &:before {
+      z-index: 3;
+    }
 
+    &:after {
+      z-index: 2;
+    }
 
-  .balloon:before {
-    z-index: 3;
-  }
+    &.is-my-turn:before {
+      @include balloon-caret($caret-size, $caret-color, "me");
+    }
 
-  .balloon:after {
-    z-index: 2;
-  }
+    &.is-my-turn:after {
+      @include balloon-caret($caret-shadow-size, $caret-shadow-color, "me");
+    }
 
-  .balloon.is-my-turn:before {
-    @include balloon-caret($caret-size, $caret-color, "me");
-  }
+    &.is-opp-turn:before {
+      @include balloon-caret($caret-size, $caret-color, "opp");
+    }
 
-  .balloon.is-my-turn:after {
-    @include balloon-caret($caret-shadow-size, $caret-shadow-color, "me");
-  }
+    &.is-opp-turn:after {
+      @include balloon-caret($caret-shadow-size, $caret-shadow-color, "opp");
+    }
 
-  .balloon.is-opp-turn:before {
-    @include balloon-caret($caret-size, $caret-color, "opp");
-  }
+    .round {
+      font-size: .8rem;
+      margin-right: .5rem;
+      // margin-top: 0.125rem;
+      color: $game-num-color;
+    }
 
-  .balloon.is-opp-turn:after {
-    @include balloon-caret($caret-shadow-size, $caret-shadow-color, "opp");
-  }
+    .message {
+      font-size: 1rem;
+      margin: 0;
+      font-weight: 600;
+    }
 
-  .round {
-    font-size: .75rem;
-    margin-right: 1rem;
-    margin-top: 0.125rem;
-    color: #009e9f;
-  }
+    &.is-neutral .message {
+      font-weight: 400;
+    }
 
-  .message {
-    font-size: 1rem;
-    margin: 0;
-    font-weight: 600;
-  }
+    &.is-my-turn .message {
+      color: $primary-color;
 
-  .is-neutral .message {
-    font-weight: 400;
-  }
+    }
 
-  .is-my-turn .message {
-    color: $primary-color;
+    &.is-opp-turn .message {
+      color: $opp-color;
+    }
 
-  }
+    &.is-called .message {
+      font-weight: 700;
+      color: $call-color;
+    }
 
-  .is-opp-turn .message {
-    color: $opp-color;
-  }
-
-  .is-called .message {
-    font-weight: 700;
-    color: $call-color;
-  }
-
-  .control {
-    width: 100%;
   }
 
   .fight {
@@ -172,10 +166,6 @@ $caret-shadow-color: #dcdcdc;
 
   .play-again {
     margin-top: 1.5rem;
-  }
-
-  .img-box {
-    text-align: center;
   }
 
   .fist,
@@ -192,7 +182,5 @@ $caret-shadow-color: #dcdcdc;
     height: 64px;
   }
 
-  .adsense {
-    margin-top: auto;
-  }
+
 }
