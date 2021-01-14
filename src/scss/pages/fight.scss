@@ -1,5 +1,5 @@
 @import "../app/main";
-$caret-size: 12px;
+$caret-size: 8px;
 $caret-shadow-size: calc(#{$caret-size} + 3px);
 $caret-color: #fff;
 $caret-shadow-color: #dcdcdc;
@@ -32,67 +32,53 @@ $caret-shadow-color: #dcdcdc;
     margin: 0;
   }
 
-  .grid {
-    display: grid;
-    grid-template-rows: repeat(auto-fit, 1fr);
-    grid-gap: 1rem;
-    text-align: center;
-  }
-
-  .btn {
-    &.-circle {
-      width: 44px;
-      height: 44px;
-      padding: 0;
-      background-color: #fff;
-      color: $primary-color;
-      border: 1px solid $primary-color;
-
-      &.active {
-        background-color: $primary-color;
-        color: #fff;
-      }
-    }
-  }
-
-  .call,
-  .raise {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+  .play-field,
+  .user-control {
     width: 100%;
-    text-align: left;
-    min-height: 44px;
-
-    .label {
-      width: 18%;
-      font-size: .85rem;
-      padding-right: 3%;
-    }
-
-    .btn-box {
-      flex-grow: 1;
-      text-align: center;
-    }
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  .btn-box .btn {
-    margin-right: 0.25rem;
+  .play-field {
+    min-height: 259px;
+
+    .user {
+      margin-top: 1rem;
+    }
   }
 
-  .btn:disabled {
-    background-color: $disabled-btn-color;
-    border: 1px solid $disabled-btn-color;
-    color: #fff;
-    cursor: not-allowed;
+  .fist,
+  .face {
+    width: auto;
+    object-fit: cover;
+  }
+
+  .fist {
+    height: 88px;
+  }
+
+  .face {
+    height: 64px;
+  }
+
+  @media (min-width: $sm) {
+    .fist {
+      height: 104px;
+    }
+  }
+
+  @media (min-width: $md) {
+    .fist {
+      height: 176px;
+    }
   }
 
   .balloon {
     position: relative;
     background-color: #fff;
-    padding: 0 8px;
+    padding: 0 .5rem;
     width: 90%;
     margin: 1rem auto 0 auto;
     border-radius: 10px;
@@ -105,7 +91,6 @@ $caret-shadow-color: #dcdcdc;
     z-index: 1;
     height: 44px;
     font-weight: 600;
-
 
     &:before {
       z-index: 3;
@@ -138,61 +123,142 @@ $caret-shadow-color: #dcdcdc;
         @include balloon-caret($caret-shadow-size, $opp-color, "opp");
       }
     }
+  }
 
-    .round {
-      font-size: .8rem;
-      margin-right: .5rem;
-      // margin-top: 0.125rem;
-      color: $game-num-color;
+  .balloon .round {
+    font-size: .8rem;
+    margin-right: .5rem;
+    color: $game-num-color;
+  }
+
+  .balloon .message {
+    font-size: 1rem;
+    margin: 0;
+    color: #666;
+  }
+
+  .balloon.is-my-turn .message {
+    color: $primary-color;
+  }
+
+  .balloon.is-opp-turn .message {
+    color: $opp-color;
+  }
+
+  .balloon.is-called .message {
+    font-weight: 700;
+    color: $call-color;
+    font-size: 1.5rem;
+  }
+
+  @media (min-width: $md) {
+
+    .balloon {
+      flex-direction: column;
+      width: 75%;
+      margin: 3rem auto 1rem auto;
+      padding: 2rem 1.5rem;
+      height: 90px;
     }
 
-    .message {
+    .balloon .round {
       font-size: 1rem;
-      margin: 0;
-      color: #666;
+      margin-right: 0;
+      margin-bottom: .5rem;
     }
 
-    &.is-neutral .message {
-      // font-weight: 400;
-    }
-
-    &.is-my-turn .message {
-      color: $primary-color;
-    }
-
-    &.is-opp-turn .message {
-      color: $opp-color;
-    }
-
-    &.is-called .message {
-      font-weight: 700;
-      color: $call-color;
+    .balloon .message {
       font-size: 1.5rem;
     }
 
+    .balloon.is-called .message {
+      font-size: 2rem;
+    }
   }
 
-  .fight {
-    margin-top: 0.4rem;
-  }
-
-  .play-again {
-    margin-top: 1.5rem;
-  }
-
-  .fist,
-  .face {
-    width: auto;
-    object-fit: cover;
-  }
-
-  .fist {
-    height: 88px;
-  }
-
-  .face {
-    height: 64px;
+  @media (min-width: $lg) {
+    .balloon {
+      width: 50%;
+    }
   }
 
 
+  .user-control {
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      min-height: 44px;
+      margin-top: auto;
+      margin-bottom: 1rem;
+    }
+
+    .row.fight {
+      justify-content: center;
+    }
+
+    .label {
+      width: 18%;
+      padding-right: 3%;
+      font-size: .85rem;
+      font-weight: 600;
+      color: #666;
+    }
+
+    .btn-group {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+  }
+
+  // @media (min-width: $sm) {
+
+  //   .user-control {
+  //     .row {
+  //       flex-direction: column;
+  //       margin-bottom: 1.5rem;
+  //       min-height: 82px;
+
+  //       .label {
+  //         width: 100%;
+  //         text-align: center;
+  //         margin-bottom: .5rem;
+  //         padding-right: 0;
+  //       }
+  //     }
+  //   }
+  // }
+
+  @media (min-width: $md) {
+    .user-control {
+      .label {
+        font-size: 1.25rem;
+        margin-bottom: .75rem;
+      }
+    }
+  }
+
+  .btn-group .btn:not(:last-child) {
+    margin-right: 0.25rem;
+  }
+
+  @media (min-width: $sm) {
+    .btn-group .btn:not(:last-child) {
+      margin-right: 0.5rem;
+    }
+  }
+
+  @media (min-width: $md) {
+    .btn-group .btn:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+
+  // .play-again {
+  //   margin-top: 1.5rem;
+  // }
 }

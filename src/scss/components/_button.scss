@@ -2,9 +2,8 @@
   display: inline-block;
   cursor: pointer;
   user-select: none;
-  width: 240px;
   padding: .375rem 1rem;
-  border: 1px solid transparent;
+  border: 1px solid $primary-color;
   background-color: $primary-color;
   font-weight: 500;
   color: #fff;
@@ -20,6 +19,57 @@
     box-shadow .15s ease-in-out;
 }
 
+.btn:hover {
+  background-color: $secondary-color;
+  border-color: $secondary-color;
+}
+
 .btn:focus {
   outline: none;
+}
+
+.btn:disabled {
+  background-color: $disabled-btn-color;
+  border: 1px solid $disabled-btn-color;
+  color: #fff;
+  cursor: not-allowed;
+}
+
+.btn.-lg {
+  min-width: 240px;
+}
+
+.btn.-circle {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background-color: #fff;
+  color: $primary-color;
+  border: 2px solid $primary-color;
+}
+
+.btn.-circle.active {
+  background-color: $primary-color;
+  color: #fff;
+}
+
+.btn.-circle:not(.active):hover {
+  background-color: $secondary-color;
+  border-color: $secondary-color;
+  color: #fff;
+}
+
+@media (min-width:$sm) {
+  .btn.-circle {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (min-width: $md) {
+  .btn.-lg {
+    min-width: 360px;
+    padding: .75rem 2rem;
+    font-size: 1.5rem;
+  }
 }

@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;600;700&display=swap');
+$xs: 374px;
+$sm: 375px;
+$md: 768px;
+$lg: 1024px;
 
 // Colors
-$primary-color: #0272b6;
-$primary-color: #008000;
-$secondary-color: #0272b6;
-$secondary-color: #adff2f;
 $body-color: #f5f5dc;
+$primary-color: #008000;
+$primary-color: #0272b6;
+$secondary-color: lighten($primary-color, 20%);
 $disabled-btn-color: #dcdcdc;
 $opp-color: #009828;
 $opp-color: #a11f7f;

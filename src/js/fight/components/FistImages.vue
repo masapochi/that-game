@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes">
+  <div class="fist-img-box" :class="classes">
     <slot />
     <img class="fist" :src="left" />
     <img class="fist" :src="right" />

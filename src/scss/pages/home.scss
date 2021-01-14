@@ -1,7 +1,45 @@
 @import "../app/main";
 
 .home {
-  .btn-box .btn:first-child {
+
+  .btn-group,
+  .title-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // height: 50%;
+  }
+
+  .title-heading,
+  .title-desc {
+    margin: 0;
+  }
+
+  .title-heading {
     margin-bottom: 1.5rem;
+  }
+
+  .btn-group .btn:first-child {
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: $md) {
+
+    .title-heading {
+      font-size: 3.5rem;
+    }
+
+    .title-desc {
+      font-size: 1.5rem;
+    }
+
+    .btn-group {
+      margin-bottom: 5rem;
+    }
+
+    .btn-group .btn:first-child {
+      margin-bottom: 2rem;
+    }
   }
 }
