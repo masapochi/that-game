@@ -6,7 +6,12 @@ const sassOptions = {
   }
 };
 
-mix.setPublicPath('public');
+if (mix.inProduction()) {
+  mix.setPublicPath('public');
+} else {
+  mix.setPublicPath('public');
+}
+
 // mix.autoload({
 //   'vue': ['Vue', 'window.vue']
 // })

@@ -1,13 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="250" height="250" viewBox="0 0 250 250">
-  <g id="iconfinder_24-cry_4927981" transform="translate(-4.242 -4.242)">
-    <g id="Layer_2" data-name="Layer 2" transform="translate(4.242 4.242)">
-      <circle id="楕円形_4" data-name="楕円形 4" cx="125" cy="125" r="125" fill="#f9bf44" />
+<?xml version="1.0"?>
+<svg id="Icons" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>.cls-1{fill:#45413c;opacity:0.15;}.cls-2{fill:#ffe500;}.cls-3{fill:#ebcb00;}.cls-4{fill:#fff48c;}.cls-5{fill:none;}.cls-5,.cls-6,.cls-7,.cls-8{stroke:#45413c;stroke-linecap:round;stroke-linejoin:round;}.cls-6{fill:#ffb0ca;}.cls-7{fill:#ff87af;}.cls-8{fill:#4aeff7;}</style>
+  </defs>
+  <title />
+  <g data-name="&lt;Group&gt;" id="_Group_">
+    <ellipse class="cls-1" cx="24" cy="45.5" data-name="&lt;Ellipse&gt;" id="_Ellipse_" rx="16" ry="1.5" />
+    <circle class="cls-2" cx="24" cy="21.5" data-name="&lt;Ellipse&gt;" id="_Ellipse_2" r="20" />
+    <path class="cls-3" d="M24,1.5a20,20,0,1,0,20,20A20,20,0,0,0,24,1.5Zm0,37A18.25,18.25,0,1,1,42.25,20.25,18.25,18.25,0,0,1,24,38.5Z" data-name="&lt;Compound Path&gt;" id="_Compound_Path_" />
+    <ellipse class="cls-4" cx="24" cy="5.5" data-name="&lt;Ellipse&gt;" id="_Ellipse_3" rx="6" ry="1.5" />
+    <line class="cls-5" data-name="&lt;Line&gt;" id="_Line_" x1="17" x2="8.5" y1="21.5" y2="21.5" />
+    <line class="cls-5" data-name="&lt;Line&gt;" id="_Line_2" x1="31" x2="39.5" y1="21.5" y2="21.5" />
+    <g data-name="&lt;Group&gt;" id="_Group_2">
+      <path class="cls-6" d="M17.94,29.5a.94.94,0,0,0-.71.33,1,1,0,0,0-.22.76,7.09,7.09,0,0,0,14,0,1,1,0,0,0-.22-.76.94.94,0,0,0-.71-.33Z" data-name="&lt;Path&gt;" id="_Path_" />
+      <path class="cls-7" d="M29.57,33.84A11.37,11.37,0,0,0,24,32.53a11.37,11.37,0,0,0-5.57,1.31,7.16,7.16,0,0,0,11.14,0Z" data-name="&lt;Path&gt;" id="_Path_2" />
     </g>
-    <g id="Layer_1" data-name="Layer 1" transform="translate(49.893 103.39)">
-      <path id="パス_5" data-name="パス 5" d="M78.093,41.771,67.15,30.829a4.5,4.5,0,0,0-6.35,0L49.857,41.771a19.969,19.969,0,1,0,28.235,0Z" transform="translate(89.43 -14.839)" fill="#58b3de" />
-      <path id="パス_6" data-name="パス 6" d="M119.48,71.386a4.5,4.5,0,0,1-4.053-2.522,48.036,48.036,0,0,0-86.214,0A4.5,4.5,0,1,1,21.129,64.9a57.038,57.038,0,0,1,102.377,0,4.5,4.5,0,0,1-4.053,6.485Z" transform="translate(7.649 -2.578)" fill="#382a12" />
-      <path id="パス_7" data-name="パス 7" d="M42.46,49.927a30.563,30.563,0,0,1-27.618-17.18,4.5,4.5,0,1,1,8.084-3.968,21.773,21.773,0,0,0,39.069,0,4.5,4.5,0,1,1,8.084,3.968A30.563,30.563,0,0,1,42.46,49.927Z" transform="translate(-14.379 -26.259)" fill="#382a12" />
-      <path id="パス_8" data-name="パス 8" d="M64.447,49.927a30.563,30.563,0,0,1-27.609-17.18,4.5,4.5,0,1,1,8.084-3.968,21.768,21.768,0,0,0,39.064,0,4.5,4.5,0,1,1,8.084,3.968A30.563,30.563,0,0,1,64.447,49.927Z" transform="translate(62.677 -26.259)" fill="#382a12" />
-    </g>
+    <path class="cls-8" d="M10.5,36.26a20,20,0,0,0,5,3.35V21.5h-5Z" />
+    <path class="cls-8" d="M37.5,36.26a20,20,0,0,1-5,3.35V21.5h5Z" />
+    <circle class="cls-5" cx="24" cy="21.5" data-name="&lt;Ellipse&gt;" id="_Ellipse_4" r="20" />
   </g>
 </svg>
