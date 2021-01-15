@@ -77,6 +77,12 @@
 }
 
 @media (min-width: $md) {
+  .btn.-circle {
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+  }
+
   .btn.-lg {
     min-width: 360px;
     padding: .75rem 2rem;

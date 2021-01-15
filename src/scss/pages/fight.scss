@@ -48,17 +48,9 @@ $caret-shadow-color: #dcdcdc;
   .fist,
   .face {
     width: auto;
+    height: 88px;
     object-fit: contain;
   }
-
-  .fist,
-  .face {
-    height: 88px;
-  }
-
-  //  {
-  //   height: 64px;
-  // }
 
   @media (min-width: $sm) {
     .fist {
@@ -66,27 +58,37 @@ $caret-shadow-color: #dcdcdc;
     }
   }
 
+  @media (min-width: 390px) {
+
+    .fist {
+      height: 128px;
+    }
+
+    .play-field {
+      gap: 1.5rem;
+    }
+  }
+
   @media (min-width: $md) {
     .fist {
       height: 176px;
     }
+
+    .face {
+      height: 128px;
+    }
   }
-
-
-
 
   .user-control {
     height: 100%;
-    padding-bottom: 1rem;
+    padding-bottom: 1.5rem;
 
     .row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      // min-height: 1px;
       margin-top: auto;
-      // margin-bottom: 1rem;
     }
 
     .row.fight {
@@ -106,33 +108,42 @@ $caret-shadow-color: #dcdcdc;
       display: flex;
       justify-content: center;
     }
-
   }
 
-  // @media (min-width: $sm) {
+  @media (min-width: $sm) {
+    .user-control {
+      .row {
+        flex-direction: column;
+      }
 
-  //   .user-control {
-  //     .row {
-  //       flex-direction: column;
-  //       margin-bottom: 1.5rem;
-  //       min-height: 82px;
-
-  //       .label {
-  //         width: 100%;
-  //         text-align: center;
-  //         margin-bottom: .5rem;
-  //         padding-right: 0;
-  //       }
-  //     }
-  //   }
-  // }
+      .label {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        padding-right: 0;
+        font-size: 1rem;
+      }
+    }
+  }
 
   @media (min-width: $md) {
+
     .user-control {
+      padding-bottom: 2.5rem;
+
       .label {
         font-size: 1.25rem;
         margin-bottom: .75rem;
       }
+    }
+  }
+
+  @media (min-width: $lg) {
+    .play-field {
+      gap: 3rem;
+    }
+
+    .user-control {
+      padding-bottom: 15%;
     }
   }
 
@@ -159,7 +170,7 @@ $caret-shadow-color: #dcdcdc;
     position: relative;
     background-color: #fff;
     padding: 0 .5rem;
-    width: 90%;
+    width: 95%;
     border-radius: 20px;
     border-width: 2px;
     border-style: solid;
@@ -178,8 +189,6 @@ $caret-shadow-color: #dcdcdc;
     &:after {
       z-index: 2;
     }
-
-
   }
 
   .balloon.is-my-turn {
@@ -232,20 +241,33 @@ $caret-shadow-color: #dcdcdc;
     font-size: 1.5rem;
   }
 
+  @media (min-width: 390px) {
+    .balloon {
+      height: 56px;
+    }
+
+    .balloon .round {
+      font-size: 1rem;
+    }
+
+    .balloon .message {
+      font-size: 1.25rem;
+    }
+  }
+
+
   @media (min-width: $md) {
 
     .balloon {
       flex-direction: column;
       width: 75%;
-      // margin: 3rem auto 1rem auto;
       padding: 2rem 1.5rem;
       height: 90px;
     }
 
     .balloon .round {
-      font-size: 1rem;
+      font-size: 1.25rem;
       margin-right: 0;
-      // margin-bottom: .5rem;
     }
 
     .balloon .message {

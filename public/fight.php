@@ -13,9 +13,9 @@
 
     <div class="contents" id="fight" v-if="!isLoading" v-cloak>
       <!-- <p>User: {{ me.raise }} / Opp: {{ opp.raise }} / Call: {{ callNum }}</p> -->
-      <div class="play-field" :class="{result: isJudged || isDrawn }">
+      <div class="play-field" :class="{ result: isJudged || isDrawn }">
         <div class="opponent">
-          <happy-sad-images :in-turn="!isMyTurn" :is-judged="isJudged" :is-drawn="isDrawn" v-if="isJudged || isDrawn"></happy-sad-images>
+          <face-images :in-turn="!isMyTurn" :is-judged="isJudged" :is-drawn="isDrawn" v-if="isJudged || isDrawn"></face-images>
 
           <win-lose-images :is-winner="!isWinner" v-else-if="isFinished"></win-lose-images>
 
@@ -28,7 +28,7 @@
         </balloon-message>
 
         <div class="user">
-          <happy-sad-images :in-turn="isMyTurn" :is-judged="isJudged" :is-drawn="isDrawn" v-if="isJudged || isDrawn"></happy-sad-images>
+          <face-images :in-turn="isMyTurn" :is-judged="isJudged" :is-drawn="isDrawn" v-if="isJudged || isDrawn"></face-images>
 
           <win-lose-images :is-winner="isWinner" v-else-if="isFinished"></win-lose-images>
 
