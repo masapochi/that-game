@@ -3,7 +3,7 @@
   cursor: pointer;
   user-select: none;
   padding: .375rem 1rem;
-  border: 1px solid $primary-color;
+  border: 2px solid $primary-color;
   background-color: $primary-color;
   font-weight: 500;
   color: #fff;
@@ -30,7 +30,7 @@
 
 .btn:disabled {
   background-color: $disabled-btn-color;
-  border: 1px solid $disabled-btn-color;
+  border-color: $disabled-btn-color;
   color: #fff;
   cursor: not-allowed;
 }
@@ -43,9 +43,11 @@
   width: 44px;
   height: 44px;
   padding: 0;
+  border-color: $primary-color;
   background-color: #fff;
   color: $primary-color;
-  border: 2px solid $primary-color;
+  font-weight: 500;
+
 }
 
 .btn.-circle.active {
@@ -58,6 +60,14 @@
   border-color: $secondary-color;
   color: #fff;
 }
+
+.btn.-circle:not(.active):disabled {
+  background-color: $disabled-btn-color;
+  border: 1px solid $disabled-btn-color;
+  color: #fff;
+  cursor: not-allowed;
+}
+
 
 @media (min-width:$sm) {
   .btn.-circle {

@@ -12,16 +12,16 @@
   <div class="container" role="main">
 
     <div class="contents" id="fight" v-if="!isLoading" v-cloak>
-      <p>User: {{ me.raise }} / Opp: {{ opp.raise }} / Call: {{ callNum }}</p>
+      <!-- <p>User: {{ me.raise }} / Opp: {{ opp.raise }} / Call: {{ callNum }}</p> -->
       <div class="play-field">
         <div class="opponent">
           <template v-if="isJudged">
             <happy-sad-images :is-hit="isJudged && !isMyTurn"></happy-sad-images>
           </template>
 
-          <!-- <win-lose-images :is-winner="!isWinner" v-else-if="isFinished"></win-lose-images> -->
+          <win-lose-images :is-winner="!isWinner" v-else-if="isFinished"></win-lose-images>
 
-          <!-- <fist-images :left="opp.img.left" :right="opp.img.right" v-else> -->
+          <fist-images :left="opp.img.left" :right="opp.img.right" v-else>
           </fist-images>
         </div>
 
@@ -30,9 +30,11 @@
         </balloon-message>
 
         <div class="user">
-          <happy-sad-images :is-hit="isJudged && isMyTurn" v-if="!isCalled && isJudged"></happy-sad-images>
-          <!-- <win-lose-images :is-winner="isWinner" v-else-if="isFinished"></win-lose-images> -->
-          <!-- <fist-images :left="me.img.left" :right="me.img.right" v-else></fist-images> -->
+          <template v-if="isJudged">
+            <happy-sad-images :is-hit="isJudged && isMyTurn"></happy-sad-images>
+          </template>
+          <win-lose-images :is-winner="isWinner" v-else-if="isFinished"></win-lose-images>
+          <fist-images :left="me.img.left" :right="me.img.right" v-else></fist-images>
         </div>
 
       </div>

@@ -26,7 +26,9 @@ new Vue({
       status: '',
       isLoading: true,
       round: 1,
-      isProcessing: false
+      isProcessing: false,
+      isJudged: false,
+      isDrawn: false,
     }
   },
   computed: {
@@ -46,7 +48,7 @@ new Vue({
     isFighting() { return FIGHTING_STATUS.includes(this.status) },
     isCalled() { return STATUS.CALLED.STATE === this.satus },
     isDrawn() { return STATUS.DRAWN.STATE === this.status },
-    isJudged() { return !!(this.callNum === this.raisedTotal) },
+    // isJudged() { return !!(this.callNum === this.raisedTotal) },
     isFinished() { return !!(this.me.remain === 0 || this.opp.remain === 0) },
     balloonClass() {
       return {
@@ -80,9 +82,9 @@ new Vue({
     },
 
     reduce() {
-      const num = this.isJudged ? 1 : 0;
-      if (this.me.isTurn) this.me.remain -= num;
-      if (this.opp.isTurn) this.opp.remain -= num;
+      // const num = this.isJudged ? 1 : 0;
+      if (this.me.isTurn) this.me.remain -= 1;
+      if (this.opp.isTurn) this.opp.remain -= 1;
     },
 
     ready() {
@@ -102,8 +104,15 @@ new Vue({
 
     judge() {
       return promiseTimeout(() => {
-        this.reduce()
-        const status = this.isJudged ? STATUS.JUDGED : STATUS.DRAWN;
+        let status = ''
+        if (this.callNum === this.raisedTotal) {
+          this.reduce()
+          this.isJudged = true;
+          status = STATUS.JUDGED;
+        } else {
+          this.isDrawn = true;
+          status = STATUS.DRAWN;
+        }
         this.setStatus(status)
         // this.setImage();
       });
@@ -128,6 +137,8 @@ new Vue({
 
     reset() {
       this.isProcessing = false;
+      this.isJudged = false;
+      this.isDrawn = false;
       this.callNum = null;
       this.me.raise = null;
       this.opp.raise = null;
