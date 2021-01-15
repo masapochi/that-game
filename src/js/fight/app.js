@@ -47,7 +47,7 @@ new Vue({
     isNeutral() { return NEUTRAL_STATUS.includes(this.status) },
     isFighting() { return FIGHTING_STATUS.includes(this.status) },
     isCalled() { return STATUS.CALLED.STATE === this.satus },
-    isDrawn() { return STATUS.DRAWN.STATE === this.status },
+    // isDrawn() { return STATUS.DRAWN.STATE === this.status },
     // isJudged() { return !!(this.callNum === this.raisedTotal) },
     isFinished() { return !!(this.me.remain === 0 || this.opp.remain === 0) },
     balloonClass() {
@@ -129,6 +129,8 @@ new Vue({
 
     finish() {
       return promiseTimeout(() => {
+        this.isJudged = false;
+        this.isDrawn = false;
         const player = this.me.remain === 0 ? this.me.name : this.opp.name;
         this.setStatus(STATUS.FINISHED, player);
         this.setImage();
