@@ -13,11 +13,9 @@
 
     <div class="contents" id="fight" v-if="!isLoading" v-cloak>
       <!-- <p>User: {{ me.raise }} / Opp: {{ opp.raise }} / Call: {{ callNum }}</p> -->
-      <div class="play-field">
+      <div class="play-field" :class="{result: isJudged || isDrawn }">
         <div class="opponent">
-          <template v-if="isJudged">
-            <happy-sad-images :is-hit="isJudged && !isMyTurn"></happy-sad-images>
-          </template>
+          <happy-sad-images :in-turn="!isMyTurn" :is-judged="isJudged" :is-drawn="isDrawn" v-if="isJudged || isDrawn"></happy-sad-images>
 
           <win-lose-images :is-winner="!isWinner" v-else-if="isFinished"></win-lose-images>
 
@@ -30,25 +28,25 @@
         </balloon-message>
 
         <div class="user">
-          <template v-if="isJudged">
-            <happy-sad-images :is-hit="isJudged && isMyTurn"></happy-sad-images>
-          </template>
+          <happy-sad-images :in-turn="isMyTurn" :is-judged="isJudged" :is-drawn="isDrawn" v-if="isJudged || isDrawn"></happy-sad-images>
+
           <win-lose-images :is-winner="isWinner" v-else-if="isFinished"></win-lose-images>
+
           <fist-images :left="me.img.left" :right="me.img.right" v-else></fist-images>
         </div>
 
       </div>
 
       <template v-if="!isFinished">
-        <div class="user-control">
+        <div class="user-control" v-if="!isJudged && !isDrawn">
           <div class="row -labeled call">
-            <template v-if="isMyTurn">
-              <p class="label">コール</p>
+            <!-- <template v-if="isMyTurn"> -->
+            <p class="label">コール</p>
 
-              <div class="btn-group">
-                <num-button v-for="(num, i) in callables" :classes="{active: callNum === i}" :num="i" @clicked="setCall" :disabled="isProcessing" :key="i" />
-              </div>
-            </template>
+            <div class="btn-group">
+              <num-button v-for="(num, i) in callables" :classes="{active: callNum === i && isMyTurn}" :num="i" @clicked="setCall" :disabled="isProcessing || !isMyTurn" :key="i" />
+            </div>
+            <!-- </template> -->
           </div>
 
           <div class="row -labeled raise">
@@ -65,6 +63,7 @@
         </div>
       </template>
 
+      <!-- <template v-else-if="isFinished && status === 'FINISHED'"> -->
       <template v-else>
         <div class="user-control">
           <!-- <div class="row play-again"> -->
@@ -77,9 +76,7 @@
       </template>
     </div>
 
-    <div class="adsense">
-      <a href="./" target="_blank" rel="noreferrer noopener">home</a>
-    </div>
+    <?php require_once __DIR__ . '/templates/adsense.php'; ?>
 
   </div>
 

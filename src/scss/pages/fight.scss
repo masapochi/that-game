@@ -34,38 +34,31 @@ $caret-shadow-color: #dcdcdc;
 
   .play-field,
   .user-control {
-    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    gap: 1rem;
   }
 
-  .play-field {
-    min-height: 259px;
-
-    .opponent {
-      margin-bottom: 1rem;
-    }
-
-    .user {
-      margin-top: 1rem;
-    }
+  .play-field.result {
+    gap: 3rem;
   }
 
   .fist,
   .face {
     width: auto;
-    object-fit: cover;
+    object-fit: contain;
   }
 
-  .fist {
+  .fist,
+  .face {
     height: 88px;
   }
 
-  .face {
-    height: 64px;
-  }
+  //  {
+  //   height: 64px;
+  // }
 
   @media (min-width: $sm) {
     .fist {
@@ -79,123 +72,21 @@ $caret-shadow-color: #dcdcdc;
     }
   }
 
-  .balloon {
-    position: relative;
-    background-color: #fff;
-    padding: 0 .5rem;
-    width: 90%;
-    border-radius: 20px;
-    border-width: 2px;
-    border-style: solid;
-    border-color: $balloon-color;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-    height: 44px;
-    font-weight: 600;
 
-    &:before {
-      z-index: 3;
-    }
-
-    &:after {
-      z-index: 2;
-    }
-
-    &.is-my-turn {
-      border-color: $primary-color;
-
-      &:before {
-        @include balloon-caret($caret-size, $caret-color, "me");
-      }
-
-      &:after {
-        @include balloon-caret($caret-shadow-size, $primary-color, "me");
-      }
-    }
-
-    &.is-opp-turn {
-      border-color: $opp-color;
-
-      &:before {
-        @include balloon-caret($caret-size, $caret-color, "opp");
-      }
-
-      &:after {
-        @include balloon-caret($caret-shadow-size, $opp-color, "opp");
-      }
-    }
-  }
-
-  .balloon .round {
-    font-size: .8rem;
-    margin-right: .5rem;
-    color: $game-num-color;
-  }
-
-  .balloon .message {
-    font-size: 1rem;
-    margin: 0;
-    color: $balloon-color;
-  }
-
-  .balloon.is-my-turn .message {
-    color: $primary-color;
-  }
-
-  .balloon.is-opp-turn .message {
-    color: $opp-color;
-  }
-
-  .balloon.is-called .message {
-    font-weight: 700;
-    color: $call-color;
-    font-size: 1.5rem;
-  }
-
-  @media (min-width: $md) {
-
-    .balloon {
-      flex-direction: column;
-      width: 75%;
-      margin: 3rem auto 1rem auto;
-      padding: 2rem 1.5rem;
-      height: 90px;
-    }
-
-    .balloon .round {
-      font-size: 1rem;
-      margin-right: 0;
-      margin-bottom: .5rem;
-    }
-
-    .balloon .message {
-      font-size: 1.5rem;
-    }
-
-    .balloon.is-called .message {
-      font-size: 2rem;
-    }
-  }
-
-  @media (min-width: $lg) {
-    .balloon {
-      width: 50%;
-    }
-  }
 
 
   .user-control {
+    height: 100%;
+    padding-bottom: 1rem;
 
     .row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      min-height: 44px;
+      // min-height: 1px;
       margin-top: auto;
-      margin-bottom: 1rem;
+      // margin-bottom: 1rem;
     }
 
     .row.fight {
@@ -245,6 +136,9 @@ $caret-shadow-color: #dcdcdc;
     }
   }
 
+
+  /* Button Group */
+
   .btn-group .btn:not(:last-child) {
     margin-right: 0.25rem;
   }
@@ -258,6 +152,114 @@ $caret-shadow-color: #dcdcdc;
   @media (min-width: $md) {
     .btn-group .btn:not(:last-child) {
       margin-right: 1rem;
+    }
+  }
+
+  .balloon {
+    position: relative;
+    background-color: #fff;
+    padding: 0 .5rem;
+    width: 90%;
+    border-radius: 20px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: $balloon-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    height: 44px;
+    font-weight: 600;
+
+    &:before {
+      z-index: 3;
+    }
+
+    &:after {
+      z-index: 2;
+    }
+
+
+  }
+
+  .balloon.is-my-turn {
+    border-color: $primary-color;
+
+    &:before {
+      @include balloon-caret($caret-size, $caret-color, "me");
+    }
+
+    &:after {
+      @include balloon-caret($caret-shadow-size, $primary-color, "me");
+    }
+  }
+
+  .balloon.is-opp-turn {
+    border-color: $opp-color;
+
+    &:before {
+      @include balloon-caret($caret-size, $caret-color, "opp");
+    }
+
+    &:after {
+      @include balloon-caret($caret-shadow-size, $opp-color, "opp");
+    }
+  }
+
+  .balloon .round {
+    font-size: .8rem;
+    margin-right: .5rem;
+    color: $game-num-color;
+  }
+
+  .balloon .message {
+    font-size: 1rem;
+    margin: 0;
+    color: $balloon-color;
+  }
+
+  .balloon.is-my-turn .message {
+    color: $primary-color;
+  }
+
+  .balloon.is-opp-turn .message {
+    color: $opp-color;
+  }
+
+  .balloon.is-called .message {
+    font-weight: 700;
+    color: $call-color;
+    font-size: 1.5rem;
+  }
+
+  @media (min-width: $md) {
+
+    .balloon {
+      flex-direction: column;
+      width: 75%;
+      // margin: 3rem auto 1rem auto;
+      padding: 2rem 1.5rem;
+      height: 90px;
+    }
+
+    .balloon .round {
+      font-size: 1rem;
+      margin-right: 0;
+      // margin-bottom: .5rem;
+    }
+
+    .balloon .message {
+      font-size: 1.5rem;
+    }
+
+    .balloon.is-called .message {
+      font-size: 2rem;
+    }
+  }
+
+  @media (min-width: $lg) {
+    .balloon {
+      width: 50%;
     }
   }
 

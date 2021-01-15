@@ -21,9 +21,8 @@
       </div>
     </section>
 
-    <div class="adsense">
-      <a href="./" target="_blank" rel="noreferrer noopener">home</a>
-    </div>
+    <?php require_once __DIR__ . '/templates/adsense.php'; ?>
+
   </div>
 
   <?php require_once __DIR__ . '/./templates/footer.php'; ?>

@@ -32,7 +32,7 @@ new Vue({
     }
   },
   computed: {
-    isWinner() { return this.isFinished && this.me.remain === 0 },
+    isWinner() { return this.isSettled && this.isMyTurn },
     isMyTurn() { return !!this.me.isTurn },
     raisedTotal() { return this.me.raise + this.opp.raise },
     remainTotal() { return this.me.remain + this.opp.remain },
@@ -47,9 +47,11 @@ new Vue({
     isNeutral() { return NEUTRAL_STATUS.includes(this.status) },
     isFighting() { return FIGHTING_STATUS.includes(this.status) },
     isCalled() { return STATUS.CALLED.STATE === this.satus },
-    isDrawn() { return STATUS.DRAWN.STATE === this.status },
+    // isDrawn() { return STATUS.DRAWN.STATE === this.status },
     // isJudged() { return !!(this.callNum === this.raisedTotal) },
-    isFinished() { return !!(this.me.remain === 0 || this.opp.remain === 0) },
+
+    isSettled() { return !!(this.me.remain === 0 || this.opp.remain === 0) },
+    isFinished() { return STATUS.FINISHED.STATE === this.status },
     balloonClass() {
       return {
         'is-neutral': this.isNeutral,
@@ -129,6 +131,8 @@ new Vue({
 
     finish() {
       return promiseTimeout(() => {
+        this.isJudged = false;
+        this.isDrawn = false;
         const player = this.me.remain === 0 ? this.me.name : this.opp.name;
         this.setStatus(STATUS.FINISHED, player);
         this.setImage();
@@ -150,7 +154,7 @@ new Vue({
       await this.call();
       await this.judge();
 
-      if (!this.isFinished) {
+      if (!this.isSettled) {
         await this.change();
         await this.reset();
         this.round += 1;
