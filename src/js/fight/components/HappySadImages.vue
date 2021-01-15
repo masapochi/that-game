@@ -1,9 +1,9 @@
 <template>
   <div class="img-box">
-    <templte v-if="isJudged">
+    <template v-if="isJudged">
       <img class="face" :src="happyImg" alt="Happy" v-if="inTurn" />
       <img class="face" :src="sadImg" alt="Sad" v-else />
-    </templte>
+    </template>
     <template v-else-if="isDrawn">
       <img class="face" :src="drawImg" alt="Draw" />
     </template>

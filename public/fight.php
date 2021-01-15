@@ -63,6 +63,7 @@
         </div>
       </template>
 
+      <!-- <template v-else-if="isFinished && status === 'FINISHED'"> -->
       <template v-else>
         <div class="user-control">
           <!-- <div class="row play-again"> -->
@@ -75,9 +76,7 @@
       </template>
     </div>
 
-    <div class="adsense">
-      <a href="./" target="_blank" rel="noreferrer noopener">home</a>
-    </div>
+    <?php require_once __DIR__ . '/templates/adsense.php'; ?>
 
   </div>
 
