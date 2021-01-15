@@ -6,7 +6,7 @@ import FistImages from "./components/FistImages.vue";
 import BalloonMessage from "./components/BalloonMessage.vue";
 import NumButton from "./components/NumButton.vue";
 import WinLoseImages from "./components/WinLoseImages.vue";
-import HappySadImages from "./components/HappySadImages.vue";
+import FaceImages from "./components/FaceImages.vue";
 Vue.config.productionTip = false;
 
 new Vue({
@@ -15,7 +15,7 @@ new Vue({
     BalloonMessage,
     NumButton,
     WinLoseImages,
-    HappySadImages,
+    FaceImages,
   },
   data() {
     return {

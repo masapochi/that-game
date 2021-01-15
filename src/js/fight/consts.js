@@ -2,7 +2,7 @@
 export const PLAYERS = {
   me: {
     name: 'あなた',
-    remain: 1,
+    remain: 2,
     raise: null,
     isTurn: true,
     img: {
@@ -12,7 +12,7 @@ export const PLAYERS = {
   },
   opp: {
     name: '相手',
-    remain: 1,
+    remain: 2,
     raise: null,
     isTurn: false,
     img: {
