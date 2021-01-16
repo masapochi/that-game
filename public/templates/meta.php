@@ -1,14 +1,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>That Game</title>
-<meta name="description" content="This is &quot;That Game&quot; every one knows.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta name="robots" content="nofollow, noindex">
 <meta property="og:title" content="">
 <meta property="og:type" content="">
 <meta property="og:url" content="">
 <meta property="og:image" content="">
-
+<title>That Game</title>
+<meta name="description" content="This is &quot;That Game&quot; every one knows.">
 <link rel="manifest" href="site.webmanifest">
 <link rel="icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="./touch-icon.png">

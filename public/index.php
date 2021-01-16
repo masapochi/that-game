@@ -17,7 +17,7 @@
       </header>
       <div class="btn-group">
         <a class="btn -lg" href="fight.php">Play</a>
-        <a class="btn -lg" href="history.php">History</a>
+        <!-- <a class="btn -lg" href="history.php">History</a> -->
       </div>
     </section>
 

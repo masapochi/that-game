@@ -10,7 +10,7 @@
     <ul class="menu-list">
       <li><a href="/">Home</a></li>
       <li><a href="/fight.php">Play</a></li>
-      <li><a href="/history.php">History</a></li>
+      <!-- <li><a href="/history.php">History</a></li> -->
     </ul>
     <button class="menu menu-close" id="js-close">
       <svg class="icon" title="Menu Close" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
