@@ -36,11 +36,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="あの親指ゲーム">
-<link rel="apple-touch-icon" sizes="192x192" href="/that-game/touch-icon.png">
+<link rel="apple-touch-icon" sizes="256x256" href="/that-game/touch-icon.png">
 <!-- Android -->
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#FBFFE3">
-<link rel="icon" sizes="192x192" href="/that-game/touch-icon.png">
+<link rel="icon" sizes="256x256" href="/that-game/touch-icon.png">
 <link rel="manifest" href="/that-game/manifest.json">
 
 <!-- Service Worker for PWA -->
