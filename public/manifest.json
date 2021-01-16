@@ -1,6 +1,6 @@
 {
-  "name": "That Game",
-  "short_name": "That Game",
+  "name": "あの親指ゲーム",
+  "short_name": "あの親指ゲーム",
   "description": "みんな知っているけれど、名前はだれも知らない親指ゲームです。",
   "start_url": "/that-game/?utm_source=homescreen",
   "display": "standalone",

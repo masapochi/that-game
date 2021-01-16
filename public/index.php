@@ -14,8 +14,8 @@
 
     <section class="contents">
       <header class="title-box">
-        <h1 class="title-heading">That Game</h1>
-        <p class="title-desc">Everyone knows it,<br>but no one knows it's name...</p>
+        <h1 class="title-heading">あの親指ゲーム</h1>
+        <p class="title-desc">みんな知っているけれど、<br>名前はだれも知らない親指ゲームです。</p>
       </header>
       <div class="btn-group">
         <a class="btn -lg" href="fight.php">Play</a>

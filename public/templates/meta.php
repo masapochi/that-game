@@ -1,7 +1,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="nofollow, noindex">
+<!-- <meta name="robots" content="nofollow, noindex"> -->
 
 <?php require_once __DIR__ . '/tag_manager.php'; ?>
 
@@ -12,21 +12,21 @@
 <link rel="icon" href="/that-game/favicon.ico">
 
 <!-- Page title and description -->
-<title>That Game</title>
-<meta name="description" content="This is &quot;That Game&quot; every one knows.">
+<title>あの親指ゲーム</title>
+<meta name="description" content="みんな知っているけれど、名前はだれも知らない親指ゲームです。">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@__masapochi__">
 <meta name="twitter:creator" content="@__masapochi__">
 <meta name="twitter:url" content="https://masapochi.me/that-game/">
-<meta name="twitter:title" content="That Game">
+<meta name="twitter:title" content="あの親指ゲーム">
 <meta name="twitter:image" content="https://masapochi.me/that-game/ogp.png">
 <meta name="twitter:description" content="みんな知っているけれど、名前はだれも知らない親指ゲームです。">
 <!-- Facebook OGP -->
 <meta property="og:url" content="https://masapochi.me/that-game/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="That Game">
+<meta property="og:title" content="あの親指ゲーム">
 <meta property="og:image" content="https://masapochi.me/that-game/ogp.png">
 <meta property="og:description" content="みんな知っているけれど、名前はだれも知らない親指ゲームです。">
 <meta property="og:site_name" content="masapochi.me">
@@ -35,7 +35,7 @@
 <!-- iOs -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="That Game">
+<meta name="apple-mobile-web-app-title" content="あの親指ゲーム">
 <link rel="apple-touch-icon" sizes="192x192" href="/that-game/touch-icon.png">
 <!-- Android -->
 <meta name="mobile-web-app-capable" content="yes">
