@@ -1,16 +1,54 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="nofollow, noindex">
-<meta property="og:title" content="">
-<meta property="og:type" content="">
-<meta property="og:url" content="">
-<meta property="og:image" content="">
+
+<?php require_once __DIR__ . '/tag_manager.php'; ?>
+
+<!-- Prevents recognition as a phone number when numbers are lined up -->
+<meta name="format-detection" content="telephone=no">
+
+<!-- Favicon -->
+<link rel="icon" href="/that-game/favicon.ico">
+
+<!-- Page title and description -->
 <title>That Game</title>
 <meta name="description" content="This is &quot;That Game&quot; every one knows.">
-<link rel="manifest" href="site.webmanifest">
-<link rel="icon" href="favicon.ico">
-<link rel="apple-touch-icon" href="./touch-icon.png">
-<meta name="theme-color" content="#adff2f">
 
-<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.2/css/all.css">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@__masapochi__">
+<meta name="twitter:creator" content="@__masapochi__">
+<meta name="twitter:url" content="https://masapochi.me/that-game/">
+<meta name="twitter:title" content="That Game">
+<meta name="twitter:image" content="https://masapochi.me/that-game/ogp.png">
+<meta name="twitter:description" content="みんな知っているけれど、名前はだれも知らない親指ゲームです。">
+<!-- Facebook OGP -->
+<meta property="og:url" content="https://masapochi.me/that-game/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="That Game">
+<meta property="og:image" content="https://masapochi.me/that-game/ogp.png">
+<meta property="og:description" content="みんな知っているけれど、名前はだれも知らない親指ゲームです。">
+<meta property="og:site_name" content="masapochi.me">
+<meta property="og:locale" content="ja_JP">
+
+<!-- iOs -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="That Game">
+<link rel="apple-touch-icon" sizes="192x192" href="/that-game/touch-icon.png">
+<!-- Android -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FBFFE3">
+<link rel="icon" sizes="192x192" href="/that-game/touch-icon.png">
+<link rel="manifest" href="/that-game/manifest.json">
+
+<!-- Service Worker for PWA -->
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').then(function() {
+      console.log('updated');
+      console.log("Service Worker is registered!!");
+    });
+  }
+</script>

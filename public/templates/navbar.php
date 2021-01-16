@@ -8,8 +8,8 @@
 <div class="overlay" id="js-overlay">
   <nav class="menu-box" id="js-menu-box">
     <ul class="menu-list">
-      <li><a href="/">Home</a></li>
-      <li><a href="/fight.php">Play</a></li>
+      <li><a href="./">Home</a></li>
+      <li><a href="./fight.php">Play</a></li>
       <!-- <li><a href="/history.php">History</a></li> -->
     </ul>
     <button class="menu menu-close" id="js-close">
