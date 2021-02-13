@@ -42,7 +42,7 @@
         <div class="user-control" v-if="!isJudged && !isDrawn">
           <div class="row -labeled call">
             <!-- <template v-if="isMyTurn"> -->
-            <p class="label">コール</p>
+            <p class="label">勝負する本数</p>
 
             <div class="btn-group">
               <num-button v-for="(num, i) in callables" :classes="{active: callNum === i && isMyTurn}" :num="i" @clicked="setCall" :disabled="isProcessing || !isMyTurn" :key="i" />
