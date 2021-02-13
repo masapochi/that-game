@@ -3,11 +3,12 @@
 
 <head>
   <?php require_once __DIR__ . '/./templates/meta.php'; ?>
+  <link rel="canonical" href="https://masapochi.me/that-game/fight.php">
   <link rel="stylesheet" href="./css/fight.min.css">
-
 </head>
 
 <body class="fight">
+  <?php require_once __DIR__ . '/./templates/tag_manager_noscript.php'; ?>
   <?php require_once __DIR__ . '/./templates/navbar.php'; ?>
   <div class="container" role="main">
 
@@ -41,7 +42,7 @@
         <div class="user-control" v-if="!isJudged && !isDrawn">
           <div class="row -labeled call">
             <!-- <template v-if="isMyTurn"> -->
-            <p class="label">コール</p>
+            <p class="label">勝負する本数</p>
 
             <div class="btn-group">
               <num-button v-for="(num, i) in callables" :classes="{active: callNum === i && isMyTurn}" :num="i" @clicked="setCall" :disabled="isProcessing || !isMyTurn" :key="i" />

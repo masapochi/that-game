@@ -6,9 +6,12 @@ const sassOptions = {
   }
 };
 
+let dir = '';
 if (mix.inProduction()) {
-  mix.setPublicPath('public');
+  dir = 'dist';
+  mix.setPublicPath('dist');
 } else {
+  dir = 'public';
   mix.setPublicPath('public');
 }
 
@@ -21,11 +24,11 @@ mix.webpackConfig({
   }
 })
 mix
-  .copy('src/js/common/modernizr.min.js', 'public/js/common/modernizr.min.js')
-  .copyDirectory('src/images', 'public/images')
-  .sass('src/scss/pages/home.scss', 'public/css/home.min.css', sassOptions)
-  .sass('src/scss/pages/fight.scss', 'public/css/fight.min.css', sassOptions)
-  .sass('src/scss/pages/history.scss', 'public/css/history.min.css', sassOptions)
+  .copy(`src/js/common/modernizr.min.js`, `${dir}/js/common/modernizr.min.js`)
+  .copyDirectory(`src/images`, `${dir}/images`)
+  .sass(`src/scss/pages/home.scss`, `${dir}/css/home.min.css`, sassOptions)
+  .sass(`src/scss/pages/fight.scss`, `${dir}/css/fight.min.css`, sassOptions)
+  .sass(`src/scss/pages/history.scss`, `${dir}/css/history.min.css`, sassOptions)
   .options({
     processCssUrls: false,
     postCss: [
@@ -35,8 +38,8 @@ mix
     ],
 
   })
-  .js('src/js/common/toggle_menu.js', 'public/js/common/toggle_menu.js')
-  .js('src/js/fight/app.js', 'public/js/fight/app.js')
+  .js(`src/js/common/toggle_menu.js`, `${dir}/js/common/toggle_menu.js`)
+  .js(`src/js/fight/app.js`, `${dir}/js/fight/app.js`)
   .vue()
   .autoload({
     "vue": ['Vue', 'window.Vue']

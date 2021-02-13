@@ -2,6 +2,6 @@
 
 # Allow crawling of all content
 User-agent: *
-Disallow: /that-game/
-# Allow:
-Sitemap:https://masapochi.me/that-game/sitemap.xml
+# Disallow: /that-game/
+# Allow: *
+Sitemap: https://masapochi.me/that-game/sitemap.xml
