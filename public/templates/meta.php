@@ -21,13 +21,13 @@
 <meta name="twitter:creator" content="@__masapochi__">
 <meta name="twitter:url" content="https://masapochi.me/that-game/">
 <meta name="twitter:title" content="あの親指ゲーム">
-<meta name="twitter:image" content="https://masapochi.me/that-game/common/ogp.png">
+<meta name="twitter:image" content="https://masapochi.me/that-game/images/common/ogp.png">
 <meta name="twitter:description" content="みんな知っているけれど、名前はだれも知らない親指ゲームです。">
 <!-- Facebook OGP -->
 <meta property="og:url" content="https://masapochi.me/that-game/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="あの親指ゲーム">
-<meta property="og:image" content="https://masapochi.me/that-game/common/ogp.png">
+<meta property="og:image" content="https://masapochi.me/that-game/images/common/ogp.png">
 <meta property="og:description" content="みんな知っているけれど、名前はだれも知らない親指ゲームです。">
 <meta property="og:site_name" content="masapochi.me">
 <meta property="og:locale" content="ja_JP">
